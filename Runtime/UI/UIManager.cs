@@ -6,20 +6,22 @@ using UnityEngine.SceneManagement;
 namespace GB.UI
 {
 
-    public class UIManager : MonoBehaviour
+    public class UIManager : AutoSingleton<UIManager>
     {
-        private static UIManager _instance;
-
-        public static UIManager Instance
+        
+        RectTransform _Canvas;
+        public RectTransform Canvas
         {
             get
             {
-                if(_instance == null)
-                    _instance = FindObjectOfType<UIManager>();
-                if (_instance == null)
-                    _instance = new GameObject(typeof(UIManager).Name).AddComponent<UIManager>();
+                if (_Canvas == null)
+                {
+                    var obj = GameObject.Find("UI");
+                    if (obj != null)
+                        _Canvas = obj.GetComponent<RectTransform>();
+                }
 
-                return _instance;
+                return _Canvas;
             }
         }
 
@@ -60,7 +62,7 @@ namespace GB.UI
         private void Awake()
         {
             
-            if (_instance != null && _instance != this)
+            if (I != null && I != this)
             {
                 Destroy(this.gameObject);
                 return;
@@ -107,7 +109,7 @@ namespace GB.UI
         /// <param name="sceneName">씬 네임</param>
         public static void ChangeScene(string sceneName)
         {
-            Instance.Clear();
+            I.Clear();
  
             SceneManager.LoadScene(sceneName);
         }
@@ -136,8 +138,8 @@ namespace GB.UI
         /// <param name="name">스크린 네임</param>
         public static void RefreshUIScreen(string name)
         {
-            if (Instance._UIScreenList.ContainsKey(name))
-                 Instance._UIScreenList[name].Refresh();
+            if (I._UIScreenList.ContainsKey(name))
+                 I._UIScreenList[name].Refresh();
         }
 
 
@@ -147,11 +149,11 @@ namespace GB.UI
         public static void RefreshAll()
         {
 
-            if (_instance._scene != null)
-                _instance._scene.Refresh();
+            if (I._scene != null)
+                I._scene.Refresh();
 
-            foreach (var v in Instance._UIScreenList)
-                Instance._UIScreenList[v.Key].Refresh();
+            foreach (var v in I._UIScreenList)
+                I._UIScreenList[v.Key].Refresh();
         }
 
         /// <summary>
@@ -161,8 +163,8 @@ namespace GB.UI
         /// <returns></returns>
         public static UIScreen FindUIScreen(string name)
         {
-            if (Instance._UIScreenList.ContainsKey(name))
-                return Instance._UIScreenList[name];
+            if (I._UIScreenList.ContainsKey(name))
+                return I._UIScreenList[name];
 
             return null;
         }
@@ -175,32 +177,32 @@ namespace GB.UI
         /// <param name="extraValue"></param>
         public static void ShowPopup(string name)
         {
-            Instance.SortingPopup();
+            I.SortingPopup();
 
-            if (Instance._popupList.Count > 0)
+            if (I._popupList.Count > 0)
             {
 
-                if (Instance._popupList[0] == null)
+                if (I._popupList[0] == null)
                 {
-                    Instance._popupList.RemoveAt(0);
+                    I._popupList.RemoveAt(0);
                     ShowPopup(name);
                     return;
                 }
             }
 
-            if (Instance._UIScreenList.ContainsKey(name))
+            if (I._UIScreenList.ContainsKey(name))
             {
-                Instance._UIScreenList[name].gameObject.SetActive(true);
+                I._UIScreenList[name].gameObject.SetActive(true);
 
-                if (!Instance._popupList.Contains(Instance._UIScreenList[name]))
-                    Instance._popupList.Add(Instance._UIScreenList[name]);
+                if (!I._popupList.Contains(I._UIScreenList[name]))
+                    I._popupList.Add(I._UIScreenList[name]);
 
-                Instance._UIScreenList[name].GetComponent<RectTransform>().SetAsLastSibling();
-                Instance.SortingPopup();
+                I._UIScreenList[name].GetComponent<RectTransform>().SetAsLastSibling();
+                I.SortingPopup();
             }
             else
             {
-                Instance.LoadFromResources(name, true);
+                I.LoadFromResources(name, true);
             }
         }
 
@@ -263,20 +265,20 @@ namespace GB.UI
         public static void ClosePopup()
         {
 
-            if (Instance._popupList.Count > 0)
+            if (I._popupList.Count > 0)
             {
-                UIScreen popup = Instance._popupList[0];
+                UIScreen popup = I._popupList[0];
                 popup.gameObject.SetActive(false);
-                Instance._popupList.RemoveAt(0);
+                I._popupList.RemoveAt(0);
             }
 
-            if (Instance._popupList.Count > 0)
-                Instance._popupList[0].gameObject.SetActive(true);
+            if (I._popupList.Count > 0)
+                I._popupList[0].gameObject.SetActive(true);
         }
         public static void ClosePopup(UIScreen UIScreen)
         {
             UIScreen.gameObject.SetActive(false);
-            Instance._popupList.Remove(UIScreen);
+            I._popupList.Remove(UIScreen);
         }
 
 

@@ -96,7 +96,7 @@ namespace GB.UI
 
         private void Awake()
         {
-            UIManager.Instance.RegistUIScreen(this);
+            UIManager.I.RegistUIScreen(this);
         }
 
         public virtual void Initialize()
