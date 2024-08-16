@@ -38,10 +38,10 @@ namespace GB.UI
             if (info.Exists == false)
                 info.Create();
 
-            info = new DirectoryInfo(Application.dataPath + "/Resources/Prefab/Scene");
+            info = new DirectoryInfo(Application.dataPath + "/Resources/UI/Scene");
             if (info.Exists == false)
                 info.Create();
-            info = new DirectoryInfo(Application.dataPath + "/Resources/Prefab/Popup");
+            info = new DirectoryInfo(Application.dataPath + "/Resources/UI/Popup");
             if (info.Exists == false)
                 info.Create();
 

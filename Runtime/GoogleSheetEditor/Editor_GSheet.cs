@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 using System;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using System.Net.Http.Headers;
 
 
 public class Editor_GSheet : EditorWindow
@@ -55,7 +56,15 @@ public class Editor_GSheet : EditorWindow
             EditorGUILayout.BeginHorizontal();
 
             EditorGUILayout.LabelField(domain.SheetNameList[i], GUILayout.Width(67.5f));
-            EditorGUILayout.LabelField(domain.GetURL(i), GUILayout.Width(270f));
+            string url = domain.GetURL(i);
+            if(string.IsNullOrEmpty(url))
+            {
+                domain.Remove(i);
+                return;
+            }
+
+
+            EditorGUILayout.LabelField(url, GUILayout.Width(270f));
 
             if (GUILayout.Button("Delete"))
             {
@@ -116,14 +125,22 @@ public class Editor_GSheet : EditorWindow
         }
 
 
-        var arr = url.Split("/");
-        var f = arr[6].Split("gid=");
+        try
+        {
+            var arr = url.Split("/");
+            var f = arr[6].Split("gid=");
 
-        string urlID = arr[5];
-        string gid = Regex.Replace(f[1], @"\D", "");
+            string urlID = arr[5];
+            string gid = Regex.Replace(f[1], @"\D", "");
 
-        string URL_SHEET = $"https://docs.google.com/spreadsheets/d/$URL_ID$/export?format=csv&gid=$GID$";
-        return URL_SHEET.Replace("$URL_ID$", urlID).Replace("$GID$", gid);
+            string URL_SHEET = $"https://docs.google.com/spreadsheets/d/$URL_ID$/export?format=csv&gid=$GID$";
+
+            return URL_SHEET.Replace("$URL_ID$", urlID).Replace("$GID$", gid);
+        }
+        catch
+        {
+            return null;
+        }
 
     }
 
@@ -131,7 +148,20 @@ public class Editor_GSheet : EditorWindow
 
     private void GSheetToValidator(int idx)
     {
-        string csv = UrlDownload(domain.GetURL(idx));
+        string url = domain.GetURL(idx);
+        if(string.IsNullOrEmpty( url))
+        {
+            domain.Remove(idx);
+            return;
+        }
+
+        string csv = UrlDownload(url);
+
+        if(csv == null)
+        {
+            domain.Remove(idx);
+            return;
+        }
         
         string[] lines = csv.Split("\n");
         string[] propertyTypes = lines[1].Split(",");
@@ -245,7 +275,14 @@ public class Editor_GSheet : EditorWindow
         string path = Application.dataPath + "/" + "Resources/Json";
         for (int i = 0; i < domain.Count; ++i)
         {
-            string csv = UrlDownload(domain.GetURL(i));
+            string url = domain.GetURL(i);
+            if(string.IsNullOrEmpty(url))
+            {
+                domain.Remove(i);
+                return;
+            }
+
+            string csv = UrlDownload(url);
             FileSave(path, domain.SheetNameList[i] + ".json", PaserJson(csv));
             
         }
@@ -262,7 +299,15 @@ public class Editor_GSheet : EditorWindow
         List<ExData> exDataList = new List<ExData>();
         for (int i = 0; i < domain.Count; ++i)
         {
-            string csv = UrlDownload(domain.GetURL(i));
+            string url = domain.GetURL(i);
+            if(string.IsNullOrEmpty(url))
+            {
+                domain.Remove(i);
+                return;
+            }
+
+            string csv = UrlDownload(url);
+            
             var exData = PaserExecelData(domain.SheetNameList[i], csv);
             exDataList.Add(exData);
         }
@@ -541,6 +586,13 @@ public class Editor_GSheet : EditorWindow
 
     private string UrlDownload(string url)
     {
+        
+        if(url == null)
+        {
+            return null;
+        } 
+
+
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {
             www.SendWebRequest();
@@ -600,21 +652,33 @@ public class GSheetDomain
         Save();
     }
 
+    
+
     public string GetURL(int index)
     {
         string url = UrlList[index];
 
         if (string.IsNullOrEmpty(url))
             return null;
+
+        try
+        {
         
-        var arr = url.Split("/");
-        var f = arr[6].Split("gid=");
+            var arr = url.Split("/");
+            var f = arr[6].Split("gid=");
 
-        string urlID = arr[5];
-        string gid = Regex.Replace(f[1], @"\D", "");
+            string urlID = arr[5];
+            string gid = Regex.Replace(f[1], @"\D", "");
 
-        string URL_SHEET = $"https://docs.google.com/spreadsheets/d/$URL_ID$/export?format=csv&gid=$GID$";
-        return URL_SHEET.Replace("$URL_ID$", urlID).Replace("$GID$", gid);
+            string URL_SHEET = $"https://docs.google.com/spreadsheets/d/$URL_ID$/export?format=csv&gid=$GID$";
+            return URL_SHEET.Replace("$URL_ID$", urlID).Replace("$GID$", gid);
+        }
+        catch
+        {
+            Debug.LogError("URL Error : "+ url);
+
+            return null;
+        }
 
     }
 

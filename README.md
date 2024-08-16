@@ -1,4 +1,4 @@
-# GB Framework Ver 1.0
+# GB Framework Ver 1.0.1
 
 ## - MVP Patten
 

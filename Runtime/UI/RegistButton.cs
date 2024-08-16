@@ -2,7 +2,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GB
+namespace GB.UI
 {
     public class RegistButton : UIRegister
     {
@@ -16,7 +16,7 @@ namespace GB
             var btn = GetComponent<Button>();
             if(btn == null)
             {
-                Debug.Debug.LogWarning("None Button");
+                UnityEngine.Debug.LogWarning("None Button");
                 return;
             }
 

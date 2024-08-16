@@ -180,14 +180,22 @@ namespace GB
             }
 
 
-            var arr = url.Split("/");
-            var f = arr[6].Split("gid=");
+            try
+            {
+                var arr = url.Split("/");
+                var f = arr[6].Split("gid=");
 
-            string urlID = arr[5];
-            string gid = Regex.Replace(f[1], @"\D", "");
+                string urlID = arr[5];
+                string gid = Regex.Replace(f[1], @"\D", "");
 
-            string URL_SHEET = $"https://docs.google.com/spreadsheets/d/$URL_ID$/export?format=tsv&gid=$GID$";
-            return URL_SHEET.Replace("$URL_ID$", urlID).Replace("$GID$", gid);
+                string URL_SHEET = $"https://docs.google.com/spreadsheets/d/$URL_ID$/export?format=tsv&gid=$GID$";
+                return URL_SHEET.Replace("$URL_ID$", urlID).Replace("$GID$", gid);
+            }
+            catch
+            {
+                 return null;
+
+            }
 
         }
 
@@ -195,6 +203,11 @@ namespace GB
         private void ButtonSave()
         {
             string url = GetURL(Url);
+            if(string.IsNullOrEmpty(url))
+            {
+                Debug.LogError("URL Error : " + Url);
+                return;
+            }
             string tsv = UrlDownload(url);
             string json = PaserJson(tsv);
             string path = Application.dataPath + "/" + "Resources/Json";
