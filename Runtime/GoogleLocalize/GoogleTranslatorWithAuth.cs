@@ -50,7 +50,7 @@ namespace GB
         public Queue<string> passStrQ = new Queue<string>();
 
 
-        [MenuItem("Tools/GB/GooleSheetLocalize")]
+        [MenuItem("GB/Core/GooleSheetLocalize")]
         static void init()
         {
             EditorWindow.GetWindow(typeof(GoogleTranslatorWithAuth));

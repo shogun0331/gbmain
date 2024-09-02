@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace GB.UI
+namespace GB
 {
 
     public abstract class UIRegister : MonoBehaviour

@@ -2,7 +2,7 @@ using QuickEye.Utility;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GB.UI
+namespace GB
 {
     public enum ScreenType { SCENE = 0, POPUP };
     public class UIScreen : View, IScreen

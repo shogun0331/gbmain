@@ -1,12 +1,12 @@
 using UnityEngine;
 
-namespace GB.UI
+namespace GB
 {
     public class RegistRectTransform : UIRegister
     {
         public string Key;
 
-        [Header("¼³¸í")]
+        [Header("ï¿½ï¿½ï¿½ï¿½")]
         [TextArea] public string Infomation;
 
 

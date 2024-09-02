@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace GB.UI
+namespace GB
 {
 
     public class RegistTransform : UIRegister

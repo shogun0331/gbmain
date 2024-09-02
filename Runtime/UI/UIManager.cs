@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-namespace GB.UI
+namespace GB
 {
 
     public class UIManager : AutoSingleton<UIManager>
@@ -26,11 +26,11 @@ namespace GB.UI
         }
 
 
-        [Header("ÇÏÀÌ¶óÀÌÅ° ÆË¾÷ÀÇ ºÎ¸ð ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä.")]
+        [Header("ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ï¿½Å° ï¿½Ë¾ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.")]
         [SerializeField] string _parentPopupName = "UIPopup";
 
 
-        [Header("ÆË¾÷ÀÇ ÇÁ¸®ÆÕ °æ·Î¸¦ ÀÔ·ÂÇÏ¼¼¿ä. Resources.LoadAll(\"Path\")")]
+        [Header("ï¿½Ë¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½. Resources.LoadAll(\"Path\")")]
         [SerializeField] string _PopupPath = "UI/Popup";
 
         private Dictionary<string, UIScreen> _UIScreenList = new Dictionary<string, UIScreen>();
@@ -92,7 +92,7 @@ namespace GB.UI
         }
 
         /// <summary>
-        /// ¾À ÀÌµ¿½Ã ¸ðµç ³»¿ë ÃÊ±âÈ­
+        /// ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         /// </summary>
         public void Clear()
         {
@@ -104,9 +104,9 @@ namespace GB.UI
 
 
         /// <summary>
-        /// ¾Àº¯°æ
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
-        /// <param name="sceneName">¾À ³×ÀÓ</param>
+        /// <param name="sceneName">ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</param>
         public static void ChangeScene(string sceneName)
         {
             I.Clear();
@@ -115,9 +115,9 @@ namespace GB.UI
         }
 
         /// <summary>
-        /// ½ºÅ©¸° µî·Ï
+        /// ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½
         /// </summary>
-        /// <param name="UIScreen">½ºÅ©¸°</param>
+        /// <param name="UIScreen">ï¿½ï¿½Å©ï¿½ï¿½</param>
         public void RegistUIScreen(UIScreen UIScreen)
         {
             if (_UIScreenList.ContainsKey(UIScreen.gameObject.name))
@@ -133,9 +133,9 @@ namespace GB.UI
         }
 
         /// <summary>
-        /// ¸®ÇÁ·¹½¬
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
-        /// <param name="name">½ºÅ©¸° ³×ÀÓ</param>
+        /// <param name="name">ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</param>
         public static void RefreshUIScreen(string name)
         {
             if (I._UIScreenList.ContainsKey(name))
@@ -144,7 +144,7 @@ namespace GB.UI
 
 
         /// <summary>
-        /// ¸ðµç ½ºÅ©¸° ¸®ÇÁ·¹½¬
+        /// ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         public static void RefreshAll()
         {
@@ -157,7 +157,7 @@ namespace GB.UI
         }
 
         /// <summary>
-        /// ½ºÅ©¸° Ã£±â
+        /// ï¿½ï¿½Å©ï¿½ï¿½ Ã£ï¿½ï¿½
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -171,9 +171,9 @@ namespace GB.UI
 
 
         /// <summary>
-        /// ÆË¾÷ ÄÑ±â
+        /// ï¿½Ë¾ï¿½ ï¿½Ñ±ï¿½
         /// </summary>
-        /// <param name="name">ÆË¾÷ ÀÌ¸§</param>
+        /// <param name="name">ï¿½Ë¾ï¿½ ï¿½Ì¸ï¿½</param>
         /// <param name="extraValue"></param>
         public static void ShowPopup(string name)
         {
@@ -290,7 +290,7 @@ namespace GB.UI
 
         private void Update()
         {
-            //»ªÅ° Àû¿ë
+            //ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 OnBackKey();

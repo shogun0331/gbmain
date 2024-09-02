@@ -2,7 +2,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GB.UI
+namespace GB
 {
     public class RegistButton : UIRegister
     {

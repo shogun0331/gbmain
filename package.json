@@ -1,7 +1,7 @@
 {
   "name": "com.gb.core",
-  "displayName": "Garibong Core",
-  "version": "1.0.1",
+  "displayName": "GB Core",
+  "version": "1.0.3",
   "unity": "2018.1",
   "keywords": [
     "service"

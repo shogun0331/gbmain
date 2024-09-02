@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Data;
 using GB;
+using System.Data;
+
 public class GameDataManager : AutoSingleton<GameDataManager>
 {
  
     private void Awake()
     {
+        if(I != null && I != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -24,8 +31,10 @@ public class GameDataManager : AutoSingleton<GameDataManager>
         if (I._Tables.ContainsKey(tableID) == false)
         {
             TextAsset assets = UnityEngine.Resources.Load<TextAsset>("Json/" + tableID.ToString());
+
+            string data = GB.Gzip.DeCompression(assets.text);
             TABLE type = I.StringToEnum(assets.name);
-            I._Tables[type] = (GameData)I.GetJsonData(type, assets.text);
+            I._Tables[type] = (GameData)I.GetJsonData(type, data);
         }
 
         if (I._Tables.ContainsKey(tableID) == false) return null;

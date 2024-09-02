@@ -10,7 +10,7 @@ namespace GB
     public class PresenterTracker : EditorWindow
     {
 
-        [MenuItem("Tools/GB/PresenterTracker")]
+        [MenuItem("GB/Core/PresenterTracker")]
         static void init()
         {
             EditorWindow.GetWindow(typeof(PresenterTracker));

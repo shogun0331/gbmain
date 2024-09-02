@@ -1,4 +1,4 @@
-# GB Framework Ver 1.0.1
+# Mobirix MVP Framework Ver 1.0.0
 
 ## - MVP Patten
 
@@ -13,45 +13,29 @@ View--> Presenter
 
 ### 1. Presenter
 
-Presenter.CreateModel<T>(string domain, string key, T data)
-
-    공유 데이터 생성 및 Presenter 데이터 등록
-
-Presenter.Bind(string domain, IView view)
-
+Presenter.Bind(string domain, View view)
     공유데이터 View 구독
 
-Presenter.UnBind(string domain, IView view)
-
+Presenter.UnBind(string domain, View view)
     공유데이터 View 구독해지
 
-Presenter.Quick<T>(string domain, string key, T data)
-
-    View 에 struct 송신
+Presenter.Send(string domain, string key, IModel data)
+    View 에 IModel 송신
 
 ### 2. View
 
-View.ViewQuick(string key, IQuickModel data)
+View.ViewQuick(string key, IModel data)
 
-    Quick데이터 수신
-
-View.ViewChange(Model data)
-
-    Model 데이터 수신
-
-### 3. Model
-
-Model.OnValueChange()
-
-    데이터 변경 알림
+Quick데이터 수신
 
 ## - UI System
 
-1.  UIManager.ShowPopup(string name, int extraValue = 0)
+1.  UIManager.ShowPopup(string name)
 
         팝업 켜기
 
 2.  UIManager.ClosePopup(UIScreen screen)
+    UIManager.ClosePopup(string screen)
 
         팝업 끄기
 
@@ -64,9 +48,8 @@ Model.OnValueChange()
 2.  입력
 
         SheetName 입력
-        URLID 입력
-        GID 입력
-
+        URL 입력
+        
 ## - ObjectPooling
 
 1.  ObjectPooling.Create(string name)

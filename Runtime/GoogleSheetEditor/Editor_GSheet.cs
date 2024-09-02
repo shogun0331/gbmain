@@ -16,7 +16,7 @@ public class Editor_GSheet : EditorWindow
 
     static GSheetDomain domain = new GSheetDomain();
 
-    [MenuItem("Tools/GB/GooleSheetGameData")]
+    [MenuItem("GB/Core/GooleSheetGameData")]
     static void init()
     {
         EditorWindow.GetWindow(typeof(Editor_GSheet));
@@ -77,7 +77,7 @@ public class Editor_GSheet : EditorWindow
 
         EditorGUILayout.Space(30);
 
-        if (GUILayout.Button("SaveJson"))
+        if (GUILayout.Button("SaveData"))
         {
             ButtonSaveJson();
             if(domain.Count >0)
@@ -283,7 +283,8 @@ public class Editor_GSheet : EditorWindow
             }
 
             string csv = UrlDownload(url);
-            FileSave(path, domain.SheetNameList[i] + ".json", PaserJson(csv));
+            string data = GB.Gzip.Compression(PaserJson(csv));
+            FileSave(path, domain.SheetNameList[i] + ".txt", data);
             
         }
         domain.Save();
@@ -292,7 +293,7 @@ public class Editor_GSheet : EditorWindow
 
     private void ButtonSaveCs()
     {
-        string gbPath = Application.dataPath + "/" + "GB/GameData";
+        string gbPath = Application.dataPath + "/" + "Scripts/GameData";
         string classText = Resources.Load<TextAsset>("ExportClass").text; 
         string dataManagerText = Resources.Load<TextAsset>("ExportGameDataManager").text; 
 

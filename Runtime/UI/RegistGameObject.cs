@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GB.UI
+namespace GB
 {
     public class RegistGameObject : UIRegister
     {

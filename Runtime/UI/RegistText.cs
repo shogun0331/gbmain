@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GB.UI
+namespace GB
 {
     public class RegistText : UIRegister
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GB.UI
+namespace GB
 {
     public class RegistSkinner : UIRegister
     {
@@ -8,7 +8,7 @@ namespace GB.UI
 
         [SerializeField] UISkinner _skinner;
 
-        [Header("¼³¸í")]
+        [Header("ï¿½ï¿½ï¿½ï¿½")]
         [TextArea] public string Infomation;
         public override void SetBind()
         {
