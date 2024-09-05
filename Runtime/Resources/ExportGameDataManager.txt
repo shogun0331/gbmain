@@ -25,6 +25,20 @@ public class GameDataManager : AutoSingleton<GameDataManager>
         return I._Tables.ContainsKey(tableID);
     }
 
+    public static T GetTable<T>() where T : GameData
+    {
+        var tableID = I.StringToEnum(typeof(T).Name);
+        if (I._Tables.ContainsKey(tableID) == false)
+        {
+            TextAsset assets = UnityEngine.Resources.Load<TextAsset>("Json/" + tableID.ToString());
+
+            string data = Mobirix.Core.Gzip.DeCompression(assets.text);
+            TABLE type = I.StringToEnum(assets.name);
+            I._Tables[type] = (GameData)I.GetJsonData(type, data);
+        }
+         return (T)I._Tables[tableID];
+    }
+
 
     public static GameData GetTable(TABLE tableID)
     {
