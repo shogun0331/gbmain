@@ -1,4 +1,4 @@
-# Mobirix MVP Framework Ver 1.0.3
+# GB MVP Framework Ver 1.0.3
 
 ## - MVP Patten
 
