@@ -30,7 +30,7 @@ namespace GB
         }
         [SerializeField] string _LocalizationKey;
 
-        [HideInInspector] public List<string> ParamList = new List<string>();
+        List<string> _ParamList = new List<string>();
 
         TextMeshProUGUI _TextTMP;
         Text _Text;
@@ -105,58 +105,92 @@ namespace GB
 
         private void SetText(string param1)
         {
+            _ParamList = new List<string>();
+            _ParamList.Add(param1);
             string value = LocalizationManager.GetValue(LocalizationKey);
             Apply(string.Format(value, param1));
         }
 
         private void SetText(string param1,string param2)
         {
+             _ParamList = new List<string>();
+            _ParamList.Add(param1);
+            _ParamList.Add(param2);
+            
             string value = LocalizationManager.GetValue(LocalizationKey);
             Apply(string.Format(value, param1,param2));
         }
 
         private void SetText(string param1, string param2,string param3)
         {
+
+             _ParamList = new List<string>();
+            _ParamList.Add(param1);
+            _ParamList.Add(param2);
+            _ParamList.Add(param3);
+            
+            
             string value = LocalizationManager.GetValue(LocalizationKey);
             Apply(string.Format(value, param1, param2, param3));
         }
 
         private void SetText(string param1, string param2, string param3,string param4)
         {
+            _ParamList = new List<string>();
+            _ParamList.Add(param1);
+            _ParamList.Add(param2);
+            _ParamList.Add(param3);
+            _ParamList.Add(param4);
+            
             string value = LocalizationManager.GetValue(LocalizationKey);
             Apply(string.Format(value, param1, param2, param3,param4));
         }
         private void SetText(string param1, string param2, string param3, string param4, string param5)
         {
+            _ParamList = new List<string>();
+            _ParamList.Add(param1);
+            _ParamList.Add(param2);
+            _ParamList.Add(param3);
+            _ParamList.Add(param4);
+            _ParamList.Add(param5);
+            
             string value = LocalizationManager.GetValue(LocalizationKey);
             Apply(string.Format(value, param1, param2, param3, param4,param5));
         }
 
         private void SetText(string param1, string param2, string param3, string param4, string param5,string param6)
         {
+            _ParamList = new List<string>();
+            _ParamList.Add(param1);
+            _ParamList.Add(param2);
+            _ParamList.Add(param3);
+            _ParamList.Add(param4);
+            _ParamList.Add(param5);
+            _ParamList.Add(param6);
+
             string value = LocalizationManager.GetValue(LocalizationKey);
             Apply(string.Format(value, param1, param2, param3, param4, param5, param6));
         }
         public void Refresh()
         {
-            if (ParamList == null || ParamList.Count == 0)
+            if (_ParamList == null || _ParamList.Count == 0)
             {
                 Apply(LocalizationManager.GetValue(LocalizationKey));
             }
             else
             {
-                if (ParamList.Count == 1)
-                    SetText(ParamList[0]);
-                else if (ParamList.Count == 2)
-                    SetText(ParamList[0], ParamList[1]);
-                else if (ParamList.Count == 3)
-                    SetText(ParamList[0], ParamList[1], ParamList[2]);
-                else if (ParamList.Count == 4)
-                    SetText(ParamList[0], ParamList[1], ParamList[2], ParamList[3]);
-                else if (ParamList.Count == 5)
-                    SetText(ParamList[0], ParamList[1], ParamList[2], ParamList[3], ParamList[4]);
-                else if (ParamList.Count == 6)
-                    SetText(ParamList[0], ParamList[1], ParamList[2], ParamList[3], ParamList[4], ParamList[5]);
+                if (_ParamList.Count == 1)
+                    SetText(_ParamList[0]);
+                else if (_ParamList.Count == 2)
+                    SetText(_ParamList[0], _ParamList[1]);
+                else if (_ParamList.Count == 3)
+                    SetText(_ParamList[0], _ParamList[1], _ParamList[2]);
+                else if (_ParamList.Count == 4)
+                    SetText(_ParamList[0], _ParamList[1], _ParamList[2], _ParamList[3]);
+                else if (_ParamList.Count == 5)
+                    SetText(_ParamList[0], _ParamList[1], _ParamList[2], _ParamList[3], _ParamList[4]);
+                else if (_ParamList.Count == 6)
+                    SetText(_ParamList[0], _ParamList[1], _ParamList[2], _ParamList[3], _ParamList[4], _ParamList[5]);
                 else
                     Apply(LocalizationManager.GetValue(LocalizationKey));
             }
