@@ -1,7 +1,7 @@
 {
   "name": "com.gb.core",
   "displayName": "GB Core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "unity": "2018.1",
   "keywords": [
     "service"
