@@ -4,9 +4,12 @@ using NaughtyAttributes;
 using QuickEye.Utility;
 using UnityEngine;
 using UnityEngine.U2D;
+using System.Linq;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
+using System.IO;
 #endif
 
 namespace GB
@@ -67,8 +70,42 @@ namespace GB
             _atlas = null;
             _sprNames = null;
 
-            var arrSpr = Resources.LoadAll<Sprite>(_path);
-            _sprites = arrSpr;
+            string path = Application.dataPath + "/" + _path;
+
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(path);
+            if (di.Exists == false)
+            {
+                _sprites = null;
+                Debug.Log("<color=red>Directory - None Failed</color>");
+                return;
+            }
+
+            List<string> fileList = new List<string>();
+            
+            foreach (System.IO.FileInfo File in di.GetFiles())
+            {
+                if (File.Extension.ToLower().CompareTo(".png") == 0)
+                {
+                    string FullFileName = File.FullName;
+                    int len = FullFileName.Length - Application.dataPath.Length;
+                    fileList.Add("Assets" + FullFileName.Substring(Application.dataPath.Length, len));
+                }
+            }
+            List<Sprite> sprList = new List<Sprite>();
+
+            for (int i = 0; i < fileList.Count; ++i)
+            {
+                UnityEngine.Object[] data = AssetDatabase.LoadAllAssetsAtPath(fileList[i]);
+                foreach (UnityEngine.Object v in data)
+                {
+                    if (v.GetType() == typeof(Sprite))
+                    {
+                        sprList.Add((Sprite)v);
+                    }
+                }
+            }
+
+            _sprites = sprList.ToArray();
 
             if (_sprites.Length > 0)
                 Debug.Log("<color=green>LoadSprite - Success</color>");
@@ -83,26 +120,64 @@ namespace GB
         private void LoadAtlas()
         {
             _isAtlas = true;
-            _atlas = Resources.Load<SpriteAtlas>(_atlasPath);
-            var arrSpr = Resources.LoadAll<Sprite>(_path);
-            if (arrSpr == null || arrSpr.Length <= 0 || _atlas == null)
+            _sprites = null;
+
+            string path = Application.dataPath + "/" + _path;
+
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(path);
+            if (di.Exists == false)
             {
-                if (_atlas == null)
-                    Debug.Log("<color=red>LoadAtlas Failed : null atlas</color>");
-                if (arrSpr == null || arrSpr.Length <= 0)
-                    Debug.Log("<color=red>LoadAtlas Failed : null arrSpr</color>");
+                Debug.Log("<color=red>Directory - None Failed</color>");
                 return;
             }
 
-
-            _sprNames = new List<string>();
-            _sprites = null;
-
-            for (int i = 0; i < arrSpr.Length; ++i)
+            List<string> fileList = new List<string>();
+            
+            foreach (System.IO.FileInfo File in di.GetFiles())
             {
-                _sprNames.Add(arrSpr[i].name);
+                if (File.Extension.ToLower().CompareTo(".png") == 0)
+                {
+                    string FullFileName = File.FullName;
+                    int len = FullFileName.Length - Application.dataPath.Length;
+                    fileList.Add("Assets" + FullFileName.Substring(Application.dataPath.Length, len));
+                }
             }
-            Debug.Log("<color=green>LoadAtlas - Success</color>");
+            _sprNames = new List<string>();
+
+            for (int i = 0; i < fileList.Count; ++i)
+            {
+                UnityEngine.Object[] data = AssetDatabase.LoadAllAssetsAtPath(fileList[i]);
+                foreach (UnityEngine.Object v in data)
+                {
+                    if (v.GetType() == typeof(Sprite))
+                    {
+                        Sprite spr =(Sprite)v; 
+                        _sprNames.Add(spr.name);
+                    }
+                }
+            }
+
+            if (_sprNames.Count <= 0)
+            {
+                Debug.Log("<color=red>LoadAtlas Failed : null SprList</color>");
+                return;
+            }
+
+            path = Application.dataPath + "/" + _atlasPath + ".spriteatlasv2";
+            FileInfo fi = new FileInfo(path);
+            if(fi.Exists == false)
+            {
+                Debug.Log("<color=red>Atlas File - None Failed</color>");
+                return;
+            }
+             string fullFileName = fi.FullName;
+             int fileLen = fullFileName.Length - Application.dataPath.Length;
+             string fileName = "Assets" + fullFileName.Substring(Application.dataPath.Length, fileLen);
+
+             _atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(fileName);
+
+             Debug.Log("<color=green>LoadAtlas - Success</color>");
+
         }
 #endif
     }
