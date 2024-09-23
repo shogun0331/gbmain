@@ -40,7 +40,11 @@ public class SPRAnimation
 
     public void Play(float speed = 1)
     {
-        if(_sprRender == null) return;
+        if(_sprRender == null) 
+        {
+              Debug.LogWarning("Animation Init(SpriteRenderer spriteRenderer,Action<State,int,TriggerData> callBack) : null");
+            return;
+        }
         if(_dictAnim.Count <= 0) return;
         if(string.IsNullOrEmpty(_curID))
         {
@@ -64,7 +68,12 @@ public class SPRAnimation
 
     public void Play(string id,float speed = 1)
     {
-        if(_sprRender == null) return;
+        if(_sprRender == null) 
+        {
+              Debug.LogWarning("Animation Init(SpriteRenderer spriteRenderer,Action<State,int,TriggerData> callBack) : null");
+            return;
+        }
+
         if(_dictAnim.Count <= 0) return;
         if(!_dictAnim.ContainsKey(id)) return;
         if(_dictAnim[id].SpriteCount <= 0) return;
@@ -82,7 +91,12 @@ public class SPRAnimation
     
     public void Stop()
     {
-        if(_sprRender == null) return;
+        if(_sprRender == null) 
+        {
+              Debug.LogWarning("Animation Init(SpriteRenderer spriteRenderer,Action<State,int,TriggerData> callBack) : null");
+            return;
+        }
+
         _isPlaying = false;
         _callBack?.Invoke(State.Play,_curIDX,null);
         
@@ -90,7 +104,11 @@ public class SPRAnimation
 
     public void Resume()
     {
-        if(_sprRender == null) return;
+        if(_sprRender == null) 
+        {
+              Debug.LogWarning("Animation Init(SpriteRenderer spriteRenderer,Action<State,int,TriggerData> callBack) : null");
+            return;
+        }
         _isPlaying = true;
     }
 
@@ -99,8 +117,12 @@ public class SPRAnimation
 
     public void Update(float dt)
     {
-        if(_sprRender == null) return;
         if(_isPlaying == false) return;
+        if(_sprRender == null) 
+        {
+              Debug.LogWarning("Animation Init(SpriteRenderer spriteRenderer,Action<State,int,TriggerData> callBack) : null");
+            return;
+        }
         
         _time += dt;
 
