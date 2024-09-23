@@ -64,18 +64,19 @@ namespace GB
             {
                 GUILayout.BeginHorizontal();
 
-                if (GUILayout.Button("Stop"))
+                if (GUILayout.Button("Play"))
                 {
                     // if(CurIDX > 0)
                     // CurIDX --;
-                    Stop();
+                    
+                    Play();
                               
                 
                 }
 
-                if (GUILayout.Button("Play"))
+                if (GUILayout.Button("Stop"))
                 {
-                    Play();
+                    Stop();
 
                     // if(CurIDX < t.SpriteCount-1)
                     // CurIDX ++;
