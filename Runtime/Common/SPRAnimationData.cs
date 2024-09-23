@@ -18,8 +18,10 @@ namespace GB
     public class SPRAnimationData : ScriptableObject
     {
         [BoxGroup("Resources")]
-        [ShowNonSerializedField]
-        bool _isAtlas;
+        //[ShowNonSerializedField]
+        [SerializeField] bool _isAtlas;
+
+        public bool IsAtlas{get{return _isAtlas;}}
 
         [BoxGroup("Resources")]
         [HorizontalLine(color: EColor.Red)]
@@ -64,7 +66,7 @@ namespace GB
         [SerializeField] string _path;
 
         [Button]
-        private void LoadSprite()
+        public void LoadSprite()
         {
             _isAtlas = false;
             _atlas = null;
@@ -117,7 +119,7 @@ namespace GB
         [SerializeField] string _atlasPath;
 
         [Button]
-        private void LoadAtlas()
+        public void LoadAtlas()
         {
             _isAtlas = true;
             _sprites = null;
