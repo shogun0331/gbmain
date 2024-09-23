@@ -22,10 +22,6 @@ namespace GB
         {
             timeControl = new TimeControl();
             
-            
-            //target is by default available for you
-            //because we inherite Editor
-            //    weapon = target as Weapon;
             CurIDX = 0;
         }
 
@@ -66,9 +62,7 @@ namespace GB
 
                 if (GUILayout.Button("Play"))
                 {
-                    // if(CurIDX > 0)
-                    // CurIDX --;
-                    
+               
                     Play();
                               
                 
@@ -78,8 +72,22 @@ namespace GB
                 {
                     Stop();
 
-                    // if(CurIDX < t.SpriteCount-1)
-                    // CurIDX ++;
+                }
+                
+
+                GUILayout.EndHorizontal();
+                        GUILayout.BeginHorizontal();
+
+                if (GUILayout.Button("<<"))
+                {
+                    if(CurIDX > 0)
+                    CurIDX --;
+                }
+
+                if (GUILayout.Button(">>"))
+                {
+                    if(CurIDX < t.SpriteCount-1)
+                    CurIDX ++;
                 }
                 
 
