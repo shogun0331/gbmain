@@ -13,9 +13,6 @@ namespace GB
         [ReorderableList]
         [SerializeField] List<FlowData> _flowDatas;
 
-        float _time;
-
-
         void OnDisable()
         {
             Stop();
@@ -48,6 +45,7 @@ namespace GB
         public void Play()
         {
 
+
 #if UNITY_EDITOR
 
             if (Application.isPlaying)
@@ -71,7 +69,7 @@ namespace GB
             List<float> timeList = new List<float>();
             float prevTime = 0;
             int curIDX = 0;
-            _time = 0;
+
             for (int i = 0; i < _flowDatas.Count; ++i)
             {
 
@@ -81,11 +79,23 @@ namespace GB
                     prevTime = _flowDatas[i - 1].Time;
 
                 float time = _flowDatas[i].Time - prevTime;
-                if (time < 0) time = 0;
-                _time += time;
 
                 timeList.Add(time);
             }
+
+            
+            // for (int i = 0; i < _flowDatas.Count; ++i)
+            // {
+            //     if (_flowDatas[i].TweenAnim != null)
+            //     {
+            //         if (_flowDatas[i].TweenAnim.Tweener != null)
+            //         {
+            //             _flowDatas[i].TweenAnim.Tweener.Stop();
+            //             _flowDatas[i].TweenAnim.Tweener.SetStart();
+            //         }
+            //     }
+
+            // }
 
 
             for (int i = 0; i < _flowDatas.Count; ++i)
