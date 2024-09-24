@@ -10,7 +10,7 @@ namespace GB
     [CustomEditor(typeof(SPRAnimationData))]
     public class EditorSPRAnimationData : Editor
     {
-        
+
         public int CurIDX;
 
         public bool IsPlaying;
@@ -21,7 +21,7 @@ namespace GB
         private void OnEnable()
         {
             timeControl = new TimeControl();
-            
+
             CurIDX = 0;
         }
 
@@ -44,28 +44,40 @@ namespace GB
                 t.LoadAtlas();
             }
 
-            
-
-
             GUILayout.EndVertical();
 
 
-            GUILayout.Space(200);
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label( CurIDX + 1 + "/" + t.SpriteCount);
-            GUILayout.EndHorizontal();
-
-            if (t.SpriteCount > 0)
+            if (!t.IsAtlas && t.SpriteCount > 0)
             {
+                GUILayout.Space(200);
+
+
+                Rect r = EditorGUILayout.BeginVertical();
+                GUILayout.Space(15);
+
+
+                if (CurIDX > 0)
+                    _hSliderValue = ((float)(CurIDX + 1) / (float)t.SpriteCount);
+                else
+                    _hSliderValue = 0;
+
+
+
+                //r.height = r.height* 0.5f;
+                EditorGUI.ProgressBar(r, _hSliderValue, CurIDX + 1 + "/" + t.SpriteCount);
+
+                EditorGUILayout.EndVertical();
+
+
                 GUILayout.BeginHorizontal();
 
                 if (GUILayout.Button("Play"))
                 {
-               
+
                     Play();
-                              
-                
+
+
                 }
 
                 if (GUILayout.Button("Stop"))
@@ -73,29 +85,29 @@ namespace GB
                     Stop();
 
                 }
-                
+
 
                 GUILayout.EndHorizontal();
-                        GUILayout.BeginHorizontal();
+                GUILayout.BeginHorizontal();
 
                 if (GUILayout.Button("<<"))
                 {
-                    if(CurIDX > 0)
-                    CurIDX --;
+                    if (CurIDX > 0)
+                        CurIDX--;
                 }
 
                 if (GUILayout.Button(">>"))
                 {
-                    if(CurIDX < t.SpriteCount-1)
-                    CurIDX ++;
+                    if (CurIDX < t.SpriteCount - 1)
+                        CurIDX++;
                 }
-                
+
 
                 GUILayout.EndHorizontal();
-                
+
                 UpdatePreview();
 
-                if(timeControl.isPlaying == false)
+                if (timeControl.isPlaying == false)
                 {
                     Draw(t.GetSprite(CurIDX));
                 }
@@ -103,42 +115,45 @@ namespace GB
             }
         }
 
-
+        float _hSliderValue;
         float _fixTimer;
         const float TIMER = 0.05f;
-        
+
         public void Play()
         {
             var t = (SPRAnimationData)target;
-            _fixTimer = TIMER / t.Speed ;
+            _fixTimer = TIMER / t.Speed;
             CurIDX = 0;
             timeControl.Play();
         }
 
         public void Stop()
         {
-            
+
             timeControl.Stop();
         }
 
+
         public void UpdatePreview()
         {
-            if(timeControl.isPlaying == false) return;
+            if (timeControl.isPlaying == false) return;
 
             var t = (SPRAnimationData)target;
-            if(timeControl.currentTime > _fixTimer)
+
+            if (timeControl.currentTime > _fixTimer)
             {
+
                 timeControl.currentTime = 0;
                 CurIDX++;
-                if(CurIDX >= t.SpriteCount )
+                if (CurIDX >= t.SpriteCount)
                 {
                     CurIDX = 0;
                 }
-             
+
             }
 
             Draw(t.GetSprite(CurIDX));
-        
+
 
         }
 
@@ -156,7 +171,7 @@ namespace GB
 
             GUI.DrawTexture(rect, AssetPreview.GetAssetPreview(spr));
             Repaint();
-          
+
         }
 
     }

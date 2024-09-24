@@ -30,7 +30,7 @@ namespace GB
         [BoxGroup("Resources")]
         [SerializeField] SpriteAtlas _atlas;
         [BoxGroup("Resources")]
-        [ShowAssetPreview]
+        //[ShowAssetPreview]
         [SerializeField] Sprite[] _sprites;
         [BoxGroup("Resources")]
         public float Speed = 1;
