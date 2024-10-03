@@ -27,7 +27,7 @@ namespace GB
             _isInit = true;
         }
 
-        bool Check(string name)
+        bool Check(string name,int startSize)
         {
             string path = ResourcesFolderName+"/"+name;
             var obj  = Resources.Load<GameObject>(path);
@@ -35,18 +35,18 @@ namespace GB
 
              var t = obj.GetComponent<PoolingType>();
             if(t == null) t = obj.AddComponent<PoolingType>();
-                _dictPooling[name] = new GameObjectPool<PoolingType>(transform,t,10);
+                _dictPooling[name] = new GameObjectPool<PoolingType>(transform,t,startSize);
 
             return true;
         }
 
 
-        public static GameObject Create(string name)
+        public static GameObject Create(string name,int startSize = 10)
         {
             I.Init();
             if(!I._dictPooling.ContainsKey(name)) 
             {
-                if(I.Check(name) == false)
+                if(I.Check(name,startSize) == false)
                 return null;
             }
             var o = I._dictPooling[name];
@@ -75,6 +75,7 @@ namespace GB
 
         public static void Clear()
         {
+             I.Init();
             foreach(var v in I._dictPooling)
             {
                 v.Value.ReturnAll();
@@ -83,6 +84,7 @@ namespace GB
 
         public static void Clear(string name)
         {
+            I.Init();
             if(!I._dictPooling.ContainsKey(name)) return;
 
             I._dictPooling[name].ReturnAll();
