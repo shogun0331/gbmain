@@ -1,16 +1,9 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using QuickEye.Utility;
-using NaughtyAttributes;
-using Aya.Tween;
 
 
-#if UNITY_EDITOR
-using System.IO;
-using UnityEditor;
-#endif
+
 
 namespace GB
 {
@@ -86,6 +79,14 @@ namespace GB
             {
                 v.Value.ReturnAll();
             }
+        }
+
+        public static void Clear(string name)
+        {
+            if(!I._dictPooling.ContainsKey(name)) return;
+
+            I._dictPooling[name].ReturnAll();
+
         }
     }
 }
