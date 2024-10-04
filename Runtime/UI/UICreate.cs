@@ -15,9 +15,12 @@ namespace GB
     public class UICreate : MonoBehaviour
     {
 #if UNITY_EDITOR
+        public ScreenType ScreenType;
         public string UIName;
 
         const string EDITOR_SAVECS_PATH = "$PATH$/$FILENAME$";
+        
+
 
         [Button]
         public void Bind()
@@ -84,7 +87,35 @@ namespace GB
 
             WriteTxt(EDITOR_SAVECS_PATH.Replace("$PATH$", savePath).Replace("$FILENAME$", UIName + ".cs"), text);
 
+            
+
             AssetDatabase.Refresh();
+
+            GB.Edit.EditorCoroutines.StartCoroutine(settingCorutine(), this);
+
+
+        }
+        IEnumerator settingCorutine()
+        {
+            yield return new WaitForSeconds(1);
+            Setting();
+            
+        }
+
+        
+        [Button]
+        public void Setting()
+        {
+            if (GetComponent<UIScreen>() != null) return;
+            if (string.IsNullOrEmpty(UIName)) return;
+            
+            //We need to fetch the Type
+            System.Type MyScriptType = System.Type.GetType (UIName + ",Assembly-CSharp");
+            //Now that we have the Type we can use it to Add Component
+            var component = gameObject.AddComponent (MyScriptType);
+
+            gameObject.GetComponent<UIScreen>().SetScreenType(ScreenType);
+
 
         }
 
@@ -179,6 +210,9 @@ namespace GB
 
         }
 
+        
+
+
         [Button]
         public void Save()
         {
@@ -194,21 +228,8 @@ namespace GB
             bool isSuccess = false;
             UnityEditor.PrefabUtility.SaveAsPrefabAsset(gameObject, path, out isSuccess); //저장
             UnityEditor.AssetDatabase.Refresh();
-
             Debug.Log(UIName +" Save : " + isSuccess);
-
-
         }
-
-        // [Button]
-        // public void Setting()
-        // {
-        //     if (GetComponent<UIScreen>() != null) return;
-        //     if (string.IsNullOrEmpty(UIName)) return;
-
-        //     System.Type componentType = System.Type.GetType(UIName);
-        //     Component component = gameObject.AddComponent(componentType);
-        // }
 
 
         void WriteTxt(string filePath, string message)

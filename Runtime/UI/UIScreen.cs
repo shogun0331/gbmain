@@ -23,6 +23,12 @@ namespace GB
         [SerializeField] protected UnityDictionary<string, AnimationClip> mAnim = new UnityDictionary<string, AnimationClip>();
         [SerializeField] protected UnityDictionary<string, ParticleSystem> mParticle = new UnityDictionary<string, ParticleSystem>();
 
+
+        public void SetScreenType(ScreenType type)
+        {
+            _UIType = type;
+        }
+
         
 
         public void SetBind()

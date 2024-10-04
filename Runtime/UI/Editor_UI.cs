@@ -3,6 +3,7 @@
 using UnityEngine;
 
 using UnityEditor;
+using GB;
 public class Editor_UI : EditorWindow
 {
     [MenuItem("GB/UI/Create Canvas")]
@@ -37,7 +38,7 @@ public class Editor_UI : EditorWindow
             {
                 var oj = Instantiate(prefab,ui.transform);
                 oj.name = "Scene";
-
+                oj.GetComponent<UICreate>().ScreenType = ScreenType.SCENE;
                 Selection.activeGameObject = oj;
             }
             else
@@ -68,6 +69,7 @@ public class Editor_UI : EditorWindow
             {
                 var oj = Instantiate(prefab,ui.transform);
                 oj.name = "Popup";
+                oj.GetComponent<UICreate>().ScreenType = ScreenType.POPUP;
                 Selection.activeGameObject = oj;
             }
             else
