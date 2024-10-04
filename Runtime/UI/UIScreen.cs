@@ -21,6 +21,7 @@ namespace GB
         [SerializeField] protected UnityDictionary<string, RectTransform> mRectTransform = new UnityDictionary<string, RectTransform>();
         [SerializeField] protected UnityDictionary<string, UISkinner> mSkinner = new UnityDictionary<string, UISkinner>();
         [SerializeField] protected UnityDictionary<string, AnimationClip> mAnim = new UnityDictionary<string, AnimationClip>();
+        [SerializeField] protected UnityDictionary<string, ParticleSystem> mParticle = new UnityDictionary<string, ParticleSystem>();
 
         
 
@@ -36,6 +37,14 @@ namespace GB
         public virtual void OnAnimationEvent(string value)
         {
 
+        }
+
+        public void PlayParticle(string name)
+        {
+            if(mParticle.ContainsKey(name))
+            {
+                mParticle[name].Play();
+            }
         }
 
 
