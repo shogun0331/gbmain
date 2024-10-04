@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using JetBrains.Annotations;
+
 
 #if UNITY_EDITOR
 using System.IO;
@@ -81,9 +83,6 @@ namespace GB
             string text = Resources.Load<TextAsset>("UIText").text;
             text = text.Replace("$POPUPNAME$", UIName);
 
-            DirectoryInfo info = new DirectoryInfo(EDITOR_SAVECS_PATH.Replace("$PATH$", savePath).Replace("$FILENAME$", "UIPopup"));
-            if (info.Exists == false)
-                info.Create();
 
             WriteTxt(EDITOR_SAVECS_PATH.Replace("$PATH$", savePath).Replace("$FILENAME$", UIName + ".cs"), text);
 
@@ -98,23 +97,67 @@ namespace GB
         IEnumerator settingCorutine()
         {
             yield return new WaitForSeconds(1);
-            Setting();
+            
+            FirstSetting();
+         
             
         }
 
-        
-        [Button]
-        public void Setting()
+        public void FirstSetting()
         {
-            if (GetComponent<UIScreen>() != null) return;
-            if (string.IsNullOrEmpty(UIName)) return;
-            
-            //We need to fetch the Type
-            System.Type MyScriptType = System.Type.GetType (UIName + ",Assembly-CSharp");
-            //Now that we have the Type we can use it to Add Component
-            var component = gameObject.AddComponent (MyScriptType);
+            Setting(false);
+        }
+        
+        [Button("Setting")]
+        public void PopupNameSetting()
+        {
+            Setting(true);
+        }
 
-            gameObject.GetComponent<UIScreen>().SetScreenType(ScreenType);
+        
+        
+        public void Setting(bool isPopupNameSetting)
+        {
+            
+            if (string.IsNullOrEmpty(UIName)) return;
+            if (GetComponent<UIScreen>() == null)
+            {
+                //We need to fetch the Type
+                System.Type MyScriptType = System.Type.GetType(UIName + ",Assembly-CSharp");
+                //Now that we have the Type we can use it to Add Component
+                var component = gameObject.AddComponent(MyScriptType);
+
+                gameObject.GetComponent<UIScreen>().SetScreenType(ScreenType);
+            }
+
+            if (isPopupNameSetting)
+            {
+                
+                var textAsset = Resources.Load<TextAsset>("Popup");
+
+
+                string temp = "\tpublic const string ##NAME =  \"##NAME\"; \n";
+                string propertis = string.Empty;
+
+
+                UIScreen[] screens = Resources.LoadAll<UIScreen>("UI/Popup");
+
+                for (int i = 0; i < screens.Length; ++i)
+                {
+                    if (screens[i].UIType == ScreenType.POPUP)
+                    {
+                        propertis += temp.Replace("##NAME", screens[i].gameObject.name);
+                    }
+                }
+
+                string value = textAsset.text.Replace("##POPUP", propertis);
+                string savePath = Application.dataPath + "/Scripts/UI";
+                WriteTxt(EDITOR_SAVECS_PATH.Replace("$PATH$", savePath).Replace("$FILENAME$", "POPUP.cs"), value);
+                AssetDatabase.Refresh();
+             
+            }
+
+
 
 
         }
