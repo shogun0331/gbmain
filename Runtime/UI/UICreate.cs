@@ -166,6 +166,19 @@ namespace GB
             }
         }
 
+
+        [Button]
+        public void QuickSelect()
+        {
+            if(string.IsNullOrEmpty( UIName)) return;
+            if(GetComponent<UIScreen>() == null) return;
+            string directory = GetComponent<UIScreen>().UIType == ScreenType.SCENE ? "Scene/":"Popup/";
+            var obj = Resources.Load<GameObject>("UI/"+directory+UIName);
+            if(obj != null)
+            Selection.activeGameObject = obj;
+
+        }
+
         [Button]
         public void Save()
         {
