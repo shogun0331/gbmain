@@ -1,3 +1,4 @@
+using Aya.Tween;
 using QuickEye.Utility;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,7 @@ namespace GB
         [SerializeField] protected UnityDictionary<string, LocalizationView> mLocalization = new UnityDictionary<string, LocalizationView>();
         [SerializeField] protected UnityDictionary<string, RectTransform> mRectTransform = new UnityDictionary<string, RectTransform>();
         [SerializeField] protected UnityDictionary<string, UISkinner> mSkinner = new UnityDictionary<string, UISkinner>();
+        [SerializeField] protected UnityDictionary<string, AnimationClip> mAnim = new UnityDictionary<string, AnimationClip>();
 
         public void SetBind()
         {
@@ -28,6 +30,16 @@ namespace GB
             UIRegister[] allChildren = GetComponentsInChildren<UIRegister>(true);
             for (int i = 0; i < allChildren.Length; ++i)
                 allChildren[i].SetBind();
+        }
+
+        public void ClearAnim()
+        {
+            mAnim.Clear();
+        }
+
+        public void Add(string key,AnimationClip anim)
+        {
+            mAnim.Add(key,anim);
         }
 
         public void Add(string key, Text text)
@@ -68,6 +80,19 @@ namespace GB
         public void Add(string key, UISkinner sk)
         {
             mSkinner.Add(key, sk);
+        }
+
+        public void PlayAnimation(string key)
+        {
+            if(mAnim.ContainsKey(key))
+            {
+                var anim = GetComponent<Animation>();
+                if(anim != null)
+                {
+                    anim.clip = mAnim[key];
+                    anim.Play();
+                }
+            }
         }
 
         void Clear()
