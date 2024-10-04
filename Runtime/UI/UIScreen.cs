@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Aya.Tween;
 using QuickEye.Utility;
 using UnityEngine;
@@ -11,8 +12,6 @@ namespace GB
         [SerializeField] ScreenType _UIType = ScreenType.POPUP;
         public ScreenType UIType { get => _UIType;  }
 
-
-
         [SerializeField] protected UnityDictionary<string, Image> mImages = new UnityDictionary<string, Image>();
         [SerializeField] protected UnityDictionary<string, Text> mTexts = new UnityDictionary<string, Text>();
         [SerializeField] protected UnityDictionary<string, Button> mButtons = new UnityDictionary<string, Button>();
@@ -23,6 +22,8 @@ namespace GB
         [SerializeField] protected UnityDictionary<string, UISkinner> mSkinner = new UnityDictionary<string, UISkinner>();
         [SerializeField] protected UnityDictionary<string, AnimationClip> mAnim = new UnityDictionary<string, AnimationClip>();
 
+        
+
         public void SetBind()
         {
             Clear();
@@ -32,10 +33,17 @@ namespace GB
                 allChildren[i].SetBind();
         }
 
+        public virtual void OnAnimationEvent(string value)
+        {
+
+        }
+
+
         public void ClearAnim()
         {
             mAnim.Clear();
         }
+        
 
         public void Add(string key,AnimationClip anim)
         {
