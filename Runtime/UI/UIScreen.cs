@@ -34,70 +34,18 @@ namespace GB
                 allChildren[i].SetBind();
         }
 
-        public virtual void OnAnimationEvent(string value)
-        {
-
-        }
-
-        public void PlayParticle(string name)
-        {
-            if(mParticle.ContainsKey(name))
-            {
-                mParticle[name].Play();
-            }
-        }
-
-
-        public void ClearAnim()
-        {
-            mAnim.Clear();
-        }
-        
-
-        public void Add(string key,AnimationClip anim)
-        {
-            mAnim.Add(key,anim);
-        }
-
-        public void Add(string key, Text text)
-        {
-            mTexts.Add(key, text);
-        }
-
-        public void Add(string key, Image img)
-        {
-            mImages.Add(key, img);
-        }
-
-        public void Add(string key, Button btn)
-        {
-
-            mButtons.Add(key, btn);
-        }
-
-        public void Add(string key, Transform tr)
-        {
-            mTransforms.Add(key, tr);
-        }
-
-        public void Add(string key, GameObject oj)
-        {
-            mGameObject.Add(key, oj);
-        }
-
-        public void Add(string key, LocalizationView locailView)
-        {
-            mLocalization.Add(key, locailView);
-        }
-        public void Add(string key, RectTransform rt)
-        {
-            mRectTransform.Add(key, rt);
-        }
-
-        public void Add(string key, UISkinner sk)
-        {
-            mSkinner.Add(key, sk);
-        }
+        public virtual void OnAnimationEvent(string value){}
+        public void PlayParticle(string name){if(mParticle.ContainsKey(name))mParticle[name].Play();}
+        public void ClearAnim(){mAnim.Clear();}
+        public void Add(string key,AnimationClip anim){mAnim.Add(key,anim);}
+        public void Add(string key, Text text){mTexts.Add(key, text);}
+        public void Add(string key, Image img){mImages.Add(key, img);}
+        public void Add(string key, Button btn){mButtons.Add(key, btn);}
+        public void Add(string key, Transform tr){mTransforms.Add(key, tr);}
+        public void Add(string key, GameObject oj){mGameObject.Add(key, oj);}
+        public void Add(string key, LocalizationView locailView){mLocalization.Add(key, locailView);}
+        public void Add(string key, RectTransform rt){mRectTransform.Add(key, rt);}
+        public void Add(string key, UISkinner sk){mSkinner.Add(key, sk);}
 
         public void PlayAnimation(string key)
         {
@@ -141,39 +89,13 @@ namespace GB
             UIManager.I.RegistUIScreen(this);
         }
 
-        public virtual void Initialize()
-        {
-           
-        }
-
-        public virtual void Initialize(IUIData data)
-        {
-            
-        }
-
-        public virtual void Refresh()
-        {
-            
-        }
-
-        public virtual void SetData(IUIData data)
-        {
-           
-        }
-
-        public virtual void BackKey()
-        {
-            if(UIType == ScreenType.POPUP) Close();
-        }
-
-        public virtual void Close()
-        {
-            UIManager.ClosePopup(this);
-        }
-
-        public override void ViewQuick(string key, IModel data)
-        {
-        }
+        public virtual void Initialize(){}
+        public virtual void Initialize(IUIData data){}
+        public virtual void Refresh(){}
+        public virtual void SetData(IUIData data){}
+        public virtual void BackKey(){if(UIType == ScreenType.POPUP) Close();}
+        public virtual void Close(){UIManager.ClosePopup(this);}
+        public override void ViewQuick(string key, IModel data){}
     }
 
     public interface IScreen
