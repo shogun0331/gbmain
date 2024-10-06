@@ -12,30 +12,31 @@ namespace GB
     {
         [ReorderableList]
         [SerializeField] List<FlowData> _flowDatas;
+        
 
         void OnDisable()
         {
-            Stop();
+            Clear();
         }
 
-        public void Stop()
+        public void Clear()
         {
-#if UNITY_EDITOR
 
-            if (Application.isPlaying)
+            for (int i = 0; i < _flowDatas.Count; ++i)
             {
-                StopAllCoroutines();
-            }
-            else
-            {
-                GB.Edit.EditorCoroutines.StopAllCoroutines(this);
+                if (_flowDatas[i].TweenAnim != null)
+                {
+                    _flowDatas[i].TweenAnim.Stop();
+                    _flowDatas[i].TweenAnim.SetStart();
+                }
+                if(_flowDatas[i].Particle != null)
+                _flowDatas[i].Particle.Stop();
+
             }
 
-#else
+
 
             StopAllCoroutines();
-
-#endif
 
         }
 
@@ -84,18 +85,16 @@ namespace GB
             }
 
             
-            // for (int i = 0; i < _flowDatas.Count; ++i)
-            // {
-            //     if (_flowDatas[i].TweenAnim != null)
-            //     {
-            //         if (_flowDatas[i].TweenAnim.Tweener != null)
-            //         {
-            //             _flowDatas[i].TweenAnim.Tweener.Stop();
-            //             _flowDatas[i].TweenAnim.Tweener.SetStart();
-            //         }
-            //     }
+            for (int i = 0; i < _flowDatas.Count; ++i)
+            {
+                if (_flowDatas[i].TweenAnim != null)
+                {
+                    _flowDatas[i].TweenAnim.Stop();
+                    _flowDatas[i].TweenAnim.SetStart();
+                   
+                }
 
-            // }
+            }
 
 
             for (int i = 0; i < _flowDatas.Count; ++i)
@@ -121,8 +120,8 @@ namespace GB
                         {
                             if (_flowDatas[i].TweenAnim != null)
                             {
-                                _flowDatas[i].TweenAnim.Tweener.Stop();
-                                _flowDatas[i].TweenAnim.Tweener.SetStart();
+                               _flowDatas[i].TweenAnim.Stop();
+                               _flowDatas[i].TweenAnim.SetStart();
                             }
 
                         }
@@ -156,18 +155,7 @@ namespace GB
                     {
                         TweenManager.Ins.PreviewTweenerList.Add(data.TweenAnim.Tweener);
                     }
-                    data.TweenAnim.Tweener
-                        .SetPlayCallback(() =>
-                        {
-
-                            // EnableEditor = false;
-                        })
-                        .SetStopCallback(() =>
-                        {
-                            // data.TweenAnim.Tweener.SetStart();
-
-                        })
-                        .Play();
+                    data.TweenAnim.Tweener.Play();
 
                 }
             }
