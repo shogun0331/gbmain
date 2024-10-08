@@ -275,6 +275,14 @@ namespace GB
             if (I._popupList.Count > 0)
                 I._popupList[0].gameObject.SetActive(true);
         }
+
+        public static void ClosePopup(string popupName)
+        {
+            var screen = FindUIScreen(popupName);
+            if(screen != null)
+            ClosePopup(screen);
+
+        }
         public static void ClosePopup(UIScreen UIScreen)
         {
             UIScreen.gameObject.SetActive(false);
