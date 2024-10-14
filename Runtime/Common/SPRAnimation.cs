@@ -10,10 +10,10 @@ namespace GB
     [RequireComponent(typeof(SpriteRenderer))]
     public class SPRAnimation : MonoBehaviour
     {
-        [SerializeField] string _animationName;
+        [SerializeField] SPRAnimationClip _animation;
         [SerializeField] UnityDictionary<string,SPRAnimationData> _animations = new UnityDictionary<string, SPRAnimationData>();
 
-        SPRAnimationClip _sprAnimations;
+        
 
         public bool PlayAutomatically;
         
@@ -24,12 +24,9 @@ namespace GB
 
         void Awake()
         {
-            _sprAnimations = new SPRAnimationClip();
-            _sprAnimations.Init(GetComponent<SpriteRenderer>(),OnCallBack);
-            foreach(var v in _animations)
-            {
-                _sprAnimations.AddSPRAnimationData(v.Key,v.Value);
-            }
+            if(_animation == null) _animation = new SPRAnimationClip();
+            _animation.Init(GetComponent<SpriteRenderer>(),OnCallBack);
+            
         }
 
         void OnEnable()
@@ -37,7 +34,7 @@ namespace GB
 
             if(PlayAutomatically)
             {
-                Play(_animationName);
+                Play();
             }
         
             
@@ -60,22 +57,26 @@ namespace GB
             
             _callBack?.Invoke(state,index,trigger);
         }
+
+        public void Play()
+        {
+            _animation.Play();
+        }
         
 
         public void Play(string animationName)
         {
             if(!_animations.ContainsKey(animationName)) return;
-            _animationName = animationName;
-
-            _sprAnimations.Play(_animationName);
+            _animation.SetSPRAnimationData(animationName,_animations[animationName]);
+            _animation.Play();
         }
 
 
         // Update is called once per frame
         void Update()
         {
-            if(_sprAnimations != null)
-                _sprAnimations.Update(Time.deltaTime);
+            if(_animation != null)
+                _animation.Update(Time.deltaTime);
             
 
         }

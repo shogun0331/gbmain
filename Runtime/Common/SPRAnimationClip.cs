@@ -8,7 +8,7 @@ namespace GB
 public class SPRAnimationClip
 {
     public enum State{Play = 0,Next,End,Trigger}
-    [SerializeField] UnityDictionary<string,SPRAnimationData> _dictAnim;
+    [SerializeField] SPRAnimationData _Anim;
 
     SpriteRenderer _sprRender;
 
@@ -38,12 +38,9 @@ public class SPRAnimationClip
         _callBack = callBack;
     }
 
-    public void AddSPRAnimationData(string key,SPRAnimationData data)
+    public void SetSPRAnimationData(string key,SPRAnimationData data)
     {
-        if(_dictAnim == null)
-        _dictAnim = new UnityDictionary<string, SPRAnimationData>();
-
-        _dictAnim[key] = data;
+        _Anim = data;
     }
 
     public void Play(float speed = 1)
@@ -53,50 +50,21 @@ public class SPRAnimationClip
               Debug.LogWarning("Animation Init(SpriteRenderer spriteRenderer,Action<State,int,TriggerData> callBack) : null");
             return;
         }
-        if(_dictAnim.Count <= 0) return;
-        if(string.IsNullOrEmpty(_curID))
-        {
-            foreach(var v in _dictAnim) 
-            {
-                _curID = v.Key;
-                _curIDX = 0;
-                break;
-            }
-        }
-      
-        if(_dictAnim[_curID].SpriteCount <= 0) return;
-        _curIDX = 0;
-        _sprRender.sprite = _dictAnim[_curID].GetSprite( _curIDX);
-        _isPlaying = true;
-        _isLoop = _dictAnim[_curID].IsLoop;
-        if(_dictAnim[_curID].Speed <= 0) _dictAnim[_curID].Speed = 1;
-        _fixTimer =  TIMER / (_dictAnim[_curID].Speed * speed);
-        _callBack?.Invoke(State.Play,_curIDX,null);
-    }
-
-    public void Play(string id,float speed = 1)
-    {
-        if(_sprRender == null) 
-        {
-              Debug.LogWarning("Animation Init(SpriteRenderer spriteRenderer,Action<State,int,TriggerData> callBack) : null");
-            return;
-        }
-
-        if(_dictAnim.Count <= 0) return;
-        if(!_dictAnim.ContainsKey(id)) return;
-        if(_dictAnim[id].SpriteCount <= 0) return;
-
-        _curID = id;
-        _curIDX = 0;
-        _sprRender.sprite = _dictAnim[_curID].GetSprite(0);
+        if(_Anim == null ) return;
         
+        
+      
+        if(_Anim.SpriteCount <= 0) return;
+        _curIDX = 0;
+        _sprRender.sprite = _Anim.GetSprite( _curIDX);
         _isPlaying = true;
-        _isLoop = _dictAnim[_curID].IsLoop;
-        if(_dictAnim[_curID].Speed <= 0) _dictAnim[_curID].Speed = 1;
-        _fixTimer =  TIMER / (_dictAnim[_curID].Speed * speed);
+        _isLoop = _Anim.IsLoop;
+        if(_Anim.Speed <= 0) _Anim.Speed = 1;
+        _fixTimer =  TIMER / (_Anim.Speed * speed);
         _callBack?.Invoke(State.Play,_curIDX,null);
     }
-    
+
+
     public void Stop()
     {
         if(_sprRender == null) 
@@ -131,6 +99,8 @@ public class SPRAnimationClip
             return;
         }
 
+        if(_Anim == null) return;
+
         
         _time += dt;
 
@@ -139,12 +109,12 @@ public class SPRAnimationClip
             _time = 0;
             _curIDX ++;
 
-            if(_curIDX >= _dictAnim[_curID].SpriteCount )
+            if(_curIDX >= _Anim.SpriteCount )
             {
                 if(_isLoop)
                 {
                     _curIDX = 0;
-                    _sprRender.sprite = _dictAnim[_curID].GetSprite(_curIDX);
+                    _sprRender.sprite = _Anim.GetSprite(_curIDX);
                     //_callBack?.Invoke(State.Next,_curIDX,string.Empty);
                 }
                 else
@@ -154,14 +124,14 @@ public class SPRAnimationClip
                 }
             }
 
-            _sprRender.sprite = _dictAnim[_curID].GetSprite(_curIDX);
+            _sprRender.sprite = _Anim.GetSprite(_curIDX);
             
-            if(_dictAnim[_curID].Triggers.ContainsKey(_curIDX))
+            if(_Anim.Triggers.ContainsKey(_curIDX))
             {
-                if(_dictAnim[_curID].Triggers != null)
+                if(_Anim.Triggers != null)
                 {
-                    for(int i = 0; i< _dictAnim[_curID].Triggers[_curIDX].Count;++i)
-                        _callBack?.Invoke(State.Trigger,_curIDX,_dictAnim[_curID].Triggers[_curIDX][i]);
+                    for(int i = 0; i< _Anim.Triggers[_curIDX].Count;++i)
+                        _callBack?.Invoke(State.Trigger,_curIDX,_Anim.Triggers[_curIDX][i]);
                 }
             }
         }
