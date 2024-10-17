@@ -22,6 +22,9 @@ namespace GB
         public UnityEvent onStartEvent;
         public UnityEvent onEndEvent;
 
+        public int IndexTrigger;
+        public UnityEvent onTriggerEvent;
+
         void Awake()
         {
             if(_animation == null) _animation = new SPRAnimationClip();
@@ -53,6 +56,15 @@ namespace GB
             else if(state == SPRAnimationClip.State.End)
             {
                 onEndEvent?.Invoke();
+            }
+
+            if(state == SPRAnimationClip.State.Trigger)
+            {
+                if(index == IndexTrigger)
+                {
+                    onTriggerEvent?.Invoke();
+                }
+
             }
             
             _callBack?.Invoke(state,index,trigger);
