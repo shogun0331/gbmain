@@ -32,7 +32,7 @@ public class GameDataManager : AutoSingleton<GameDataManager>
         {
             TextAsset assets = UnityEngine.Resources.Load<TextAsset>("Json/" + tableID.ToString());
 
-            string data = Mobirix.Core.Gzip.DeCompression(assets.text);
+            string data = Gzip.DeCompression(assets.text);
             TABLE type = I.StringToEnum(assets.name);
             I._Tables[type] = (GameData)I.GetJsonData(type, data);
         }
