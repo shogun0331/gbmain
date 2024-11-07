@@ -2,7 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
-using System.Collections.Generic;
+using Aya.Tween;
+using UnityEngine.Events;
+
 namespace GB
 {
     [RequireComponent(typeof(Button))]
@@ -22,6 +24,13 @@ namespace GB
 
         [ShowIf("IsSkin")]        
         public USkin tapSkinner;
+
+
+        [SerializeField] float _delay = -1;
+        [SerializeField] TweenAnimation[] _BtnTweensAction;
+        [SerializeField] UnityEvent _clickEvent;
+
+        bool _isBtnAction;
 
 
 
@@ -45,6 +54,17 @@ namespace GB
             if(_btn != null)
             _btn.onClick.AddListener(OnClick);
         }
+        void OnEnable()
+        {
+            _isBtnAction = false;
+        }
+
+        void OnDisable()
+        {
+            _isBtnAction = true;            
+        }
+
+
         void ChangeType()
         {
             switch(btnEvent)
@@ -64,9 +84,8 @@ namespace GB
             }
         }
 
-        void OnClick()
+        void Show()
         {
-
             switch(btnEvent)
             {
                 case BtnEvent.ShowPopup:
@@ -86,7 +105,32 @@ namespace GB
                 break;
 
             }
+            _clickEvent?.Invoke();
+            _isBtnAction = false;
 
+        }
+
+
+        void OnClick()
+        {
+            if( _delay >= 0.0f)
+            {
+                if(_isBtnAction == false)
+                {
+                    _isBtnAction = true;
+                    Timer.Create(_delay,Show);
+
+                    if(_BtnTweensAction != null)
+                    {
+                        for(int i = 0; i< _BtnTweensAction.Length; ++i)
+                            _BtnTweensAction[i].Play();
+                    }
+                }
+            }
+            else
+            {
+                Show();
+            }
         }
         
     }
