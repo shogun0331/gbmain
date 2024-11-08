@@ -35,7 +35,7 @@ namespace GB
     {
         [SerializeField] UnityDictionary<Image, Sprite> _ChangeImages = new UnityDictionary<Image, Sprite>();
         [HorizontalLine(color: EColor.Red)]
-        [SerializeField] UnityDictionary<Image, Color> _ChangeColors = new UnityDictionary<Image, Color>();
+        [SerializeField] UnityDictionary<Transform, Color> _ChangeColors = new UnityDictionary<Transform, Color>();
         [HorizontalLine(color: EColor.Green)]
         [SerializeField] UnityDictionary<Transform, Vector3> _ChangeScale = new UnityDictionary<Transform, Vector3>();
         [HorizontalLine(color: EColor.Blue)]
@@ -43,10 +43,17 @@ namespace GB
         [HorizontalLine(color: EColor.Black)]
         [SerializeField] List<GameObject> _IsOffGameObjects = new List<GameObject>();
 
+
         public void Apply()
         {
             foreach (var v in _ChangeImages) v.Key.sprite = v.Value;
-            foreach (var v in _ChangeColors)  v.Key.color = v.Value;
+            foreach (var v in _ChangeColors)  
+            {
+                var image = v.Key.GetComponent<Image>();
+                if(image != null) image.color = v.Value;
+                var text = v.Key.GetComponent<Text>();
+                if(text != null) text.color = v.Value;
+            }
             foreach (var v in _ChangeScale)   v.Key.localScale = v.Value;
 
             for (int i = 0; i < _IsOnGameObjects.Count; ++i)

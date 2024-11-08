@@ -31,25 +31,12 @@ namespace GB
             if (_btn != null)
                 _btn.onClick.AddListener(OnTap);
 
+            if (_OffSkin != null) _OffSkin.Apply();
+
 
         }
         void Start()
         {
-            if (_On_TweenAnimations != null)
-            {
-                for (int i = 0; i < _On_TweenAnimations.Length; ++i)
-                    _On_TweenAnimations[i].WorldSpace = false;
-
-
-            }
-
-
-            if (_Off_TweenAnimations != null)
-            {
-                for (int i = 0; i < _Off_TweenAnimations.Length; ++i)
-                    _Off_TweenAnimations[i].WorldSpace = false;
-            }
-
 
 
         }
@@ -65,12 +52,21 @@ namespace GB
             if (isOn) return;
             isOn = true;
 
-            if (_On_TweenAnimations == null) return;
-
-            for (int i = 0; i < _On_TweenAnimations.Length; ++i)
+            if (_Off_TweenAnimations != null)
             {
-                
-                _On_TweenAnimations[i].Play();
+
+                for (int i = 0; i < _Off_TweenAnimations.Length; ++i)
+                    _Off_TweenAnimations[i].Stop();
+            }
+
+            if (_On_TweenAnimations != null)
+            {
+
+                for (int i = 0; i < _On_TweenAnimations.Length; ++i)
+                {
+
+                    _On_TweenAnimations[i].Play();
+                }
             }
 
             if (_OnSkin != null) _OnSkin.Apply();
@@ -84,13 +80,24 @@ namespace GB
             isOn = false;
 
 
-            if (_Off_TweenAnimations == null) return;
-
-            for (int i = 0; i < _Off_TweenAnimations.Length; ++i)
+            if (_On_TweenAnimations != null)
             {
-                
-                _Off_TweenAnimations[i].Play();
+
+                for (int i = 0; i < _On_TweenAnimations.Length; ++i)
+                {
+
+                    _On_TweenAnimations[i].Stop();
+                }
             }
+
+
+            if (_Off_TweenAnimations != null)
+            {
+
+                for (int i = 0; i < _Off_TweenAnimations.Length; ++i)
+                    _Off_TweenAnimations[i].Play();
+            }
+
 
             if (_OffSkin != null) _OffSkin.Apply();
 

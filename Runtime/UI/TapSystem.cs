@@ -24,8 +24,6 @@ namespace GB
 
         public bool IsMove() { return _IsScaleMove; }
 
-
-
         void Awake()
         {
             if (_tapButtons != null)
