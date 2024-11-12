@@ -102,8 +102,13 @@ namespace GB
                 }
             }
         }
+        public void SetValue(string key)
+        {
+            LocalizationKey = key;
+            Apply(LocalizationManager.GetValue(LocalizationKey));
+        }
 
-        private void SetText(string param1)
+        public void SetText(string param1)
         {
             _ParamList = new List<string>();
             _ParamList.Add(param1);
@@ -111,7 +116,7 @@ namespace GB
             Apply(string.Format(value, param1));
         }
 
-        private void SetText(string param1,string param2)
+        public void SetText(string param1,string param2)
         {
              _ParamList = new List<string>();
             _ParamList.Add(param1);
@@ -121,7 +126,7 @@ namespace GB
             Apply(string.Format(value, param1,param2));
         }
 
-        private void SetText(string param1, string param2,string param3)
+        public void SetText(string param1, string param2,string param3)
         {
 
              _ParamList = new List<string>();
@@ -134,7 +139,7 @@ namespace GB
             Apply(string.Format(value, param1, param2, param3));
         }
 
-        private void SetText(string param1, string param2, string param3,string param4)
+        public void SetText(string param1, string param2, string param3,string param4)
         {
             _ParamList = new List<string>();
             _ParamList.Add(param1);
@@ -145,7 +150,7 @@ namespace GB
             string value = LocalizationManager.GetValue(LocalizationKey);
             Apply(string.Format(value, param1, param2, param3,param4));
         }
-        private void SetText(string param1, string param2, string param3, string param4, string param5)
+        public void SetText(string param1, string param2, string param3, string param4, string param5)
         {
             _ParamList = new List<string>();
             _ParamList.Add(param1);
@@ -158,7 +163,7 @@ namespace GB
             Apply(string.Format(value, param1, param2, param3, param4,param5));
         }
 
-        private void SetText(string param1, string param2, string param3, string param4, string param5,string param6)
+        public void SetText(string param1, string param2, string param3, string param4, string param5,string param6)
         {
             _ParamList = new List<string>();
             _ParamList.Add(param1);

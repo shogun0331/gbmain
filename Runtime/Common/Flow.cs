@@ -136,6 +136,7 @@ namespace GB
 
         void DataPlay(FlowData data)
         {
+            
             if (data == null) return;
 
             if (data.TweenAnim != null)
@@ -150,11 +151,12 @@ namespace GB
                     data.TweenAnim.SyncTweenerParams();
 
 
-
+                    #if UNITY_EDITOR
                     if (!Application.isPlaying)
                     {
                         TweenManager.Ins.PreviewTweenerList.Add(data.TweenAnim.Tweener);
                     }
+                    #endif
                     data.TweenAnim.Tweener.Play();
 
                 }
@@ -164,6 +166,7 @@ namespace GB
             {
                 data.Particle.Play();
             }
+            
 
         }
     }

@@ -123,7 +123,7 @@ public class $ClassName$  : GameData
 }
 
 [Serializable]
-public class $ClassName$Prob
+public class $ClassName$Prob : GameDataProb
 {
 	$DATAS$
 }

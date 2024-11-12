@@ -10,7 +10,7 @@ namespace GB
     public class UIScreen : View, IScreen
     {
         [SerializeField] ScreenType _UIType = ScreenType.POPUP;
-        public ScreenType UIType { get => _UIType;  }
+        public ScreenType UIType { get => _UIType; }
 
         [SerializeField] protected UnityDictionary<string, Image> mImages = new UnityDictionary<string, Image>();
         [SerializeField] protected UnityDictionary<string, Text> mTexts = new UnityDictionary<string, Text>();
@@ -29,7 +29,7 @@ namespace GB
             _UIType = type;
         }
 
-        
+
 
         public void SetBind()
         {
@@ -40,25 +40,94 @@ namespace GB
                 allChildren[i].SetBind();
         }
 
-        public virtual void OnAnimationEvent(string value){}
-        public void PlayParticle(string name){if(mParticle.ContainsKey(name))mParticle[name].Play();}
-        public void ClearAnim(){mAnim.Clear();}
-        public void Add(string key,AnimationClip anim){mAnim.Add(key,anim);}
-        public void Add(string key, Text text){mTexts.Add(key, text);}
-        public void Add(string key, Image img){mImages.Add(key, img);}
-        public void Add(string key, Button btn){mButtons.Add(key, btn);}
-        public void Add(string key, Transform tr){mTransforms.Add(key, tr);}
-        public void Add(string key, GameObject oj){mGameObject.Add(key, oj);}
-        public void Add(string key, LocalizationView locailView){mLocalization.Add(key, locailView);}
-        public void Add(string key, RectTransform rt){mRectTransform.Add(key, rt);}
-        public void Add(string key, UISkinner sk){mSkinner.Add(key, sk);}
+        public virtual void OnAnimationEvent(string value) { }
+        public void PlayParticle(string name) { if (mParticle.ContainsKey(name)) mParticle[name].Play(); }
+        public void ClearAnim() { mAnim.Clear(); }
+        public void Add(string key, AnimationClip anim) { mAnim.Add(key, anim); }
+        public void Add(string key, Text text)
+        {
+            if (mTexts.ContainsKey(key))
+            {
+                Debug.LogError("SameKey : " + text.gameObject.name + "-" + mTexts[key].gameObject.name);
+                return;
+            }
+
+            mTexts.Add(key, text);
+        }
+        public void Add(string key, Image img)
+        {
+            if (mImages.ContainsKey(key))
+            {
+                Debug.LogError("SameKey : " + img.gameObject.name + "-" + mImages[key].gameObject.name);
+                return;
+            }
+
+            mImages.Add(key, img);
+        }
+        public void Add(string key, Button btn)
+        {
+            if (mButtons.ContainsKey(key))
+            {
+                Debug.LogError("SameKey : " + btn.gameObject.name + "-" + mButtons[key].gameObject.name);
+                return;
+            }
+
+            mButtons.Add(key, btn);
+        }
+        public void Add(string key, Transform tr)
+        {
+            if (mTransforms.ContainsKey(key))
+            {
+                Debug.LogError("SameKey : " + tr.gameObject.name + "-" + mTransforms[key].gameObject.name);
+                return;
+            }
+
+            mTransforms.Add(key, tr);
+        }
+        public void Add(string key, GameObject oj)
+        {
+            if (mGameObject.ContainsKey(key))
+            {
+                Debug.LogError("SameKey : " + oj.gameObject.name + "-" + mGameObject[key].gameObject.name);
+                return;
+            }
+
+            mGameObject.Add(key, oj);
+        }
+        public void Add(string key, LocalizationView locailView)
+        {
+            if (mLocalization.ContainsKey(key))
+            {
+                Debug.LogError("SameKey : " + locailView.gameObject.name + "-" + mLocalization[key].gameObject.name);
+                return;
+            }
+            mLocalization.Add(key, locailView);
+        }
+        public void Add(string key, RectTransform rt)
+        {
+            if (mRectTransform.ContainsKey(key))
+            {
+                Debug.LogError("SameKey : " + rt.gameObject.name + "-" + mRectTransform[key].gameObject.name);
+                return;
+            }
+            mRectTransform.Add(key, rt);
+        }
+        public void Add(string key, UISkinner sk)
+        {
+            if (mSkinner.ContainsKey(key))
+            {
+                Debug.LogError("SameKey : " + sk.gameObject.name + "-" + mSkinner[key].gameObject.name);
+                return;
+            }
+            mSkinner.Add(key, sk);
+        }
 
         public void PlayAnimation(string key)
         {
-            if(mAnim.ContainsKey(key))
+            if (mAnim.ContainsKey(key))
             {
                 var anim = GetComponent<Animation>();
-                if(anim != null)
+                if (anim != null)
                 {
                     anim.clip = mAnim[key];
                     anim.Play();
@@ -74,6 +143,7 @@ namespace GB
             mImages.Clear();
             mTexts.Clear();
             mSkinner.Clear();
+            mLocalization.Clear();
         }
 
 
@@ -95,22 +165,21 @@ namespace GB
             UIManager.I.RegistUIScreen(this);
         }
 
-        public virtual void Initialize(){}
-        public virtual void Initialize(IUIData data){}
-        public virtual void Refresh(){}
-        public virtual void SetData(IUIData data){}
-        public virtual void BackKey(){if(UIType == ScreenType.POPUP) Close();}
-        public virtual void Close(){UIManager.ClosePopup(this);}
-        public override void ViewQuick(string key, IModel data){}
+        public virtual void Initialize() { }
+
+        public virtual void Refresh() { }
+        public virtual void SetData(IModel data) { }
+        public virtual void BackKey() { if (UIType == ScreenType.POPUP) Close(); }
+        public virtual void Close() { UIManager.ClosePopup(this); }
+        public override void ViewQuick(string key, IModel data) { }
     }
 
     public interface IScreen
     {
         public ScreenType UIType { get; }
-        public  void Initialize();
-        public void Initialize(IUIData data);
+
         public void Refresh();
-        public void SetData(IUIData data);
+        public void SetData(IModel data);
         void BackKey();
 
         void Close();

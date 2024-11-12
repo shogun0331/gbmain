@@ -206,7 +206,42 @@ namespace GB
             }
         }
 
-        private void LoadFromResources(string name, bool isPopup = false)
+        
+        public static void ShowPopup(string name,IModel data)
+        {
+            I.SortingPopup();
+
+            if (I._popupList.Count > 0)
+            {
+
+                if (I._popupList[0] == null)
+                {
+                    I._popupList.RemoveAt(0);
+                    ShowPopup(name);
+                    return;
+                }
+            }
+
+            if (I._UIScreenList.ContainsKey(name))
+            {
+                I._UIScreenList[name].gameObject.SetActive(true);
+
+                if (!I._popupList.Contains(I._UIScreenList[name]))
+                    I._popupList.Add(I._UIScreenList[name]);
+
+                I._UIScreenList[name].GetComponent<RectTransform>().SetAsLastSibling();
+                I.SortingPopup();
+
+                I._UIScreenList[name].SetData(data);
+            }
+            else
+            {
+                var screen = I.LoadFromResources(name, true);
+                screen.SetData(data);
+            }
+        }
+
+        private UIScreen LoadFromResources(string name, bool isPopup = false)
         {
 
             GameObject UIScreen = null;
@@ -226,7 +261,7 @@ namespace GB
             if (UIScreen == null)
             {
                 Debug.LogError(string.Format("can not load UI '{0}'", name));
-                return;
+                return null;
             }
 
             UIScreen = Instantiate(UIScreen);
@@ -241,11 +276,11 @@ namespace GB
             _UIScreenList.Add(name, UIScreen.GetComponent<UIScreen>());
             if (isPopup)
             {
-                UIScreen.GetComponent<UIScreen>().Initialize();
                 _popupList.Add(UIScreen.GetComponent<UIScreen>());
             }
  
             SortingPopup();
+            return UIScreen.GetComponent<UIScreen>();
         }
 
 

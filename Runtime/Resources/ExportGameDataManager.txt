@@ -155,6 +155,8 @@ $CASE$
 
 }
 
+public interface GameDataProb{}
+
 public abstract class GameData
 {
     public abstract double GetNumber(string row, string col);
