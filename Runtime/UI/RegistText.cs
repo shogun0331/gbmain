@@ -6,7 +6,6 @@ namespace GB
     public class RegistText : UIRegister
     {
         public string Key;
-        [Header("설명")]
         [TextArea] public string Infomation;
 
         public override void SetBind()

@@ -9,131 +9,73 @@ namespace GB
 
     public class FSM : MonoBehaviour
     {
-        public enum FSM_CallBack
-        {
-            OnEnable = 0,
-            OnDisable,
-            OnUpdate,
-            //OnLateUpdate,
-            //OnFixedUpdate
-        }
+         public enum CallBack { OnEnter, OnUpdate, OnExit }
+        protected FsmListener mCurrent;
+        [SerializeField] string _curState;
 
-        public static FSM Create(GameObject gameObject, List<Fsm_Func> fsm_Funcs)
+        public string State{get{return _curState;}}
+
+        protected Dictionary<string, FsmListener> mDictMachine;
+
+        public static FSM Create(GameObject obj)
         {
+            FSM machine = obj.AddComponent<FSM>();
             
-            FSM fsm = gameObject.AddComponent<FSM>();
-            fsm._currentState = -1;
-            fsm._dictActions = new Dictionary<int, Fsm_Func>();
-            fsm._isPlaying = false;
-            
-            for (int i = 0; i < fsm_Funcs.Count; ++i)
-                fsm._dictActions[fsm_Funcs[i].ID] = fsm_Funcs[i];
-
-            return fsm;
+            machine.mDictMachine = new Dictionary<string, FsmListener>();
+            return machine;
         }
 
-        int _currentState;
-        public int CurrentState { get { return _currentState; } }
-        [SerializeField] Dictionary<int, Fsm_Func> _dictActions;
-
-        [SerializeField] bool _isPlaying;
-
-        private  void OkEnable(FSM_CallBack call)
+        public FSM AddListener(Enum state, Action<CallBack> callback)
         {
-            if (_isPlaying == false) return;
-            if (_dictActions.ContainsKey(_currentState) == false) return;
+            string key = state.ToString();
 
-            _dictActions[_currentState].onEnable?.Invoke();
-        }
-
-        private void OkDisable(FSM_CallBack call)
-        {
-            if (_isPlaying == false) return;
-            if (_dictActions.ContainsKey(_currentState) == false) return;
-            _dictActions[_currentState].onDisable?.Invoke();
-        }
-
-        private void OkUpdate(FSM_CallBack call)
-        {
-            if (_isPlaying == false) return;
-            if (_dictActions.ContainsKey(_currentState) == false) return;
-
-            _dictActions[_currentState].onUpdate?.Invoke();
-        }
-
-        private void Update()
-        {
-            OkUpdate(FSM_CallBack.OnUpdate);
-        }
-
-        public void Play(int state = 0)
-        {
-            _isPlaying = true;
-            ChangeState(state);
-        }
-
-        public void Stop()
-        {
-            _currentState = -1;
-            _isPlaying = false;
-        }
-
-
-        //private void OkFixedUpdate(FSM_CallBack call)
-        //{
-        //    if (_isPlaying == false) return;
-        //    if (_dictActions.ContainsKey(_currentState) == false) return;
-
-        //    _dictActions[_currentState].onFixedUpdate?.Invoke();
-        //}
-
-        //private void OkLateUpdate(FSM_CallBack call)
-        //{
-        //if (_isPlaying == false) return;
-        //    if (_dictActions.ContainsKey(_currentState) == false) return;
-
-        //    _dictActions[_currentState].onLateUpdate?.Invoke();
-        //}
-
-        //private void FixedUpdate()
-        //{
-        //    OkFixedUpdate(FSM_CallBack.OnFixedUpdate);
-        //}
-
-        //private void LateUpdate()
-        //{
-        //    OkLateUpdate(FSM_CallBack.OnLateUpdate);
-        //}
-
-
-        public void ChangeState(int state)
-        {
-            bool isEnable = false;
-            
-            if (state != _currentState)
+            FsmListener listener = new FsmListener()
             {
-                OkDisable(FSM_CallBack.OnDisable);
-                isEnable = true;
-            }
+                OnEnter = () => { callback?.Invoke(CallBack.OnEnter); },
+                OnUpdate = () =>{callback?.Invoke(CallBack.OnUpdate);},
+                OnExit = () => { callback?.Invoke(CallBack.OnExit); },
+            };
 
-            _currentState = state;
+            mDictMachine[key] = listener;
+            return this;
+        }
 
-            if (isEnable)
+        public void AddListener(Enum state, FsmListener callback)
+        {
+            string key = state.ToString();
+            if (mDictMachine.ContainsKey(key))
+                mDictMachine[key] = callback;
+        }
+
+        public void SetState(Enum state)
+        {
+            string key = state.ToString();
+
+            if (mDictMachine.ContainsKey(key))
             {
-                OkEnable(FSM_CallBack.OnEnable);
+                if (key != _curState)
+                {
+                    mCurrent.OnExit?.Invoke();
+                    _curState = key;
+                    mCurrent = mDictMachine[key];
+                    mCurrent.OnEnter?.Invoke();
+                }
             }
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            mCurrent.OnUpdate?.Invoke();
         }
     
     }
 
-    public struct Fsm_Func
+    public struct FsmListener
     {
-        public int ID;
-        public Action onEnable;
-        public Action onDisable;
-        public Action onUpdate;
-        //public Action onFixedUpdate;
-        //public Action onLateUpdate;
+        public Action OnEnter;
+        public Action OnUpdate;
+        public Action OnExit;
     }
 
 }

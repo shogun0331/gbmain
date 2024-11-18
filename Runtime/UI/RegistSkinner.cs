@@ -8,7 +8,6 @@ namespace GB
 
         [SerializeField] UISkinner _skinner;
 
-        [Header("����")]
         [TextArea] public string Infomation;
         public override void SetBind()
         {

@@ -6,7 +6,6 @@ namespace GB
     {
         public string Key;
 
-        [Header("����")]
         [TextArea] public string Infomation;
 
 
