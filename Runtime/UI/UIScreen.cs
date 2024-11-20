@@ -168,7 +168,7 @@ namespace GB
         public virtual void Initialize() { }
 
         public virtual void Refresh() { }
-        public virtual void SetData(IModel data) { }
+        public virtual void SetData(object data) { }
         public virtual void BackKey() { if (UIType == ScreenType.POPUP) Close(); }
         public virtual void Close() { UIManager.ClosePopup(this); }
         public override void ViewQuick(string key, IModel data) { }
@@ -179,7 +179,7 @@ namespace GB
         public ScreenType UIType { get; }
 
         public void Refresh();
-        public void SetData(IModel data);
+        public void SetData(object data);
         void BackKey();
 
         void Close();

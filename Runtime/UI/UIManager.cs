@@ -26,11 +26,9 @@ namespace GB
         }
 
 
-        [Header("���̶���Ű �˾��� �θ� �̸��� �Է��ϼ���.")]
         [SerializeField] string _parentPopupName = "UIPopup";
 
 
-        [Header("�˾��� ������ ��θ� �Է��ϼ���. Resources.LoadAll(\"Path\")")]
         [SerializeField] string _PopupPath = "UI/Popup";
 
         private Dictionary<string, UIScreen> _UIScreenList = new Dictionary<string, UIScreen>();
@@ -205,9 +203,14 @@ namespace GB
                 I.LoadFromResources(name, true);
             }
         }
+        public static void SetData(string name,object data)
+        {
+            var screen = FindUIScreen(name);
+            if(screen != null) screen.SetData(data);
+        }
 
         
-        public static void ShowPopup(string name,IModel data)
+        public static void ShowPopup(string name,object data)
         {
             I.SortingPopup();
 
@@ -333,7 +336,6 @@ namespace GB
 
         private void Update()
         {
-            //��Ű ����
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 OnBackKey();
@@ -341,9 +343,6 @@ namespace GB
         }
 
     }
-
-    public interface IUIData { public string DataKey { get;} };
-
 
     public static class UiUtil
     {
