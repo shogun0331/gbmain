@@ -4,7 +4,6 @@ using QuickEye.Utility;
 using Newtonsoft.Json;
 using System;
 using NaughtyAttributes;
-using SystemInfo = UnityEngine.Device.SystemInfo;
 
 
 namespace GB

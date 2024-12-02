@@ -24,7 +24,7 @@ public class Editor_GSheet : EditorWindow
     }
 
     public static string url;
-    
+
     public static string sheetName;
     public static string validatorSheetName;
 
@@ -37,11 +37,11 @@ public class Editor_GSheet : EditorWindow
         EditorGUILayout.BeginHorizontal();
         sheetName = EditorGUILayout.TextField("SheetName", sheetName, GUILayout.Width(540f));
         EditorGUILayout.EndHorizontal();
-        
+
         EditorGUILayout.BeginHorizontal();
         url = EditorGUILayout.TextField("URL", url, GUILayout.Width(540f));
         EditorGUILayout.EndHorizontal();
-        
+
         if (GUILayout.Button("Add"))
         {
             if (string.IsNullOrEmpty(sheetName) || string.IsNullOrEmpty(url)) return;
@@ -54,10 +54,10 @@ public class Editor_GSheet : EditorWindow
         {
             EditorGUILayout.Space(10);
             EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(domain.SheetNameList[i], GUILayout.Width(300f));
 
-            EditorGUILayout.LabelField(domain.SheetNameList[i], GUILayout.Width(67.5f));
             string url = domain.GetURL(i);
-            if(string.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url))
             {
                 domain.Remove(i);
                 return;
@@ -66,10 +66,17 @@ public class Editor_GSheet : EditorWindow
 
             EditorGUILayout.LabelField(url, GUILayout.Width(270f));
 
+            if (GUILayout.Button("Save"))
+            {
+                SaveProb(i);
+                
+
+            }
+
             if (GUILayout.Button("Delete"))
             {
                 domain.Remove(i);
-                
+
             }
 
             EditorGUILayout.EndHorizontal();
@@ -80,8 +87,8 @@ public class Editor_GSheet : EditorWindow
         if (GUILayout.Button("SaveData"))
         {
             ButtonSaveJson();
-            if(domain.Count >0)
-            domain.Save();
+            if (domain.Count > 0)
+                domain.Save();
         }
 
         if (GUILayout.Button("SaveCS"))
@@ -113,6 +120,65 @@ public class Editor_GSheet : EditorWindow
 
         }
 
+
+    }
+
+    public void SaveProb(int idx)
+    {
+        string gbPath = Application.dataPath + "/" + "Scripts/GameData";
+        string classText = Resources.Load<TextAsset>("ExportClass").text;
+        
+        string url = domain.GetURL(idx);
+        string csv = UrlDownload(url);
+        var exData = PaserExecelData(domain.SheetNameList[idx], csv);
+        string classTemplate = classText;
+        classTemplate = classTemplate.Replace("$ClassName$", exData.SheetName);
+        classTemplate = classTemplate.Replace("$FIRSTPROPERTY$", exData.Rows[0]);
+
+
+        string caseKey = string.Empty;
+        string case1Key = string.Empty;
+        string case2Key = string.Empty;
+        for (int j = 0; j < exData.Rows.Count; ++j)
+        {
+
+            caseKey = string.Format("{0}\t\t\t\tcase {1}: return data.{2};\n",
+                caseKey,
+                j.ToString(),
+                exData.Rows[j]
+                );
+
+            case1Key = string.Format("{0}\t\t\t\tcase \"{1}\": return data.{1};\n",
+                case1Key,
+                exData.Rows[j]);
+
+            case2Key = string.Format("{0}\t\t\t\tcase \"{1}\": return true;\n",
+                case2Key,
+                exData.Rows[j]);
+        }
+
+        classTemplate = classTemplate.Replace("#CASE#", caseKey);
+        classTemplate = classTemplate.Replace("#CASE1#", case1Key);
+        classTemplate = classTemplate.Replace("#CASE2#", case2Key);
+        string pro = string.Empty;
+
+        for (int j = 0; j < exData.Rows.Count; ++j)
+        {
+            string tmp = string.Format("\t[JsonProperty] public readonly {0} {1};\n", exData.RowType[j], exData.Rows[j]);
+            pro = string.Format("{0}{1}", pro, tmp);
+
+        }
+        classTemplate = classTemplate.Replace("$DATAS$", pro);
+
+        
+        FileSave(gbPath, exData.SheetName + ".cs", classTemplate);
+
+
+        string path = Application.dataPath + "/" + "Resources/Json";
+        string data = GB.Gzip.Compression(PaserJson(csv));
+        FileSave(path, exData.SheetName + ".txt", data);
+        
+        
 
     }
 
@@ -149,7 +215,7 @@ public class Editor_GSheet : EditorWindow
     private void GSheetToValidator(int idx)
     {
         string url = domain.GetURL(idx);
-        if(string.IsNullOrEmpty( url))
+        if (string.IsNullOrEmpty(url))
         {
             domain.Remove(idx);
             return;
@@ -157,16 +223,16 @@ public class Editor_GSheet : EditorWindow
 
         string csv = UrlDownload(url);
 
-        if(csv == null)
+        if (csv == null)
         {
             domain.Remove(idx);
             return;
         }
-        
+
         string[] lines = csv.Split("\n");
         string[] propertyTypes = lines[1].Split(",");
         string[] keys = lines[0].Split(",");
-        
+
 
         for (int x = 1; x < propertyTypes.Length; ++x)
         {
@@ -276,7 +342,7 @@ public class Editor_GSheet : EditorWindow
         for (int i = 0; i < domain.Count; ++i)
         {
             string url = domain.GetURL(i);
-            if(string.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url))
             {
                 domain.Remove(i);
                 return;
@@ -285,7 +351,7 @@ public class Editor_GSheet : EditorWindow
             string csv = UrlDownload(url);
             string data = GB.Gzip.Compression(PaserJson(csv));
             FileSave(path, domain.SheetNameList[i] + ".txt", data);
-            
+
         }
         domain.Save();
 
@@ -294,21 +360,21 @@ public class Editor_GSheet : EditorWindow
     private void ButtonSaveCs()
     {
         string gbPath = Application.dataPath + "/" + "Scripts/GameData";
-        string classText = Resources.Load<TextAsset>("ExportClass").text; 
-        string dataManagerText = Resources.Load<TextAsset>("ExportGameDataManager").text; 
+        string classText = Resources.Load<TextAsset>("ExportClass").text;
+        string dataManagerText = Resources.Load<TextAsset>("ExportGameDataManager").text;
 
         List<ExData> exDataList = new List<ExData>();
         for (int i = 0; i < domain.Count; ++i)
         {
             string url = domain.GetURL(i);
-            if(string.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url))
             {
                 domain.Remove(i);
                 return;
             }
 
             string csv = UrlDownload(url);
-            
+
             var exData = PaserExecelData(domain.SheetNameList[i], csv);
             exDataList.Add(exData);
         }
@@ -390,7 +456,7 @@ public class Editor_GSheet : EditorWindow
         FileSave(gbPath, "GameDataManager.cs", managerTemplate);
         domain.Save();
 
-        
+
 
 
 
@@ -587,11 +653,11 @@ public class Editor_GSheet : EditorWindow
 
     private string UrlDownload(string url)
     {
-        
-        if(url == null)
+
+        if (url == null)
         {
             return null;
-        } 
+        }
 
 
         using (UnityWebRequest www = UnityWebRequest.Get(url))
@@ -620,7 +686,7 @@ public class GSheetDomain
 {
     public List<string> SheetNameList = new List<string>();
     public List<string> UrlList = new List<string>();
-    
+
     public int GetIndex(string sheetName)
     {
         for (int i = 0; i < SheetNameList.Count; ++i)
@@ -642,18 +708,18 @@ public class GSheetDomain
     {
         SheetNameList.Add(sheetName);
         UrlList.Add(Url);
-        
+
     }
 
     public void Remove(int index)
     {
         SheetNameList.RemoveAt(index);
         UrlList.RemoveAt(index);
-        
+
         Save();
     }
 
-    
+
 
     public string GetURL(int index)
     {
@@ -664,7 +730,7 @@ public class GSheetDomain
 
         try
         {
-        
+
             var arr = url.Split("/");
             var f = arr[6].Split("gid=");
 
@@ -676,7 +742,7 @@ public class GSheetDomain
         }
         catch
         {
-            Debug.LogError("URL Error : "+ url);
+            Debug.LogError("URL Error : " + url);
 
             return null;
         }

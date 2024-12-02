@@ -97,6 +97,7 @@ namespace GB
             _UIScreenList.Clear();
             _scene = null;
             _popupList.Clear();
+            TimerManager.I.Clear();
             
         }
 

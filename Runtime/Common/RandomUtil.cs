@@ -75,6 +75,29 @@ namespace GB
 		}
 
 		/// <summary>
+		/// Returns the random index of an array passed. Index random selection is based on array weights. Does not return the same index.
+		/// </summary>
+		public static int[] NextWeightedInd(int[] weights,int count)
+		{
+			List<int> idxList = new List<int>();
+			if(weights.Length < count) return null;
+			
+			for(int i = 0; i< int.MaxValue; ++i)
+			{
+				int idx = NextWeightedInd(weights);
+				bool found = idxList.Any(x => x == idx);
+				if(!found)
+				{
+					idxList.Add(i);					
+					if(idxList.Count == count) break;					
+				}
+			}
+			
+			return idxList.ToArray();
+			
+		}
+
+		/// <summary>
 		/// Return random index of passed array. Index random selection is based on array weights.
 		/// </summary>
 		public static int NextWeightedInd(float[] weights)
@@ -89,6 +112,33 @@ namespace GB
 			}
 			throw new Exception("Logic error!");
 		}
+
+		/// <summary>
+		/// Returns the random index of an array passed. Index random selection is based on array weights. Does not return the same index.
+		/// </summary>
+		public static int[] NextWeightedInd(float[] weights,int count)
+		{
+			List<int> idxList = new List<int>();
+			if(weights.Length < count) return null;
+			
+			int cnt = 0;
+
+			for(int i = 0; i< int.MaxValue; ++i)
+			{
+				int idx = NextWeightedInd(weights);
+				bool found = idxList.Any(x => x == idx);
+				if(!found)
+				{
+					idxList.Add(i);
+					cnt++;
+					if(cnt == count) break;					
+				}
+			}
+			
+			return idxList.ToArray();
+			
+		}
+
 
 		/// <summary>
 		/// Return sub-list of random items from origin list without repeating.
