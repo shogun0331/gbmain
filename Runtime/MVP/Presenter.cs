@@ -30,6 +30,15 @@ namespace GB
 
     public class Presenter : AutoSingleton<Presenter>
     {
+        void Awake()
+        {
+            if(I != null && I != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            DontDestroyOnLoad(this.gameObject);
+        }
         
         Dictionary<string, List<View>> _dicView = new Dictionary<string, List<View>>();
         public IReadOnlyDictionary<string, List<View>> Views { get { return _dicView; } }
