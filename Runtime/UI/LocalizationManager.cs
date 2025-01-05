@@ -66,6 +66,8 @@ namespace GB
         [SerializeField] Font _defaultFont;
         public Font GetFont()
         {
+            if(_fonts == null) return _defaultFont;
+
             if (_fonts.ContainsKey(_Language)) return _fonts[_Language];
             return _defaultFont;
         }

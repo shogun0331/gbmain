@@ -25,10 +25,17 @@ namespace GB
         public int IndexTrigger;
         public UnityEvent onTriggerEvent;
 
+        bool _isInit = false;
+
         void Awake()
         {
-            if(_animation == null) _animation = new SPRAnimationClip();
-            _animation.Init(GetComponent<SpriteRenderer>(),OnCallBack);
+            if(!_isInit)
+            {
+                if(_animation == null) _animation = new SPRAnimationClip();
+                _animation.Init(GetComponent<SpriteRenderer>(),OnCallBack);
+                _isInit = true;
+
+            }
             
         }
 
@@ -72,12 +79,28 @@ namespace GB
 
         public void Play()
         {
+            if(!_isInit)
+            {
+                if(_animation == null) _animation = new SPRAnimationClip();
+                _animation.Init(GetComponent<SpriteRenderer>(),OnCallBack);
+                _isInit = true;
+
+            }
+
             _animation.Play();
         }
         
 
         public void Play(string animationName)
         {
+            if(!_isInit)
+            {
+                if(_animation == null) _animation = new SPRAnimationClip();
+                _animation.Init(GetComponent<SpriteRenderer>(),OnCallBack);
+                _isInit = true;
+
+            }
+
             if(!_animations.ContainsKey(animationName)) return;
             _animation.SetSPRAnimationData(animationName,_animations[animationName]);
             _animation.Play();

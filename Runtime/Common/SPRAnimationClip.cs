@@ -47,7 +47,7 @@ public class SPRAnimationClip
     {
         if(_sprRender == null) 
         {
-              Debug.LogWarning("Animation Init(SpriteRenderer spriteRenderer,Action<State,int,TriggerData> callBack) : null");
+            Debug.LogWarning("Animation Init(SpriteRenderer spriteRenderer,Action<State,int,TriggerData> callBack) : null");
             return;
         }
         if(_Anim == null ) return;
