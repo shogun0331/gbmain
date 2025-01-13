@@ -75,7 +75,7 @@ namespace GB
 
         private void Awake()
         {
-            if (I != this)
+            if (I != null && I != this)
             {
                 Destroy(this.gameObject);
                 return;

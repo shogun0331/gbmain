@@ -160,7 +160,7 @@ namespace GB
             }
         }
 
-        private void Awake()
+        public void Regist()
         {
             UIManager.I.RegistUIScreen(this);
         }

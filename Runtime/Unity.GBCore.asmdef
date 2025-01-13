@@ -6,7 +6,8 @@
         "QuickEye.UI",
         "NaughtyAttributes.Core",
         "Unity.TextMeshPro",
-        "Aya.Tween"
+        "Aya.Tween",
+        "UnityUIExtensions"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
