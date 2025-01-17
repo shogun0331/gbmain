@@ -765,13 +765,16 @@ public class GSheetDomain
         string json = ToJson();
 
 
-        EditorPrefs.SetString("GSheetDomain", json);
+        PlayerPrefs.SetString("GSheetDomain", json);
+        
+
+        
 
     }
 
     public void Load()
     {
-        string json = EditorPrefs.GetString("GSheetDomain", null);
+        string json = PlayerPrefs.GetString("GSheetDomain", null);
 
         if (string.IsNullOrEmpty(json) == false)
             SetJson(json);
