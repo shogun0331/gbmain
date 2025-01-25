@@ -37,7 +37,7 @@ public class $POPUPNAME$ : UIScreen
 
         }
     }
-    public override void ViewQuick(string key, IModel data)
+    public override void ViewQuick(string key, IOData data)
     {
          
     }

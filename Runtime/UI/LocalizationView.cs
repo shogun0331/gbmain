@@ -202,7 +202,7 @@ namespace GB
         }
 
 
-        public override void ViewQuick(string key, IModel data)
+        public override void ViewQuick(string key, IOData data)
         {
             if (string.Equals(key, LocalizationKey))
             {

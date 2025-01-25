@@ -85,10 +85,7 @@ namespace GB
             I._dicView[domain].Remove(view);
         }
 
-
-        
-
-        public static void Send(string domain, string key, IModel data = null)
+        public static void Send(string domain, string key)
         {
             if (I._dicView.ContainsKey(domain) == false)
             {
@@ -105,19 +102,33 @@ namespace GB
             List<View> viewList = I._dicView[domain];
             for (int i = 0; i < viewList.Count; ++i)
             {
-                viewList[i].ViewQuick(key, data);
-             
+                viewList[i].ViewQuick(key, null);
+            }
+        }
+        
+
+        public static void Send<T>(string domain, string key, T data)
+        {
+            if (I._dicView.ContainsKey(domain) == false)
+            {
+                Debug.LogWarning("Presenter - None Domain : " + domain);
+                 return;
             }
 
-            
+            if (string.IsNullOrEmpty(key))
+            {
+                Debug.LogWarning("Presenter - Key : null - " + domain);
+                return;
+            }
+
+            List<View> viewList = I._dicView[domain];
+            for (int i = 0; i < viewList.Count; ++i)
+            {
+                viewList[i].ViewQuick(key, new OData<T>(data));
+            }
         }
 
-    
-  
-
     }
-
-    public interface IModel { }
 
 }
 

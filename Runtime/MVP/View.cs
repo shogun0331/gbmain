@@ -27,12 +27,12 @@ namespace GB
     /// THE SOFTWARE.
     public interface IView 
     {
-        void ViewQuick(string key, IModel data);
+        void ViewQuick(string key, IOData data);
     }
 
     public abstract class View : MonoBehaviour, IView
     {
-        public abstract void ViewQuick(string key, IModel data);
+        public abstract void ViewQuick(string key, IOData data);
   
     }
 }
