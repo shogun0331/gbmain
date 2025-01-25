@@ -82,6 +82,11 @@ namespace GB
             I._dictDatas.Clear();
             I._dicView.Clear();
         }
+        public static bool Contains(string key)
+        {
+            return I._dictDatas.ContainsKey(key);
+        }
+
 
     }
 
