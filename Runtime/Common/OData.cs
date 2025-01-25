@@ -4,6 +4,7 @@ namespace GB
     {
         private T _value;
 
+
         public OData(T value)
         {
             this._value = value;
@@ -20,6 +21,15 @@ namespace GB
         }
     }
 
-    public interface IOData { }
+    public interface IOData {}
+
+    public class ODataConverter
+    {
+        public static T Convert<T>(IOData iOdata)
+        {
+            OData<T> data = (OData<T>)iOdata;
+            return data.Get();
+        }
+    }
 }
 
