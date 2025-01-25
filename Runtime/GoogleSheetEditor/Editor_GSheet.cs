@@ -8,7 +8,8 @@ using UnityEngine.Networking;
 using System;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
-using System.Net.Http.Headers;
+using GB;
+
 
 
 public class Editor_GSheet : EditorWindow
@@ -23,32 +24,86 @@ public class Editor_GSheet : EditorWindow
         domain.Load();
     }
 
+    private void OnEnable()
+    {
+        domain.Load();
+    }
+
     public static string url;
+    public static string locailURL;
 
     public static string sheetName;
     public static string validatorSheetName;
 
+    private Vector2 scrollPosition;
+
     private void OnGUI()
     {
-        GUIStyle gUIStyle = new GUIStyle(GUI.skin.label);
+
+        //  ------------------------------ Header ----------------------------------------------------------
+        GUIStyle customHeaderStyle = new GUIStyle(GUI.skin.label);
+        customHeaderStyle.fontSize = 50;
+        customHeaderStyle.alignment = TextAnchor.MiddleCenter;
+        customHeaderStyle.margin = new RectOffset(0, 0, 0, 30);
+        customHeaderStyle.fontStyle = FontStyle.Bold;
+        GUILayout.BeginArea(new Rect(10, 20, position.width - 20, position.height - 20));
+        GUILayout.Label("GB Google Sheets", customHeaderStyle);
+        // //------------------------------------------------------------------
+
+        GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
+        buttonStyle.fontSize = 13;
+        buttonStyle.margin = new RectOffset(5, 5, 10, 10);
+        buttonStyle.fontStyle = FontStyle.Bold;
+        buttonStyle.alignment = TextAnchor.MiddleCenter;
+        buttonStyle.padding = new RectOffset(10, 10, 5, 5);
+
+
+
+        GUIStyle customSectionStyle = new GUIStyle(GUI.skin.label);
+        customSectionStyle.fontSize = 18;
+        customSectionStyle.alignment = TextAnchor.MiddleCenter;
+        customSectionStyle.fontStyle = FontStyle.Bold;
+
+
+        GUIStyle textstyle = new GUIStyle(GUI.skin.label);
+        textstyle.fontSize = 12;
+        GUIStyle textfieldstyle = new GUIStyle(GUI.skin.textField);
+        textfieldstyle.fontSize = 12;
+
+
+        GUILayout.BeginVertical("box");
         GUIStyle style = new GUIStyle();
         style.alignment = TextAnchor.LowerCenter;
         style.normal.textColor = Color.white;
         EditorGUILayout.BeginHorizontal();
-        sheetName = EditorGUILayout.TextField("SheetName", sheetName, GUILayout.Width(540f));
+        sheetName = EditorGUILayout.TextField("SheetName", sheetName, textfieldstyle, GUILayout.ExpandWidth(true));
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
-        url = EditorGUILayout.TextField("URL", url, GUILayout.Width(540f));
+        url = EditorGUILayout.TextField("URL", url, textfieldstyle, GUILayout.ExpandWidth(true));
         EditorGUILayout.EndHorizontal();
 
-        if (GUILayout.Button("Add"))
+        if (GUILayout.Button("Add", buttonStyle))
         {
             if (string.IsNullOrEmpty(sheetName) || string.IsNullOrEmpty(url)) return;
 
             domain.Add(sheetName, url);
             domain.Save();
         }
+        GUILayout.EndVertical();
+
+        GUILayout.Space(20);
+        GUI.backgroundColor = new Color(0.2f, 0.2f, 0.8f, 1.0f);
+        GUILayout.BeginVertical("box");
+        GUILayout.Label("GAME DATA TABLES", customSectionStyle);
+        GUILayout.EndVertical();
+        GUI.backgroundColor = Color.white;
+
+
+
+        GUILayout.BeginVertical("box");
+
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
         for (int i = 0; i < domain.Count; ++i)
         {
@@ -63,71 +118,148 @@ public class Editor_GSheet : EditorWindow
                 return;
             }
 
-
             EditorGUILayout.LabelField(url, GUILayout.Width(270f));
 
-            if (GUILayout.Button("Save"))
+            GUI.backgroundColor = new Color(0f, 1f, 0f, 1f);
+
+            if (GUILayout.Button("Download", GUILayout.Width(100)))
             {
                 SaveProb(i);
-                
-
             }
 
-            if (GUILayout.Button("Delete"))
+            GUI.backgroundColor = new Color(0f, 0f, 1f, 1f);
+
+
+            if (GUILayout.Button("Link", GUILayout.Width(100)))
+            {
+                domain.OpenURL(i);
+            }
+
+            GUI.backgroundColor = new Color(1f, 0f, 0f, 1f);
+
+            if (GUILayout.Button("X", GUILayout.Width(25)))
             {
                 domain.Remove(i);
-
             }
+            GUI.backgroundColor = Color.white;
+
 
             EditorGUILayout.EndHorizontal();
         }
+        GUILayout.EndScrollView();
 
-        EditorGUILayout.Space(30);
+        GUILayout.EndVertical();
 
-        if (GUILayout.Button("SaveData"))
+
+
+
+        if (domain.Count > 0)
         {
-            ButtonSaveJson();
-            if (domain.Count > 0)
-                domain.Save();
+            EditorGUILayout.Space(30);
+
+            GUI.backgroundColor = new Color(0f, 1f, 0.5f, 1f);
+
+            if (GUILayout.Button("All Download Data", buttonStyle))
+            {
+                ButtonSaveJson();
+                if (domain.Count > 0)
+                    domain.Save();
+            }
+
+            GUI.backgroundColor = new Color(0f, 0.5f, 0.7f, 1f);
+
+            if (GUILayout.Button("All Download CS", buttonStyle))
+            {
+                ButtonSaveCs();
+                if (domain.Count > 0)
+                    domain.Save();
+            }
+
+            GUI.backgroundColor = Color.white;
+
         }
 
-        if (GUILayout.Button("SaveCS"))
-        {
-            ButtonSaveCs();
-            if (domain.Count > 0)
-                domain.Save();
-        }
+        GUILayout.Space(20);
+        GUI.backgroundColor = new Color(0.2f, 0.2f, 0.8f, 1.0f);
+        GUILayout.BeginVertical("box");
+        GUILayout.Label("Localization TABLE", customSectionStyle);
+        GUILayout.EndVertical();
+        GUI.backgroundColor = Color.white;
 
-
-        EditorGUILayout.Space(10);
+        GUILayout.BeginVertical("box");
         EditorGUILayout.BeginHorizontal();
-
-        validatorSheetName = EditorGUILayout.TextField("ValidatorSheetName", validatorSheetName, GUILayout.Width(540f));
-        //EditorGUILayout.LabelField(domain.SheetNameList[i], GUILayout.Width(67.5f));
-
-        EditorGUILayout.EndHorizontal();
-        if (GUILayout.Button("Validator"))
+        locailURL = EditorGUILayout.TextField("URL", locailURL, textfieldstyle, GUILayout.ExpandWidth(true));
+        if (GUILayout.Button("Add"))
         {
-            int idx = domain.GetIndex(validatorSheetName);
-            if (idx != -1)
+            if (string.IsNullOrEmpty(locailURL)) return;
+            domain.LocailUrl = locailURL;
+            domain.Save();
+        }
+        EditorGUILayout.EndHorizontal();
+        GUILayout.EndVertical();
+
+        GUILayout.BeginVertical("box");
+
+        if (!string.IsNullOrEmpty(domain.LocailUrl))
+        {
+            EditorGUILayout.LabelField(domain.LocailUrl);
+            GUI.backgroundColor = new Color(0f, 1f, 0.5f, 1f);
+            if (GUILayout.Button("Download JSON", buttonStyle))
             {
-                GSheetToValidator(idx);
+                if (domain.Count > 0)
+                    domain.Save();
+
+                string tsv = UrlDownload(domain.GetURL_TSV(domain.LocailUrl));
+                string json = PaserTsvToJson(tsv);
+                string path = Application.dataPath + "/" + "Resources/Json";
+                FileSave(path, "TextTable.json", json);
+
             }
-            else
-            {
-                Debug.LogWarning("None SheetName");
-            }
+
+            GUI.backgroundColor = Color.white;
 
         }
+
+        GUILayout.EndVertical();
+
+
+        // EditorGUILayout.Space(10);
+        // EditorGUILayout.BeginHorizontal();
+
+        // validatorSheetName = EditorGUILayout.TextField("ValidatorSheetName", validatorSheetName, GUILayout.Width(540f));
+        // //EditorGUILayout.LabelField(domain.SheetNameList[i], GUILayout.Width(67.5f));
+
+        // EditorGUILayout.EndHorizontal();
+        // if (GUILayout.Button("Validator",buttonStyle))
+        // {
+        //     int idx = domain.GetIndex(validatorSheetName);
+        //     if (idx != -1)
+        //     {
+        //         GSheetToValidator(idx);
+        //     }
+        //     else
+        //     {
+        //         Debug.LogWarning("None SheetName");
+        //     }
+
+        // }
+
+
+        GUILayout.EndArea();
 
 
     }
+
+
+
+
+
 
     public void SaveProb(int idx)
     {
         string gbPath = Application.dataPath + "/" + "Scripts/GameData";
         string classText = Resources.Load<TextAsset>("ExportClass").text;
-        
+
         string url = domain.GetURL(idx);
         string csv = UrlDownload(url);
         var exData = PaserExecelData(domain.SheetNameList[idx], csv);
@@ -170,15 +302,15 @@ public class Editor_GSheet : EditorWindow
         }
         classTemplate = classTemplate.Replace("$DATAS$", pro);
 
-        
+
         FileSave(gbPath, exData.SheetName + ".cs", classTemplate);
 
 
         string path = Application.dataPath + "/" + "Resources/Json";
-        string data = GB.Gzip.Compression(PaserJson(csv));
+        string data = GB.Gzip.Compression(PaserCsvToJson(csv));
         FileSave(path, exData.SheetName + ".txt", data);
-        
-        
+
+
 
     }
 
@@ -349,7 +481,7 @@ public class Editor_GSheet : EditorWindow
             }
 
             string csv = UrlDownload(url);
-            string data = GB.Gzip.Compression(PaserJson(csv));
+            string data = GB.Gzip.Compression(PaserCsvToJson(csv));
             FileSave(path, domain.SheetNameList[i] + ".txt", data);
 
         }
@@ -541,7 +673,81 @@ public class Editor_GSheet : EditorWindow
     }
 
 
-    private string PaserJson(string csv)
+    private string PaserTsvToJson(string csv)
+        {
+
+            string json = string.Empty;
+            List<string> rowKeys = new List<string>();
+            List<string> columnKeys = new List<string>();
+            List<string> typeKeys = new List<string>();
+            List<string> values = new List<string>();
+
+
+            string[] columns = csv.Replace("\r", "").Split("\n");
+            string[] rowKeyArr = columns[0].Split("\t");
+            string[] typeKeyArr = columns[1].Split("\t");
+
+            for (int i = 1; i < typeKeyArr.Length; ++i)
+            {
+                if (string.IsNullOrEmpty(typeKeyArr[i])) break;
+
+                typeKeys.Add(typeKeyArr[i]);
+            }
+
+            for (int i = 1; i < rowKeyArr.Length; ++i)
+            {
+                if (string.IsNullOrEmpty(rowKeyArr[i])) break;
+
+                rowKeys.Add(rowKeyArr[i]);
+            }
+
+
+
+            for (int y = 0; y < columns.Length; ++y)
+            {
+                string[] rows = columns[y].Split("\t");
+                if (string.IsNullOrEmpty(rows[0])) continue;
+
+                for (int x = 0; x < rows.Length; ++x)
+                {
+                    if (y >= 3 && x == 0)
+                        columnKeys.Add(rows[x]);
+
+                    if (y >= 3 && x >= 1)
+                    {
+                        values.Add(rows[x].Replace("@COMMA",",").Replace("\\n","\n"));
+                    }
+                }
+            }
+
+
+            json = @"{""Datas"":[$DATAS$]}";
+            string datas = string.Empty;
+
+            for (int y = 0; y < columnKeys.Count; ++y)
+            {
+                Dictionary<string, object> dicData = new Dictionary<string, object>();
+                dicData.Add(rowKeyArr[0], columnKeys[y]);
+
+                for (int x = 0; x < rowKeys.Count; ++x)
+                {
+                    dicData.Add(rowKeys[x], GetObjType(typeKeys[x], values[y * rowKeys.Count + x]));
+
+                }
+
+                if (string.IsNullOrEmpty(datas))
+                    datas = JsonConvert.SerializeObject(dicData);
+                else
+                    datas = string.Format("{0},{1}", datas, JsonConvert.SerializeObject(dicData));
+            }
+
+
+            json = json.Replace("$DATAS$", datas);
+            return json;
+
+        }
+
+    private string PaserCsvToJson(string csv)
     {
         string json = string.Empty;
         List<string> rowKeys = new List<string>();
@@ -684,6 +890,7 @@ public class Editor_GSheet : EditorWindow
 [System.Serializable]
 public class GSheetDomain
 {
+    public string LocailUrl;
     public List<string> SheetNameList = new List<string>();
     public List<string> UrlList = new List<string>();
 
@@ -702,6 +909,7 @@ public class GSheetDomain
         var data = JsonConvert.DeserializeObject<GSheetDomain>(json);
         UrlList = data.UrlList;
         SheetNameList = data.SheetNameList;
+        LocailUrl = data.LocailUrl;
     }
 
     public void Add(string sheetName, string Url)
@@ -711,12 +919,41 @@ public class GSheetDomain
 
     }
 
+    public void OpenURL(int index)
+    {
+        Application.OpenURL(UrlList[index]);
+
+    }
+
     public void Remove(int index)
     {
         SheetNameList.RemoveAt(index);
         UrlList.RemoveAt(index);
 
         Save();
+    }
+
+    public string GetURL_TSV(string url)
+    {
+        if (string.IsNullOrEmpty(url))
+            return null;
+
+        try
+        {
+            var arr = url.Split("/");
+            var f = arr[6].Split("gid=");
+
+            string urlID = arr[5];
+            string gid = Regex.Replace(f[1], @"\D", "");
+
+            string URL_SHEET = $"https://docs.google.com/spreadsheets/d/$URL_ID$/export?format=tsv&gid=$GID$";
+            return URL_SHEET.Replace("$URL_ID$", urlID).Replace("$GID$", gid);
+        }
+        catch
+        {
+            Debug.LogError("URL Error : " + url);
+            return null;
+        }
     }
 
 
@@ -752,6 +989,7 @@ public class GSheetDomain
     public string ToJson()
     {
         GSheetDomain gsheet = new GSheetDomain();
+        gsheet.LocailUrl = LocailUrl;
         gsheet.UrlList = UrlList;
         gsheet.SheetNameList = SheetNameList;
         return JsonConvert.SerializeObject(gsheet);
@@ -761,23 +999,30 @@ public class GSheetDomain
 
     public void Save()
     {
-
         string json = ToJson();
 
+        string gbPath = Application.dataPath + "/" + "Scripts/GameData";
 
-        PlayerPrefs.SetString("GSheetDomain", json);
-        
+        DirectoryInfo info = new DirectoryInfo(gbPath);
+        if (info.Exists == false)
+            info.Create();
 
-        
+        string value = Gzip.Compression(json);
+
+        System.IO.File.WriteAllText(gbPath + "/O.txt", value);
+        UnityEditor.AssetDatabase.Refresh();
 
     }
 
     public void Load()
     {
-        string json = PlayerPrefs.GetString("GSheetDomain", null);
-
-        if (string.IsNullOrEmpty(json) == false)
+        string filePath = Application.dataPath + "/" + "Scripts/GameData/O.txt";
+        if (System.IO.File.Exists(filePath))
+        {
+            string data = System.IO.File.ReadAllText(filePath);
+            string json = Gzip.DeCompression(data);
             SetJson(json);
+        }
 
     }
 
