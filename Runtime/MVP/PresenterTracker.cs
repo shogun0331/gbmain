@@ -19,23 +19,32 @@ namespace GB
 
         private void OnGUI()
         {
-            GUIStyle gUIStyle = new GUIStyle(GUI.skin.label);
-            GUIStyle style = new GUIStyle();
+            var customHeaderStyle = CustomHeaderStyle();
+            var customSectionStyle = CustomSectionStyle();
+            var buttonStyle = ButtonSyle();
 
-       
+            GUILayout.BeginArea(new Rect(10, 20, position.width - 20, position.height - 20));
 
-            if (Application.isPlaying == false)
+            GUILayout.BeginVertical("box");
+            GUILayout.Label("GB Presenter", customHeaderStyle);
+            GUILayout.EndVertical();
+            if (!Application.isPlaying)
             {
-                GUILayout.Space(30);
-                EditorGUILayout.BeginHorizontal();
-                DrawLabel("Can only be tracked during play.", 40, Color.red, TextAnchor.MiddleCenter);
-                EditorGUILayout.EndHorizontal();
-                
+                GUI.backgroundColor = new Color(1f, 0f, 0f, 1.0f);
+                GUILayout.BeginVertical("box");
+                GUILayout.Label("No Playing...", customHeaderStyle);
+                GUILayout.EndVertical();
+                GUI.backgroundColor = Color.white;
+                GUILayout.EndArea();
                 return;
+
             }
 
+
+
             ViewBindsDraw();
-            
+            GUILayout.EndArea();
+
         }
 
 
@@ -47,6 +56,10 @@ namespace GB
             if (Presenter.I.Views == null) return;
 
             GUILayout.Space(30);
+
+            GUI.backgroundColor = Color.white;
+
+
             _viewScrollPos = GUILayout.BeginScrollView(_viewScrollPos);
             foreach (var v in Presenter.I.Views)
             {
@@ -90,6 +103,50 @@ namespace GB
             
             style.fontStyle = fStyle;
             GUILayout.Label(value, style);
+        }
+
+           GUIStyle CustomHeaderStyle()
+        {
+            GUIStyle style = new GUIStyle(GUI.skin.label);
+            style.fontSize = 50;
+            style.alignment = TextAnchor.MiddleCenter;
+            style.margin = new RectOffset(0, 0, 0, 30);
+            style.fontStyle = FontStyle.Bold;
+            return style;
+        }
+
+        GUIStyle CustomSectionStyle()
+        {
+            GUIStyle style = new GUIStyle(GUI.skin.label);
+            style.fontSize = 18;
+            style.alignment = TextAnchor.MiddleCenter;
+            style.fontStyle = FontStyle.Bold;
+            return style;
+        }
+
+        GUIStyle TextStyle()
+        {
+            GUIStyle style = new GUIStyle(GUI.skin.label);
+            style.fontSize = 12;
+            return style;
+        }
+        GUIStyle TextFiledSyle()
+        {
+            GUIStyle style = new GUIStyle(GUI.skin.textField);
+            style.fontSize = 12;
+            return style;
+        }
+        GUIStyle ButtonSyle()
+        {
+            GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
+            buttonStyle.fontSize = 13;
+            buttonStyle.margin = new RectOffset(5, 5, 10, 10);
+            buttonStyle.fontStyle = FontStyle.Bold;
+            buttonStyle.alignment = TextAnchor.MiddleCenter;
+            buttonStyle.padding = new RectOffset(10, 10, 5, 5);
+
+            return buttonStyle;
+
         }
     }
 }
