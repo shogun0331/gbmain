@@ -20,7 +20,6 @@ namespace GB
 
         private void OnEnable()
         {
-            Debug.Log("OnEnable");
             Load();
         }
 
