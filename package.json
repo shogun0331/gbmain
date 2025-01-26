@@ -6,5 +6,15 @@
   "keywords": [
     "service"
   ],
-  "description": "Garibong Core Package"
+  "description": "Garibong Core Package",
+  "scopedRegistries": [
+    {
+      "name": "GB Core",
+      "url": "https://github.com/shogun0331/gbmain", 
+      "scopes": [
+        "KJH"
+      ]
+    }
+    
+  ]
 }
