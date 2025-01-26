@@ -3,6 +3,7 @@
 using UnityEngine;
 using UnityEditor;
 using System;
+using UnityEngine.UI;
 
 namespace GB
 {
@@ -123,6 +124,30 @@ namespace GB
                 return ODataBaseManager.Get<GameObject>(key).name.ToString();
             else if(type == typeof(Transform))
                 return ODataBaseManager.Get<Transform>(key).gameObject.name.ToString();
+            else if(type == typeof(Vector2))
+                return ODataBaseManager.Get<Vector2>(key).ToString();
+            else if(type == typeof(Vector3))
+                return ODataBaseManager.Get<Vector3>(key).ToString();
+            else if(type == typeof(bool))
+                return ODataBaseManager.Get<bool>(key).ToString();
+            else if(type == typeof(SpriteRenderer))
+                return ODataBaseManager.Get<SpriteRenderer>(key).gameObject.name.ToString();
+            else if(type == typeof(Rigidbody))
+                return ODataBaseManager.Get<Rigidbody>(key).gameObject.name.ToString();
+            else if(type == typeof(Rigidbody2D))
+                return ODataBaseManager.Get<Rigidbody2D>(key).gameObject.name.ToString();
+            else if(type == typeof(BoxCollider))
+                return ODataBaseManager.Get<BoxCollider>(key).gameObject.name.ToString();
+            else if(type == typeof(BoxCollider2D))
+                return ODataBaseManager.Get<BoxCollider2D>(key).gameObject.name.ToString();
+            else if(type == typeof(CircleCollider2D))
+                return ODataBaseManager.Get<CircleCollider2D>(key).gameObject.name.ToString();
+            else if(type == typeof(Image))
+                return ODataBaseManager.Get<Image>(key).gameObject.name.ToString();
+            else if(type == typeof(RectTransform))
+                return ODataBaseManager.Get<RectTransform>(key).gameObject.name.ToString();
+            
+
                 
             return string.Empty;
 
