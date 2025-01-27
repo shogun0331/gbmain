@@ -15,7 +15,7 @@ public class UserDataManager : AutoSingleton<UserDataManager>
         DontDestroyOnLoad(this.gameObject);
     }
 
-    UserData _current = new UserData();
+    [SerializeField] UserData _current = new UserData();
     public static UserData Current {get{ return I._current;}}
 
     public static bool Load()
