@@ -44,8 +44,7 @@ public class UserDataManager : AutoSingleton<UserDataManager>
 
     public static void Save()
     {
-        if(I._current == null)
-        return;
+        if(I._current == null) I._current = new UserData();
         
         string json = I._current.ToJson();
         string gz = Gzip.Compression(json);

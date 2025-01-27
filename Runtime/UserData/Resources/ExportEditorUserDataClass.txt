@@ -21,6 +21,7 @@ namespace GB
         {
             Load();
         }
+        
 
         void Load()
         {
@@ -45,7 +46,7 @@ namespace GB
             GUILayout.BeginArea(new Rect(10, 20, position.width - 20, position.height - 20));
             GUILayout.Label("GB USER DATA", customHeaderStyle);
             
-            if (_UserData != null && _myUser != null)
+            if (GameObject.Find("UserDataManager") != null && _UserData != null && _myUser != null)
             {
                 GUILayout.BeginVertical("box");
                 
@@ -85,7 +86,15 @@ namespace GB
                     Debug.LogWarning($"Script not found at path: {scriptPath}");
             }
 
-            GUI.backgroundColor = Color.white;
+            GUI.backgroundColor = Color.white; 
+
+            if (GUILayout.Button("Setting", buttonStyle))
+            {
+                var userDataManager = UserDataManager.I;
+                Repaint();
+            }
+
+            
             GUILayout.EndArea();
         }
 
