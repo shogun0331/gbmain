@@ -24,6 +24,7 @@ namespace GB
 
         private Memo[] _SceneMemos;
         private List<GameObject> _MemoPrefabs;
+        private List<int> _ListMemoCount;
 
         void Load()
         {
@@ -35,6 +36,7 @@ namespace GB
         void FindAllPrefabs()
         {
             _MemoPrefabs = new List<GameObject>();
+            _ListMemoCount = new List<int>();
 
             string[] prefabGUIDs = AssetDatabase.FindAssets("t:prefab"); // 모든 프리팹의 GUID를 찾음
 
@@ -53,7 +55,10 @@ namespace GB
             {
                  var memos = prefabs[i].GetComponentsInChildren<Memo>(true);
                  if(memos != null && memos.Length > 0)
+                 {
                     _MemoPrefabs.Add(prefabs[i]);
+                    _ListMemoCount.Add(memos.Length);
+                 }
 
             }
 
@@ -143,6 +148,7 @@ namespace GB
             GUILayout.BeginHorizontal("box");
             GUI.backgroundColor = new Color(0f, 0f, 1f, 1.0f);
             EditorGUILayout.LabelField("Prefab", GUILayout.Width(150f));
+            EditorGUILayout.LabelField("Memo Count", GUILayout.Width(100f));
             EditorGUILayout.LabelField("Link", GUILayout.ExpandWidth(true));
             GUILayout.EndHorizontal();
             GUI.backgroundColor = Color.white;
@@ -165,6 +171,7 @@ namespace GB
                     EditorGUILayout.Space(10);
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField(_MemoPrefabs[i].gameObject.name, GUILayout.Width(150f));
+                    EditorGUILayout.LabelField(_ListMemoCount[i].ToString(), GUILayout.Width(100f));
                     GUI.backgroundColor = new Color(0f, 0f, 1f, 1f);
                     if (GUILayout.Button("Link", GUILayout.Width(100)))
                     {
