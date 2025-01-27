@@ -1,0 +1,138 @@
+#if UNITY_EDITOR
+using UnityEngine;
+using UnityEditor;
+
+namespace GB
+{
+    public class EditorUserData : EditorWindow
+    {
+        [MenuItem("GB/Core/UserData")]
+        static void init()
+        {
+            EditorWindow.GetWindow(typeof(EditorUserData));
+        }
+
+        void OnEnable()
+        {
+            Load();
+        }
+
+        private void OnFocus()
+        {
+            Load();
+        }
+
+        void Load()
+        {
+            if (GameObject.Find("UserDataManager") != null)
+            {
+                _serializedObject = new SerializedObject(UserDataManager.I);
+                _UserData = UserDataManager.Current;
+                _myUser = _serializedObject.FindProperty("_current");
+            }
+        }
+
+        private SerializedObject _serializedObject;
+        private SerializedProperty _myUser;
+        UserData _UserData;
+        private Vector2 scrollPosition;
+
+        private void OnGUI()
+        {
+            var customHeaderStyle = CustomHeaderStyle();
+            var buttonStyle = ButtonSyle();
+
+            GUILayout.BeginArea(new Rect(10, 20, position.width - 20, position.height - 20));
+            GUILayout.Label("GB USER DATA", customHeaderStyle);
+            
+            if (_UserData != null && _myUser != null)
+            {
+                GUILayout.BeginVertical("box");
+                
+                scrollPosition = GUILayout.BeginScrollView(scrollPosition);
+                    
+                _serializedObject.Update();
+                EditorGUILayout.PropertyField(_myUser);
+                _serializedObject.ApplyModifiedProperties();
+                GUILayout.EndScrollView();
+                GUILayout.EndVertical();
+            }
+
+            GUI.backgroundColor = new Color(1f, 0.5f, 0f, 1f);
+
+            if (GUILayout.Button("Save", buttonStyle))
+            {
+                UserDataManager.Save();
+            }
+
+            GUI.backgroundColor = new Color(0f, 0f, 1f, 1f);
+
+            if (GUILayout.Button("Load", buttonStyle))
+            {
+                UserDataManager.Load();
+                Repaint();
+            }
+
+            GUI.backgroundColor = new Color(0f, 1f, 1f, 1f);
+
+            if (GUILayout.Button("Open UserData", buttonStyle))
+            {
+                string scriptPath = "Assets/Scripts/UserData/UserData.cs"; // 열고 싶은 스크립트의 경로
+                Object scriptAsset = AssetDatabase.LoadAssetAtPath(scriptPath, typeof(MonoScript));
+                if (scriptAsset != null)
+                    AssetDatabase.OpenAsset(scriptAsset);
+                else
+                    Debug.LogWarning($"Script not found at path: {scriptPath}");
+            }
+
+            GUI.backgroundColor = Color.white;
+            GUILayout.EndArea();
+        }
+
+
+        GUIStyle CustomHeaderStyle()
+        {
+            GUIStyle style = new GUIStyle(GUI.skin.label);
+            style.fontSize = 50;
+            style.alignment = TextAnchor.MiddleCenter;
+            style.margin = new RectOffset(0, 0, 0, 30);
+            style.fontStyle = FontStyle.Bold;
+            return style;
+        }
+
+        GUIStyle CustomSectionStyle()
+        {
+            GUIStyle style = new GUIStyle(GUI.skin.label);
+            style.fontSize = 18;
+            style.alignment = TextAnchor.MiddleCenter;
+            style.fontStyle = FontStyle.Bold;
+            return style;
+        }
+
+        GUIStyle TextStyle()
+        {
+            GUIStyle style = new GUIStyle(GUI.skin.label);
+            style.fontSize = 12;
+            return style;
+        }
+        GUIStyle TextFiledSyle()
+        {
+            GUIStyle style = new GUIStyle(GUI.skin.textField);
+            style.fontSize = 12;
+            return style;
+        }
+        GUIStyle ButtonSyle()
+        {
+            GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
+            buttonStyle.fontSize = 13;
+            buttonStyle.margin = new RectOffset(5, 5, 10, 10);
+            buttonStyle.fontStyle = FontStyle.Bold;
+            buttonStyle.alignment = TextAnchor.MiddleCenter;
+            buttonStyle.padding = new RectOffset(10, 10, 5, 5);
+            return buttonStyle;
+
+        }
+    }
+}
+
+#endif
