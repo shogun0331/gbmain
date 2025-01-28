@@ -5,7 +5,8 @@
         "QuickEye.Utility",
         "QuickEye.UI",
         "NaughtyAttributes.Core",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "UnityUIExtensions"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
