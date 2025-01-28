@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Aya.Tween;
 using QuickEye.Utility;
 using UnityEngine;
 using UnityEngine.UI;

@@ -19,7 +19,6 @@ namespace GB
 
         [ShowIf("IsMove")][SerializeField] Vector3 _On_Scale = Vector3.one;
         [ShowIf("IsMove")][SerializeField] Vector3 _Off_Scale = Vector3.one;
-
         [ShowIf("IsMove")][SerializeField] float _gap;
 
         public bool IsMove() { return _IsScaleMove; }

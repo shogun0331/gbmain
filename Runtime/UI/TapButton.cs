@@ -1,7 +1,7 @@
 using System;
-using Aya.Tween;
 using QuickEye.Utility;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 
@@ -10,8 +10,8 @@ namespace GB
     [RequireComponent(typeof(Button))]
     public class TapButton : MonoBehaviour
     {
-        [SerializeField] TweenAnimation[] _On_TweenAnimations;
-        [SerializeField] TweenAnimation[] _Off_TweenAnimations;
+        [SerializeField] UnityEvent _OnEvent;
+        [SerializeField] UnityEvent _OffEvent;
 
         [SerializeField] USkin _OnSkin;
         [SerializeField] USkin _OffSkin;
@@ -51,23 +51,7 @@ namespace GB
         {
             if (isOn) return;
             isOn = true;
-
-            if (_Off_TweenAnimations != null)
-            {
-
-                for (int i = 0; i < _Off_TweenAnimations.Length; ++i)
-                    _Off_TweenAnimations[i].Stop();
-            }
-
-            if (_On_TweenAnimations != null)
-            {
-
-                for (int i = 0; i < _On_TweenAnimations.Length; ++i)
-                {
-
-                    _On_TweenAnimations[i].Play();
-                }
-            }
+            _OnEvent?.Invoke();
 
             if (_OnSkin != null) _OnSkin.Apply();
 
@@ -78,26 +62,7 @@ namespace GB
         {
             if (isOn == false) return;
             isOn = false;
-
-
-            if (_On_TweenAnimations != null)
-            {
-
-                for (int i = 0; i < _On_TweenAnimations.Length; ++i)
-                {
-
-                    _On_TweenAnimations[i].Stop();
-                }
-            }
-
-
-            if (_Off_TweenAnimations != null)
-            {
-
-                for (int i = 0; i < _Off_TweenAnimations.Length; ++i)
-                    _Off_TweenAnimations[i].Play();
-            }
-
+            _OffEvent?.Invoke();
 
             if (_OffSkin != null) _OffSkin.Apply();
 

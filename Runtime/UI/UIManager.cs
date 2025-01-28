@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -33,7 +32,7 @@ namespace GB
         [SerializeField] string _PopupPath = "UI/Popup";
 
         private Dictionary<string, UIScreen> _UIScreenList = new Dictionary<string, UIScreen>();
-        [SerializeField] private UIScreen _scene = new UIScreen();
+        private UIScreen _scene = new UIScreen();
         [SerializeField] List<UIScreen> _popupList = new List<UIScreen>();
 
         Transform _popupParent;
@@ -136,20 +135,10 @@ namespace GB
         /// ��������
         /// </summary>
         /// <param name="name">��ũ�� ����</param>
-        public static void Refresh(string name)
+        public static void RefreshUIScreen(string name)
         {
             if (I._UIScreenList.ContainsKey(name))
-            {
                  I._UIScreenList[name].Refresh();
-            }
-            else
-            {
-                if(I._scene != null)
-                {
-                    if(string.Equals( I._scene.name, name))
-                        I._scene.Refresh();
-                }
-            }
         }
 
 

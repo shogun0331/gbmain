@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
-using Aya.Tween;
+// using Aya.Tween;
 using UnityEngine.Events;
 
 namespace GB
@@ -27,7 +27,6 @@ namespace GB
 
 
         [SerializeField] float _delay = -1;
-        [SerializeField] TweenAnimation[] _BtnTweensAction;
         [SerializeField] UnityEvent _clickEvent;
 
         bool _isBtnAction;
@@ -120,11 +119,7 @@ namespace GB
                     _isBtnAction = true;
                     Timer.Create(_delay,Show);
 
-                    if(_BtnTweensAction != null)
-                    {
-                        for(int i = 0; i< _BtnTweensAction.Length; ++i)
-                            _BtnTweensAction[i].Play();
-                    }
+         
                 }
             }
             else
