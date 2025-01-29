@@ -8,25 +8,7 @@ using NaughtyAttributes;
 
 namespace GB
 {
-    public enum LanguageCode
-    {
-        English,
-        Korean,
-        Japanese,
-        ChineseSimplified,
-        ChineseTraditional,
-        German,
-        Spanish,
-        French,
-        Vietnamese,
-        Thai,
-        Russian,
-        Italian,
-        Portuguese,
-        Turkish,
-        Indonesian,
-        Hindi
-    }
+   
 
     [Serializable]
     public class LocalizationData
@@ -56,18 +38,15 @@ namespace GB
 
         [SerializeField] TextAsset _textAsset;
 
-        [OnValueChanged("ChangeLanguage")] [SerializeField]  LanguageCode _Language;
-        public LanguageCode Language { get { return _Language; } }
+        [OnValueChanged("ChangeLanguage")] [SerializeField]  SystemLanguage _Language;
+        public SystemLanguage Language { get { return _Language; } }
 
-       [SerializeField]  UnityDictionary<string, UnityDictionary<LanguageCode, string>> _Datas = new UnityDictionary<string, UnityDictionary<LanguageCode, string>>();
-
-        [SerializeField] UnityDictionary<LanguageCode, Font> _fonts;
+        [SerializeField]  UnityDictionary<string, UnityDictionary<SystemLanguage, string>> _Datas = new UnityDictionary<string, UnityDictionary<SystemLanguage, string>>();
+        [SerializeField] UnityDictionary<SystemLanguage, Font> _fonts;
 
         [SerializeField] Font _defaultFont;
         public Font GetFont()
         {
-            if(_fonts == null) return _defaultFont;
-
             if (_fonts.ContainsKey(_Language)) return _fonts[_Language];
             return _defaultFont;
         }
@@ -75,7 +54,7 @@ namespace GB
 
         private void Awake()
         {
-            if (I != null && I != this)
+            if (I != this)
             {
                 Destroy(this.gameObject);
                 return;
@@ -99,8 +78,6 @@ namespace GB
 
         public void PaserData(bool forece = false)
         {
-       
-
             if (forece == false)
             {
                 if (_Datas != null || _Datas.Count > 0) return;
@@ -110,31 +87,34 @@ namespace GB
                _textAsset  = Resources.Load<TextAsset>("Json/TextTable");
 
             if (_textAsset == null) return;
-
+       ;
             var d = JsonConvert.DeserializeObject<Dictionary<string, object>>(_textAsset.text);
-            var datas = JsonConvert.DeserializeObject<List<LocalizationData>>(d["Datas"].ToString());
-            _Datas = new UnityDictionary<string, UnityDictionary<LanguageCode, string>>();
+            var datas = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(d["Datas"].ToString());
+            _Datas = new UnityDictionary<string, UnityDictionary<SystemLanguage, string>>();
+
             for (int i = 0; i < datas.Count; ++i)
             {
-                var tmp = new UnityDictionary<LanguageCode, string>();
-                tmp.Add(LanguageCode.English, datas[i].English);
-                tmp.Add(LanguageCode.Korean, datas[i].Korean);
-                tmp.Add(LanguageCode.Japanese, datas[i].Japanese);
-                tmp.Add(LanguageCode.ChineseSimplified, datas[i].ChineseSimplified);
-                tmp.Add(LanguageCode.ChineseTraditional, datas[i].ChineseTraditional);
-                tmp.Add(LanguageCode.German, datas[i].German);
-                tmp.Add(LanguageCode.Spanish, datas[i].Spanish);
-                tmp.Add(LanguageCode.French, datas[i].French);
-                tmp.Add(LanguageCode.Vietnamese, datas[i].Vietnamese);
-                tmp.Add(LanguageCode.Thai, datas[i].Thai);
-                tmp.Add(LanguageCode.Russian, datas[i].Russian);
-                tmp.Add(LanguageCode.Italian, datas[i].Italian);
-                tmp.Add(LanguageCode.Portuguese, datas[i].Portuguese);
-                tmp.Add(LanguageCode.Turkish, datas[i].Turkish);
-                tmp.Add(LanguageCode.Indonesian, datas[i].Indonesian);
-                tmp.Add(LanguageCode.Hindi, datas[i].Hindi);
-                _Datas.Add(datas[i].TextID.ToString(), tmp);
-              
+                int idx = 0;
+                string dataKey = string.Empty;
+
+                foreach (var v in datas[i])
+                {
+                    if (idx == 0)
+                    {
+                        _Datas[v.Value] = new UnityDictionary<SystemLanguage, string>();
+                        dataKey = v.Value;
+                    }
+                    else
+                    {
+                        SystemLanguage language = GetLanguage(v.Key);
+                        if (language != SystemLanguage.Unknown)
+                            _Datas[dataKey][language] = v.Value;
+                        else
+                            Debug.Log("None Language : " + v.Key);
+                    }
+
+                    ++idx;
+                }
             }
             
         }
@@ -153,12 +133,10 @@ namespace GB
             }
 
             if (!I._Datas[id].ContainsKey(I._Language))
-                I._Language = LanguageCode.English;
-            
+                I._Language = SystemLanguage.English;
             
             string str = I._Datas[id][I._Language];
 
-            
             return str;
            
         }
@@ -169,7 +147,7 @@ namespace GB
         }
 
 
-        public static void ChangeLanguage(LanguageCode language)
+        public static void ChangeLanguage(SystemLanguage language)
         {
             I._Language = language;
 
@@ -183,7 +161,7 @@ namespace GB
         }
 
 
-        public void SetSystemLanguage(LanguageCode language)
+        public void SetSystemLanguage(SystemLanguage language)
         {
             _Language = language;
             ChangeLanguage(_Language);
@@ -194,115 +172,32 @@ namespace GB
 
         public void SetSystemLanguage(string language)
         {
-            _Language = LanguageCode.English;
+            _Language = GetLanguage(language);
+            if(_Language == SystemLanguage.Unknown)
+            _Language = SystemLanguage.English; 
         
-            if (language.Equals(LanguageCode.Korean.ToString())) _Language = LanguageCode.Korean;
-            else if (language.Equals(LanguageCode.Japanese.ToString())) _Language = LanguageCode.Japanese;
-            else if (language.Equals(LanguageCode.ChineseSimplified.ToString())) _Language = LanguageCode.ChineseSimplified;
-            else if (language.Equals(LanguageCode.ChineseTraditional.ToString())) _Language = LanguageCode.ChineseTraditional;
-            else if (language.Equals(LanguageCode.German.ToString())) _Language = LanguageCode.German;
-            else if (language.Equals(LanguageCode.Italian.ToString())) _Language = LanguageCode.Italian;
-            else if (language.Equals(LanguageCode.Spanish.ToString())) _Language = LanguageCode.Spanish;
-            else if (language.Equals(LanguageCode.French.ToString())) _Language = LanguageCode.French;
-            else if (language.Equals(LanguageCode.Indonesian.ToString())) _Language = LanguageCode.Indonesian;
-            else if (language.Equals(LanguageCode.Portuguese.ToString())) _Language = LanguageCode.Portuguese;
-            else if (language.Equals(LanguageCode.Vietnamese.ToString())) _Language = LanguageCode.Vietnamese;
-            else if (language.Equals(LanguageCode.Turkish.ToString())) _Language = LanguageCode.Turkish;
-            else if (language.Equals(LanguageCode.Thai.ToString())) _Language = LanguageCode.Thai;
-            else if (language.Equals(LanguageCode.Russian.ToString())) _Language = LanguageCode.Russian;
-            else if (language.Equals(LanguageCode.Hindi.ToString())) _Language = LanguageCode.Hindi;
-
-
             ChangeLanguage(_Language);
+        }
+        
+        SystemLanguage GetLanguage(string strLanguage)
+        {
+            int Length = (int)SystemLanguage.Unknown;
+
+            for (int i = 0; i < Length; ++i)
+            {
+                SystemLanguage lan = (SystemLanguage)i;
+                if (string.Equals(lan.ToString(), strLanguage))
+                    return lan;
+            }
+
+            return SystemLanguage.Unknown;
         }
 
 
         private void getSystemLanguage()
         {
-            SystemLanguage language = Application.systemLanguage;
-
-            switch (language)
-            {
-                case SystemLanguage.Korean:
-                    _Language = LanguageCode.Korean;
-                    break;
-
-                case SystemLanguage.English:
-                    _Language = LanguageCode.English;
-                    break;
-
-                case SystemLanguage.Japanese:
-                    _Language = LanguageCode.Japanese;
-                    break;
-
-                case SystemLanguage.ChineseSimplified:
-                    _Language = LanguageCode.ChineseSimplified;
-                    break;
-
-                case SystemLanguage.ChineseTraditional:
-                    _Language = LanguageCode.ChineseTraditional;
-                    break;
-
-                case SystemLanguage.German:
-                    _Language = LanguageCode.German;
-                    break;
-
-                case SystemLanguage.Spanish:
-                    _Language = LanguageCode.Spanish;
-
-                    break;
-
-                case SystemLanguage.French:
-                    _Language = LanguageCode.French;
-
-                    break;
-
-                case SystemLanguage.Vietnamese:
-                    _Language = LanguageCode.Vietnamese;
-
-                    break;
-
-                case SystemLanguage.Thai:
-                    _Language = LanguageCode.Thai;
-
-                    break;
-
-                case SystemLanguage.Russian:
-                    _Language = LanguageCode.Russian;
-
-                    break;
-
-                case SystemLanguage.Italian:
-                    _Language = LanguageCode.Italian;
-
-                    break;
-
-                case SystemLanguage.Portuguese:
-                    _Language = LanguageCode.Portuguese;
-
-                    break;
-
-                case SystemLanguage.Turkish:
-                    _Language = LanguageCode.Turkish;
-                    break;
-
-                case SystemLanguage.Indonesian:
-                    _Language = LanguageCode.Indonesian;
-
-                    break;
-
-                case SystemLanguage.Hindi:
-                    _Language = LanguageCode.Hindi;
-                    break;
-
-                default:
-                    _Language = LanguageCode.English;
-                    break;
-
-            }
-            
+            _Language= GetLanguage(Application.systemLanguage.ToString());
             PlayerPrefs.SetString("Language", _Language.ToString());
-
         }
 
 
