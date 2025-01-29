@@ -10,12 +10,42 @@ namespace GB
         [SerializeField] E _State;
         protected FSM mFSM;
         bool _isInit = false;
+        public E CurrentState {get{return _State;} }
+
+        public void ClearMacine()
+        {
+            if(mMacines == null)mMacines = new UnityDictionary<string, Machine>();
+            mMacines.Clear();
+
+        }
+
+        public Machine GetMacine()
+        {
+            if(mMacines.ContainsKey(_State.ToString()))
+                return mMacines[_State.ToString()];
+
+            return null;
+        }
+        
+        public Machine GetMacine(E state)
+        {
+            if(mMacines.ContainsKey(state.ToString()))
+                return mMacines[state.ToString()];
+
+            return null;
+        }
 
         protected void Init() 
         {
             CreateFSM<E>();
         }
+        public void SetMacine(string key, Machine macine)
+        {
+            if(mMacines == null)mMacines = new UnityDictionary<string, Machine>();
+            mMacines[key] = macine;
+        }
 
+        
         public void ChangeState(E state)
         {
             if(mFSM == null) return;

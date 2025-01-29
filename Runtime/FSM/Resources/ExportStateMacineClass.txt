@@ -1,0 +1,31 @@
+using GB;
+using UnityEngine;
+using NaughtyAttributes;
+
+public enum #KEYState{#STATES}
+public class #KEY : StateMachine<#KEYState>
+{
+    void Awake()
+    {
+        Init();
+    }
+
+    [Button]
+    void Setting()
+    {
+        ClearMacine();
+        #ADDComponent
+    }
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
