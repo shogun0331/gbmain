@@ -57,20 +57,20 @@ namespace GB
         /// ====================================
 
 
-        const string UNITASK_URL = "https://drive.usercontent.google.com/u/0/uc?id=1JaqM8W8QnokO-QFvC-CiF940wHlKr4aJ&export=download";
+        const string UNITASK_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/UniTask.2.5.10.unitypackage";
         const string UNITASK_DOC_URL = "https://github.com/Cysharp/UniTask/tree/master";
-        const string TWEEN_URL = "https://drive.usercontent.google.com/u/0/uc?id=1cEwlMHREdbUILowLeXmX-sqSTCvd7gIj&export=download";
+        const string TWEEN_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Tween.unitypackage";
         const string TWEEN_DOC_URL = "https://dotween.demigiant.com/";
-        const string AnimationSequencer_URL = "https://drive.usercontent.google.com/u/0/uc?id=1NitWKU5O1fSPZRRQTKg2g8wfa-OsuNTl&export=download";
+        const string AnimationSequencer_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/AnimationSequencer.unitypackage";
         const string AnimationSequencer_DOC_URL = "https://github.com/brunomikoski/Animation-Sequencer";
 
-        const string UnityMobileLocalizedAppTitle_URL = "https://drive.usercontent.google.com/u/0/uc?id=1CzIhDqe-phRi7b1wiMLF5mxll3qF9DuV&export=download";
+        const string UnityMobileLocalizedAppTitle_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/UnityMobileLocalizedAppTitle.unitypackage";
         const string UnityMobileLocalizedAppTitle_DOC_URL = "https://github.com/yasirkula/UnityMobileLocalizedAppTitle";
 
-        const string Vibration_URL = "https://drive.usercontent.google.com/u/0/uc?id=14Y5DgmCYQHYHTBOJAm8aAuoigjm9D4G9&export=download";
+        const string Vibration_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Vibration.unitypackage";
         const string Vibration_DOC_URL = "https://github.com/BenoitFreslon/Vibration";
 
-        const string UniRX_URL = "https://drive.usercontent.google.com/u/0/uc?id=1h90_V8X7sJ8W6SSyWtt_DB43vowBU3ut&export=download";
+        const string UniRX_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/UniRx.unitypackage";
         const string UniRX_DOC_URL = "https://github.com/neuecc/UniRx";
 
         const string PlayFab_URL = "https://aka.ms/PlayFabUnityEdEx";
