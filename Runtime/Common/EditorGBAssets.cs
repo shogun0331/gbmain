@@ -10,7 +10,7 @@ namespace GB
 {
     public class EditorGBAssets : EditorWindow
     {
-        [MenuItem("GB/Core/Assets Downloader")]
+        [MenuItem("GB/Assets Downloader")]
         static void init()
         {
             EditorWindow.GetWindow(typeof(EditorGBAssets));
