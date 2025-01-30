@@ -30,12 +30,18 @@ namespace GB
             InstalledCheckDict["UniTask"] = false;
             InstalledCheckDict["Tween"] = false;
             InstalledCheckDict["AnimationSequencer"] = false;
+            InstalledCheckDict["UnityMobileLocalizedAppTitle"] = false;
+            InstalledCheckDict["Vibration"] = false;
+            
 
             InstalledCheckDict["UniTask"] = Type.GetType("Cysharp.Threading.Tasks.UniTask, UniTask") != null;
             InstalledCheckDict["Tween"] = Type.GetType("DG.Tweening.DOTween, DOTween") != null;
             InstalledCheckDict["AnimationSequencer"] = Type.GetType("BrunoMikoski.AnimationSequencer.AnimationSequencerController, BrunoMikoski.AnimationSequencer") != null;
+            InstalledCheckDict["UnityMobileLocalizedAppTitle"] = Type.GetType("LocalizedAppTitle, LocalizedAppTitle.Runtime") != null;
+            InstalledCheckDict["Vibration"] = Type.GetType("Vibration, Assembly-CSharp") != null;
 
-            // Debug.Log( typeof(Cysharp.Threading.Tasks.UniTask).Assembly.GetName().Name);
+
+            // Debug.Log( typeof(Vibration).Assembly.GetName().Name);
         }
 
         Dictionary<string, bool> InstalledCheckDict = new Dictionary<string, bool>();
@@ -46,6 +52,17 @@ namespace GB
         const string TWEEN_DOC_URL = "https://dotween.demigiant.com/";
         const string AnimationSequencer_URL = "https://drive.usercontent.google.com/u/0/uc?id=1NitWKU5O1fSPZRRQTKg2g8wfa-OsuNTl&export=download";
         const string AnimationSequencer_DOC_URL = "https://github.com/brunomikoski/Animation-Sequencer";
+
+        const string UnityMobileLocalizedAppTitle_URL = "https://drive.usercontent.google.com/u/0/uc?id=1CzIhDqe-phRi7b1wiMLF5mxll3qF9DuV&export=download";
+        const string UnityMobileLocalizedAppTitle_DOC_URL = "https://github.com/yasirkula/UnityMobileLocalizedAppTitle";
+
+        const string Vibration_URL = "https://drive.usercontent.google.com/u/0/uc?id=14Y5DgmCYQHYHTBOJAm8aAuoigjm9D4G9&export=download";
+        const string Vibration_DOC_URL = "https://github.com/BenoitFreslon/Vibration";
+
+
+        
+
+        // https://drive.usercontent.google.com/u/0/uc?id=14Y5DgmCYQHYHTBOJAm8aAuoigjm9D4G9&export=download
 
         Vector2 scrollPos;
 
@@ -97,6 +114,11 @@ namespace GB
             DrawDownloadButton("Tween",TWEEN_URL,InstalledCheckDict["Tween"],TWEEN_DOC_URL);
             DrawDownloadButton("UniTask",UNITASK_URL,InstalledCheckDict["UniTask"],UNITASK_DOC_URL);
             DrawDownloadButton("AnimationSequencer",AnimationSequencer_URL,InstalledCheckDict["AnimationSequencer"],AnimationSequencer_DOC_URL);
+
+            DrawDownloadButton("UnityMobileLocalizedAppTitle",UnityMobileLocalizedAppTitle_URL,InstalledCheckDict["UnityMobileLocalizedAppTitle"],UnityMobileLocalizedAppTitle_DOC_URL);
+            DrawDownloadButton("Vibration",Vibration_URL,InstalledCheckDict["Vibration"],Vibration_DOC_URL);
+
+            
 
             GB.EditorGUIUtil.End_ScrollView();
             GB.EditorGUIUtil.End_Vertical();
