@@ -1,6 +1,8 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace GB
 {
@@ -21,21 +23,50 @@ namespace GB
         {
             Load();
         }
-        
+
 
         void Load()
         {
-            if (GameObject.Find("UserDataManager") != null)
+   
+            string path = Path.Combine(Application.persistentDataPath, "user_data.data");
+
+            if (File.Exists(path))
             {
-                _serializedObject = new SerializedObject(UserDataManager.I);
-                _UserData = UserDataManager.Current;
-                _myUser = _serializedObject.FindProperty("_current");
+                string gz = File.ReadAllText(path); // 파일에서 읽기
+                string json = Gzip.DeCompression(gz);
+                userData = JsonConvert.DeserializeObject<UserData>(json);
+
             }
+            else
+            {
+                userData = new UserData();
+            }
+
+
+            _serializedObject = new SerializedObject(this);
+            _myUser = _serializedObject.FindProperty("userData");
+            if (_myUser == null)
+                Debug.Log("_myUser == null");
+
+
         }
+
+        public void Save()
+        {
+            if(userData == null) userData= new UserData();
+            
+            string json = userData.ToJson();
+            string gz = Gzip.Compression(json);
+            string path = Path.Combine(Application.persistentDataPath, "user_data.data");
+            File.WriteAllText(path, gz); // 파일에 저장
+        }
+
+
+
 
         private SerializedObject _serializedObject;
         private SerializedProperty _myUser;
-        UserData _UserData;
+        public UserData userData = new UserData();
         private Vector2 scrollPosition;
 
         private void OnGUI()
@@ -45,13 +76,13 @@ namespace GB
 
             GUILayout.BeginArea(new Rect(10, 20, position.width - 20, position.height - 20));
             GUILayout.Label("GB USER DATA", customHeaderStyle);
-            
-            if (GameObject.Find("UserDataManager") != null && _UserData != null && _myUser != null)
+
+            if (userData != null && _myUser != null)
             {
                 GUILayout.BeginVertical("box");
-                
+
                 scrollPosition = GUILayout.BeginScrollView(scrollPosition);
-                    
+
                 _serializedObject.Update();
                 EditorGUILayout.PropertyField(_myUser);
                 _serializedObject.ApplyModifiedProperties();
@@ -63,14 +94,14 @@ namespace GB
 
             if (GUILayout.Button("Save", buttonStyle))
             {
-                UserDataManager.Save();
+                Save();
             }
 
             GUI.backgroundColor = new Color(0f, 0f, 1f, 1f);
 
             if (GUILayout.Button("Load", buttonStyle))
             {
-                UserDataManager.Load();
+                Load();
                 Repaint();
             }
 
@@ -86,15 +117,8 @@ namespace GB
                     Debug.LogWarning($"Script not found at path: {scriptPath}");
             }
 
-            GUI.backgroundColor = Color.white; 
+            GUI.backgroundColor = Color.white;
 
-            if (GUILayout.Button("Setting", buttonStyle))
-            {
-                var userDataManager = UserDataManager.I;
-                Repaint();
-            }
-
-            
             GUILayout.EndArea();
         }
 
