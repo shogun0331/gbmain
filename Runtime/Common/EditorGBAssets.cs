@@ -32,6 +32,10 @@ namespace GB
             InstalledCheckDict["AnimationSequencer"] = false;
             InstalledCheckDict["UnityMobileLocalizedAppTitle"] = false;
             InstalledCheckDict["Vibration"] = false;
+            InstalledCheckDict["UniRX"] = false;
+
+            InstalledCheckDict["Playfab"] = false;
+
             
 
             InstalledCheckDict["UniTask"] = Type.GetType("Cysharp.Threading.Tasks.UniTask, UniTask") != null;
@@ -40,11 +44,18 @@ namespace GB
             InstalledCheckDict["UnityMobileLocalizedAppTitle"] = Type.GetType("LocalizedAppTitle, LocalizedAppTitle.Runtime") != null;
             InstalledCheckDict["Vibration"] = Type.GetType("Vibration, Assembly-CSharp") != null;
 
+            InstalledCheckDict["UniRX"] = Type.GetType("UniRx.Observable, UniRx") != null;
+            InstalledCheckDict["Playfab"] = Type.GetType("PlayFab.PfEditor.ProgressBar, PlayFabEditorExtensions") != null;
 
-            // Debug.Log( typeof(Vibration).Assembly.GetName().Name);
+            // Debug.Log( typeof(PlayFab.PfEditor.ProgressBar).Assembly.GetName().Name);
         }
 
         Dictionary<string, bool> InstalledCheckDict = new Dictionary<string, bool>();
+
+        /// ====================================
+        /// Download
+        /// ====================================
+
 
         const string UNITASK_URL = "https://drive.usercontent.google.com/u/0/uc?id=1JaqM8W8QnokO-QFvC-CiF940wHlKr4aJ&export=download";
         const string UNITASK_DOC_URL = "https://github.com/Cysharp/UniTask/tree/master";
@@ -59,12 +70,26 @@ namespace GB
         const string Vibration_URL = "https://drive.usercontent.google.com/u/0/uc?id=14Y5DgmCYQHYHTBOJAm8aAuoigjm9D4G9&export=download";
         const string Vibration_DOC_URL = "https://github.com/BenoitFreslon/Vibration";
 
+        const string UniRX_URL = "https://drive.usercontent.google.com/u/0/uc?id=1h90_V8X7sJ8W6SSyWtt_DB43vowBU3ut&export=download";
+        const string UniRX_DOC_URL = "https://github.com/neuecc/UniRx";
 
-        
+        const string PlayFab_URL = "https://aka.ms/PlayFabUnityEdEx";
+        const string PlayFab_DOC_URL = "https://learn.microsoft.com/en-us/gaming/playfab/what-is-playfab";
 
-        // https://drive.usercontent.google.com/u/0/uc?id=14Y5DgmCYQHYHTBOJAm8aAuoigjm9D4G9&export=download
+
+        /// ====================================
+        /// LINK
+        /// ====================================
+
+        const string Spine_URL = "https://ko.esotericsoftware.com/spine-unity-download";
+        const string Firebase_URL = "https://github.com/firebase/firebase-unity-sdk/releases";
+        const string ADMOB_URL = "https://github.com/googleads/googleads-mobile-unity/releases";
+        const string GPGS_URL = "https://github.com/playgameservices/play-games-plugin-for-unity";
+        const string NHNGamePackageManager_URL = "https://github.com/nhn/gpm.unity?tab=readme-ov-file";
+
 
         Vector2 scrollPos;
+        Vector2 linkScrollPos;
 
         void DrawDownloadButton(string key, string url , bool installed,string docURL)
         {
@@ -94,6 +119,16 @@ namespace GB
 
         }
 
+         void DrawLinkButton(string key, string url)
+         {
+            GB.EditorGUIUtil.Start_Horizontal();
+            GB.EditorGUIUtil.DrawStyleLabel(key);
+            GB.EditorGUIUtil.BackgroundColor(Color.green);
+            if (GB.EditorGUIUtil.DrawButton("Link", GUILayout.Width(100))) Application.OpenURL(url);
+            GB.EditorGUIUtil.BackgroundColor(Color.white);
+            GB.EditorGUIUtil.End_Horizontal();
+         }
+
         private void OnGUI()
         {
 
@@ -113,12 +148,31 @@ namespace GB
 
             DrawDownloadButton("Tween",TWEEN_URL,InstalledCheckDict["Tween"],TWEEN_DOC_URL);
             DrawDownloadButton("UniTask",UNITASK_URL,InstalledCheckDict["UniTask"],UNITASK_DOC_URL);
+            DrawDownloadButton("UniRX",UniRX_URL,InstalledCheckDict["UniRX"],UniRX_DOC_URL);
             DrawDownloadButton("AnimationSequencer",AnimationSequencer_URL,InstalledCheckDict["AnimationSequencer"],AnimationSequencer_DOC_URL);
-
             DrawDownloadButton("UnityMobileLocalizedAppTitle",UnityMobileLocalizedAppTitle_URL,InstalledCheckDict["UnityMobileLocalizedAppTitle"],UnityMobileLocalizedAppTitle_DOC_URL);
             DrawDownloadButton("Vibration",Vibration_URL,InstalledCheckDict["Vibration"],Vibration_DOC_URL);
+            DrawDownloadButton("Playfab",PlayFab_URL,InstalledCheckDict["Playfab"],PlayFab_DOC_URL);
+            
+            GB.EditorGUIUtil.End_ScrollView();
+            GB.EditorGUIUtil.End_Vertical();
+
+
+            GB.EditorGUIUtil.BackgroundColor(Color.gray);
+            GB.EditorGUIUtil.Start_VerticalBox();
+            GB.EditorGUIUtil.DrawSectionStyleLabel("Link SDKs");
+            GB.EditorGUIUtil.End_Vertical();
+            GB.EditorGUIUtil.BackgroundColor(Color.white);
 
             
+            GB.EditorGUIUtil.Start_VerticalBox();
+            linkScrollPos = GB.EditorGUIUtil.Start_ScrollView(linkScrollPos);
+
+            DrawLinkButton("Spine Unity SDK",Spine_URL);
+            DrawLinkButton("Firebase Unity SDK",Firebase_URL);
+            DrawLinkButton("Admob Unity SDK",ADMOB_URL);
+            DrawLinkButton("Google Play Games plugin for Unity",GPGS_URL);
+            DrawLinkButton("NHN Game Package Manager for Unity",NHNGamePackageManager_URL);
 
             GB.EditorGUIUtil.End_ScrollView();
             GB.EditorGUIUtil.End_Vertical();
