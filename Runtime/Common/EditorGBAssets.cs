@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 using System;
+using DG.Tweening.Core;
 namespace GB
 {
     public class EditorGBAssets : EditorWindow
@@ -37,8 +38,12 @@ namespace GB
             InstalledCheckDict["InappManager"]  = false;
             InstalledCheckDict["AdmobManager"]  = false;
             InstalledCheckDict["PlayfabManager"] = false;
-            
+            InstalledCheckDict["AnimationBakingStudio"] = false;
+            InstalledCheckDict["MeshBaker"] = false;
+            InstalledCheckDict["NotchSolution"] = false;
+            InstalledCheckDict["Logs_Viewer"] = false;
 
+            
             
 
             InstalledCheckDict["UniTask"] = Type.GetType("Cysharp.Threading.Tasks.UniTask, UniTask") != null;
@@ -54,9 +59,12 @@ namespace GB
             InstalledCheckDict["InappManager"] = Type.GetType("GB.InappManager, Assembly-CSharp") != null && isUnityPurchasing;
             InstalledCheckDict["AdmobManager"] = Type.GetType("GB.AdmobManager, Assembly-CSharp") != null;
             InstalledCheckDict["PlayfabManager"] = Type.GetType("GB.PlayFabManager, Assembly-CSharp") != null;
-            
-             
+            InstalledCheckDict["AnimationBakingStudio"] = Type.GetType("ABS.Frame, Assembly-CSharp") != null;
+            InstalledCheckDict["MeshBaker"] = Type.GetType("DigitalOpus.MB.Core.MB_Utility, MeshBakerCore") != null;
+            InstalledCheckDict["NotchSolution"] = Type.GetType("E7.NotchSolution.MockupCanvas, E7.NotchSolution") != null;
+            InstalledCheckDict["Logs_Viewer"] =  Type.GetType("ReporterMessageReceiver, Assembly-CSharp") != null;
 
+            //  Debug.Log( typeof(ReporterMessageReceiver).Assembly.GetName().Name);
         }
 
         Dictionary<string, bool> InstalledCheckDict = new Dictionary<string, bool>();
@@ -88,6 +96,19 @@ namespace GB
         const string GBInapp_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Inapp.unitypackage";
         const string GBAdmob_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Admob.unitypackage";
         const string GBPlayfab_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/PlayfabExpansion.unitypackage";
+
+        const string AnimationBaking_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/AnimationBakingStudio.3Dto2D.unitypackage";
+        const string AnimationBaking_DOC_URL = "https://assetstore.unity.com/packages/tools/sprite-management/animation-baking-studio-3d-to-2d-31247";
+
+        const string MeshBaker_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/MeshBaker.unitypackage";
+        const string MeshBaker_DOC_URL = "https://assetstore.unity.com/packages/tools/modeling/mesh-baker-5017";
+
+        const string NotchSolution_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/NotchSolution.unitypackage";
+        const string NotchSolution_DOC_URL = "https://assetstore.unity.com/packages/tools/gui/notch-solution-157971";
+
+        const string Logs_Viewer_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Unity-Logs_Viewer.unitypackage";
+        const string Logs_Viewer_DOC_URL = "https://assetstore.unity.com/packages/tools/integration/log-viewer-12047";
+
         
 
 
@@ -205,6 +226,11 @@ namespace GB
             DrawDownloadButton("UnityMobileLocalizedAppTitle",UnityMobileLocalizedAppTitle_URL,InstalledCheckDict["UnityMobileLocalizedAppTitle"],UnityMobileLocalizedAppTitle_DOC_URL);
             DrawDownloadButton("Vibration",Vibration_URL,InstalledCheckDict["Vibration"],Vibration_DOC_URL);
             DrawDownloadButton("Playfab",PlayFab_URL,InstalledCheckDict["Playfab"],PlayFab_DOC_URL);
+            DrawDownloadButton("AnimationBakingStudio(2D to 3D)",AnimationBaking_URL,InstalledCheckDict["AnimationBakingStudio"],AnimationBaking_DOC_URL);
+            DrawDownloadButton("MeshBaker",MeshBaker_URL,InstalledCheckDict["MeshBaker"],MeshBaker_DOC_URL);
+            DrawDownloadButton("NotchSolution",NotchSolution_URL,InstalledCheckDict["NotchSolution"],NotchSolution_DOC_URL);
+            DrawDownloadButton("Logs_Viewer",Logs_Viewer_URL,InstalledCheckDict["Logs_Viewer"],Logs_Viewer_DOC_URL);
+            
 
             DrawGBPack_DownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"UnityEngine.Purchasing");
             DrawGBPack_DownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"GoogleMobileAds");
