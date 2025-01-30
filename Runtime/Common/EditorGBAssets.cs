@@ -102,6 +102,42 @@ namespace GB
         Vector2 scrollPos;
         Vector2 linkScrollPos;
 
+          void DrawGBPack_DownloadButton(string key, string url , bool installed,string installedDoc)
+        {
+            GB.EditorGUIUtil.Start_Horizontal();
+            GB.EditorGUIUtil.DrawStyleLabel(key);
+
+
+            if (!installed)
+            {
+                
+                GB.EditorGUIUtil.BackgroundColor(Color.green);
+                GB.EditorGUIUtil.DrawStyleLabel( installedDoc + " Expansion");
+                GB.EditorGUIUtil.BackgroundColor(Color.white);
+
+                GB.EditorGUIUtil.DrawStyleLabel("", GUILayout.Width(150));
+
+                if (GB.EditorGUIUtil.DrawButton("Download", GUILayout.Width(150))) DownloadPackage(url, key);
+            }
+            else
+            {
+               
+                
+                GB.EditorGUIUtil.BackgroundColor(Color.green);
+                GB.EditorGUIUtil.DrawStyleLabel( installedDoc + " Expansion");
+                GB.EditorGUIUtil.BackgroundColor(Color.white);
+
+                GB.EditorGUIUtil.DrawStyleLabel("Installed", GUILayout.Width(150));
+                GB.EditorGUIUtil.BackgroundColor(Color.cyan);
+                if (GB.EditorGUIUtil.DrawButton("ReDownload", GUILayout.Width(150))) DownloadPackage(url, key);
+                GB.EditorGUIUtil.BackgroundColor(Color.white);
+            }
+            GB.EditorGUIUtil.End_Horizontal();
+
+        }
+
+
+
         void DrawDownloadButton(string key, string url , bool installed,string docURL)
         {
             GB.EditorGUIUtil.Start_Horizontal();
@@ -166,8 +202,9 @@ namespace GB
             DrawDownloadButton("UnityMobileLocalizedAppTitle",UnityMobileLocalizedAppTitle_URL,InstalledCheckDict["UnityMobileLocalizedAppTitle"],UnityMobileLocalizedAppTitle_DOC_URL);
             DrawDownloadButton("Vibration",Vibration_URL,InstalledCheckDict["Vibration"],Vibration_DOC_URL);
             DrawDownloadButton("Playfab",PlayFab_URL,InstalledCheckDict["Playfab"],PlayFab_DOC_URL);
-            DrawDownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"");
-            DrawDownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"");
+
+            DrawGBPack_DownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"UnityEngine.Purchasing");
+            DrawGBPack_DownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"GoogleMobileAds");
             
             GB.EditorGUIUtil.End_ScrollView();
             GB.EditorGUIUtil.End_Vertical();
