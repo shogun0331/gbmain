@@ -185,7 +185,7 @@ namespace GB
         {
 
             GUILayout.BeginArea(new Rect(10, 20, position.width - 20, position.height - 20));
-            GB.EditorGUIUtil.DrawHeaderLabel("GB GB Asset");
+            GB.EditorGUIUtil.DrawHeaderLabel("GB Asset");
             GB.EditorGUIUtil.Space(5);
 
             GB.EditorGUIUtil.BackgroundColor(Color.blue);
