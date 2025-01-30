@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 using System;
+
 namespace GB
 {
     public class EditorGBAssets : EditorWindow
@@ -41,7 +42,7 @@ namespace GB
             InstalledCheckDict["MeshBaker"] = false;
             InstalledCheckDict["NotchSolution"] = false;
             InstalledCheckDict["Logs_Viewer"] = false;
-
+            InstalledCheckDict["ProCamera2D"] = false;
             
             
 
@@ -62,8 +63,9 @@ namespace GB
             InstalledCheckDict["MeshBaker"] = Type.GetType("DigitalOpus.MB.Core.MB_Utility, MeshBakerCore") != null;
             InstalledCheckDict["NotchSolution"] = Type.GetType("E7.NotchSolution.MockupCanvas, E7.NotchSolution") != null;
             InstalledCheckDict["Logs_Viewer"] =  Type.GetType("ReporterMessageReceiver, Assembly-CSharp") != null;
+            InstalledCheckDict["ProCamera2D"] =  Type.GetType("Com.LuisPedroFonseca.ProCamera2D.KDTree, ProCamera2D.Runtime") != null;
 
-            //  Debug.Log( typeof(ReporterMessageReceiver).Assembly.GetName().Name);
+            // Debug.Log( typeof(Com.LuisPedroFonseca.ProCamera2D.KDTree).Assembly.GetName().Name);
         }
 
         Dictionary<string, bool> InstalledCheckDict = new Dictionary<string, bool>();
@@ -107,6 +109,9 @@ namespace GB
 
         const string Logs_Viewer_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Unity-Logs_Viewer.unitypackage";
         const string Logs_Viewer_DOC_URL = "https://assetstore.unity.com/packages/tools/integration/log-viewer-12047";
+
+        const string ProCamera2D_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/ProCamera2D.unitypackage";
+        const string ProCamera2D_DOC_URL = "https://assetstore.unity.com/packages/2d/pro-camera-2d-the-definitive-2d-2-5d-camera-plugin-for-unity-42095";
 
         
 
@@ -229,8 +234,8 @@ namespace GB
             DrawDownloadButton("MeshBaker",MeshBaker_URL,InstalledCheckDict["MeshBaker"],MeshBaker_DOC_URL);
             DrawDownloadButton("NotchSolution",NotchSolution_URL,InstalledCheckDict["NotchSolution"],NotchSolution_DOC_URL);
             DrawDownloadButton("Logs_Viewer",Logs_Viewer_URL,InstalledCheckDict["Logs_Viewer"],Logs_Viewer_DOC_URL);
+            DrawDownloadButton("ProCamera2D",ProCamera2D_URL,InstalledCheckDict["ProCamera2D"],ProCamera2D_DOC_URL);
             
-
             DrawGBPack_DownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"UnityEngine.Purchasing");
             DrawGBPack_DownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"GoogleMobileAds");
             DrawGBPack_DownloadButton("GB PlayfabManager",GBPlayfab_URL,InstalledCheckDict["PlayfabManager"],"Playfab SDK");
