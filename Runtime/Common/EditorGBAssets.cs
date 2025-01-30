@@ -41,23 +41,35 @@ namespace GB
         Dictionary<string, bool> InstalledCheckDict = new Dictionary<string, bool>();
 
         const string UNITASK_URL = "https://drive.usercontent.google.com/u/0/uc?id=1JaqM8W8QnokO-QFvC-CiF940wHlKr4aJ&export=download";
+        const string UNITASK_DOC_URL = "https://github.com/Cysharp/UniTask/tree/master";
         const string TWEEN_URL = "https://drive.usercontent.google.com/u/0/uc?id=1cEwlMHREdbUILowLeXmX-sqSTCvd7gIj&export=download";
-        const string AnimationSequencer = "https://drive.usercontent.google.com/u/0/uc?id=1NitWKU5O1fSPZRRQTKg2g8wfa-OsuNTl&export=download";
+        const string TWEEN_DOC_URL = "https://dotween.demigiant.com/";
+        const string AnimationSequencer_URL = "https://drive.usercontent.google.com/u/0/uc?id=1NitWKU5O1fSPZRRQTKg2g8wfa-OsuNTl&export=download";
+        const string AnimationSequencer_DOC_URL = "https://github.com/brunomikoski/Animation-Sequencer";
 
         Vector2 scrollPos;
 
-        void DrawDownloadButton(string key, string url , bool installed)
+        void DrawDownloadButton(string key, string url , bool installed,string docURL)
         {
             GB.EditorGUIUtil.Start_Horizontal();
             GB.EditorGUIUtil.DrawStyleLabel(key);
+
+
             if (!installed)
             {
+                GB.EditorGUIUtil.BackgroundColor(Color.green);
+                if (GB.EditorGUIUtil.DrawButton("Link", GUILayout.Width(100))) Application.OpenURL(docURL);
+                GB.EditorGUIUtil.BackgroundColor(Color.white);
+
                 if (GB.EditorGUIUtil.DrawButton("Download", GUILayout.Width(150))) DownloadPackage(url, key);
             }
             else
             {
-                GB.EditorGUIUtil.BackgroundColor(Color.cyan);
+               
                 GB.EditorGUIUtil.DrawStyleLabel("Installed", GUILayout.Width(150));
+                GB.EditorGUIUtil.BackgroundColor(Color.green);
+                if (GB.EditorGUIUtil.DrawButton("Link", GUILayout.Width(100))) Application.OpenURL(docURL);
+                GB.EditorGUIUtil.BackgroundColor(Color.cyan);
                 if (GB.EditorGUIUtil.DrawButton("ReDownload", GUILayout.Width(150))) DownloadPackage(url, key);
                 GB.EditorGUIUtil.BackgroundColor(Color.white);
             }
@@ -82,9 +94,9 @@ namespace GB
             GB.EditorGUIUtil.Start_VerticalBox();
             scrollPos = GB.EditorGUIUtil.Start_ScrollView(scrollPos);
 
-            DrawDownloadButton("Tween",TWEEN_URL,InstalledCheckDict["Tween"]);
-            DrawDownloadButton("UniTask",UNITASK_URL,InstalledCheckDict["UniTask"]);
-            DrawDownloadButton("AnimationSequencer",AnimationSequencer,InstalledCheckDict["AnimationSequencer"]);
+            DrawDownloadButton("Tween",TWEEN_URL,InstalledCheckDict["Tween"],TWEEN_DOC_URL);
+            DrawDownloadButton("UniTask",UNITASK_URL,InstalledCheckDict["UniTask"],UNITASK_DOC_URL);
+            DrawDownloadButton("AnimationSequencer",AnimationSequencer_URL,InstalledCheckDict["AnimationSequencer"],AnimationSequencer_DOC_URL);
 
             GB.EditorGUIUtil.End_ScrollView();
             GB.EditorGUIUtil.End_Vertical();
