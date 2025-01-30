@@ -36,6 +36,7 @@ namespace GB
             InstalledCheckDict["Playfab"] = false;
             InstalledCheckDict["InappManager"]  = false;
             InstalledCheckDict["AdmobManager"]  = false;
+            InstalledCheckDict["PlayfabManager"] = false;
             
 
             
@@ -52,6 +53,7 @@ namespace GB
             bool isUnityPurchasing = Type.GetType("UnityEngine.Purchasing.IStoreController, UnityEngine.Purchasing") != null;
             InstalledCheckDict["InappManager"] = Type.GetType("GB.InappManager, Assembly-CSharp") != null && isUnityPurchasing;
             InstalledCheckDict["AdmobManager"] = Type.GetType("GB.AdmobManager, Assembly-CSharp") != null;
+            InstalledCheckDict["PlayfabManager"] = Type.GetType("GB.PlayfabManager, Assembly-CSharp") != null;
             
              
 
@@ -85,6 +87,7 @@ namespace GB
 
         const string GBInapp_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Inapp.unitypackage";
         const string GBAdmob_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Admob.unitypackage";
+        const string GBPlayfab_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/PlayfabExpansion.unitypackage";
         
 
 
@@ -205,6 +208,7 @@ namespace GB
 
             DrawGBPack_DownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"UnityEngine.Purchasing");
             DrawGBPack_DownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"GoogleMobileAds");
+            DrawGBPack_DownloadButton("GB PlayfabManager",GBPlayfab_URL,InstalledCheckDict["PlayfabManager"],"Playfab SDK");
             
             GB.EditorGUIUtil.End_ScrollView();
             GB.EditorGUIUtil.End_Vertical();
