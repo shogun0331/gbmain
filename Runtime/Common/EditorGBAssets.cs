@@ -5,7 +5,6 @@ using System.IO;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 using System;
-using DG.Tweening.Core;
 namespace GB
 {
     public class EditorGBAssets : EditorWindow
