@@ -33,8 +33,10 @@ namespace GB
             InstalledCheckDict["UnityMobileLocalizedAppTitle"] = false;
             InstalledCheckDict["Vibration"] = false;
             InstalledCheckDict["UniRX"] = false;
-
             InstalledCheckDict["Playfab"] = false;
+            InstalledCheckDict["InappManager"]  = false;
+            InstalledCheckDict["AdmobManager"]  = false;
+            
 
             
 
@@ -46,8 +48,13 @@ namespace GB
 
             InstalledCheckDict["UniRX"] = Type.GetType("UniRx.Observable, UniRx") != null;
             InstalledCheckDict["Playfab"] = Type.GetType("PlayFab.PfEditor.ProgressBar, PlayFabEditorExtensions") != null;
+            
+            bool isUnityPurchasing = Type.GetType("UnityEngine.Purchasing.IStoreController, UnityEngine.Purchasing") != null;
+            InstalledCheckDict["InappManager"] = Type.GetType("GB.InappManager, Assembly-CSharp") != null && isUnityPurchasing;
+            InstalledCheckDict["AdmobManager"] = Type.GetType("GB.AdmobManager, Assembly-CSharp") != null;
+            
+             
 
-            // Debug.Log( typeof(PlayFab.PfEditor.ProgressBar).Assembly.GetName().Name);
         }
 
         Dictionary<string, bool> InstalledCheckDict = new Dictionary<string, bool>();
@@ -76,6 +83,10 @@ namespace GB
         const string PlayFab_URL = "https://aka.ms/PlayFabUnityEdEx";
         const string PlayFab_DOC_URL = "https://learn.microsoft.com/en-us/gaming/playfab/what-is-playfab";
 
+        const string GBInapp_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Inapp.unitypackage";
+        const string GBAdmob_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Admob.unitypackage";
+        
+
 
         /// ====================================
         /// LINK
@@ -100,6 +111,7 @@ namespace GB
             if (!installed)
             {
                 GB.EditorGUIUtil.BackgroundColor(Color.green);
+                if(!string.IsNullOrEmpty( docURL))
                 if (GB.EditorGUIUtil.DrawButton("Link", GUILayout.Width(100))) Application.OpenURL(docURL);
                 GB.EditorGUIUtil.BackgroundColor(Color.white);
 
@@ -110,6 +122,7 @@ namespace GB
                
                 GB.EditorGUIUtil.DrawStyleLabel("Installed", GUILayout.Width(150));
                 GB.EditorGUIUtil.BackgroundColor(Color.green);
+                if(!string.IsNullOrEmpty( docURL))
                 if (GB.EditorGUIUtil.DrawButton("Link", GUILayout.Width(100))) Application.OpenURL(docURL);
                 GB.EditorGUIUtil.BackgroundColor(Color.cyan);
                 if (GB.EditorGUIUtil.DrawButton("ReDownload", GUILayout.Width(150))) DownloadPackage(url, key);
@@ -153,6 +166,8 @@ namespace GB
             DrawDownloadButton("UnityMobileLocalizedAppTitle",UnityMobileLocalizedAppTitle_URL,InstalledCheckDict["UnityMobileLocalizedAppTitle"],UnityMobileLocalizedAppTitle_DOC_URL);
             DrawDownloadButton("Vibration",Vibration_URL,InstalledCheckDict["Vibration"],Vibration_DOC_URL);
             DrawDownloadButton("Playfab",PlayFab_URL,InstalledCheckDict["Playfab"],PlayFab_DOC_URL);
+            DrawDownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"");
+            DrawDownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"");
             
             GB.EditorGUIUtil.End_ScrollView();
             GB.EditorGUIUtil.End_Vertical();
