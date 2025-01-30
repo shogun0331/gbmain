@@ -53,7 +53,7 @@ namespace GB
             bool isUnityPurchasing = Type.GetType("UnityEngine.Purchasing.IStoreController, UnityEngine.Purchasing") != null;
             InstalledCheckDict["InappManager"] = Type.GetType("GB.InappManager, Assembly-CSharp") != null && isUnityPurchasing;
             InstalledCheckDict["AdmobManager"] = Type.GetType("GB.AdmobManager, Assembly-CSharp") != null;
-            InstalledCheckDict["PlayfabManager"] = Type.GetType("GB.PlayfabManager, Assembly-CSharp") != null;
+            InstalledCheckDict["PlayfabManager"] = Type.GetType("GB.PlayFabManager, Assembly-CSharp") != null;
             
              
 
