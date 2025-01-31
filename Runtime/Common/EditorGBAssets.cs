@@ -45,6 +45,9 @@ namespace GB
             InstalledCheckDict["ProCamera2D"] = false;
             InstalledCheckDict["Resources"] = false;
             InstalledCheckDict["UserData"] = false;
+            InstalledCheckDict["Memo"] = false;
+            InstalledCheckDict["GSheet"] = false;
+            InstalledCheckDict["FSM"] = false;
             
             
 
@@ -69,8 +72,13 @@ namespace GB
             InstalledCheckDict["Resources"] = Type.GetType("GB.ResManager, Assembly-CSharp") != null;
             InstalledCheckDict["UserData"] = Type.GetType("GB.UserDataManager, Assembly-CSharp") != null;
 
+            InstalledCheckDict["Memo"] = Type.GetType("GB.Memo, Assembly-CSharp") != null;
+            InstalledCheckDict["GSheet"] = Type.GetType("GameDataManager, Assembly-CSharp") != null;
+            InstalledCheckDict["FSM"] = Type.GetType("GB.FSM, Assembly-CSharp") != null;
+            
 
-            // Debug.Log( typeof(Com.LuisPedroFonseca.ProCamera2D.KDTree).Assembly.GetName().Name);
+
+            // Debug.Log( typeof(GB.Editor_GSheet).Assembly.GetName().Name);
         }
 
         Dictionary<string, bool> InstalledCheckDict = new Dictionary<string, bool>();
@@ -120,6 +128,10 @@ namespace GB
 
         const string GBResources_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Resources.unitypackage";
         const string GBUserData_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/UserData.unitypackage";
+
+        const string Memo_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Memo.unitypackage";
+        const string GSheet_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/GSheet.unitypackage";
+        const string FSM_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/FSM.unitypackage";
 
         
 
@@ -244,8 +256,10 @@ namespace GB
             DrawDownloadButton("Logs_Viewer",Logs_Viewer_URL,InstalledCheckDict["Logs_Viewer"],Logs_Viewer_DOC_URL);
             DrawDownloadButton("ProCamera2D",ProCamera2D_URL,InstalledCheckDict["ProCamera2D"],ProCamera2D_DOC_URL);
 
-
-            DrawGBPack_DownloadButton("GB UserData",GBUserData_URL,InstalledCheckDict["UserData"],"");
+            DrawGBPack_DownloadButton("GB Google Sheets",GSheet_URL,InstalledCheckDict["GSheet"],"");
+            DrawGBPack_DownloadButton("GB UserData",GBUserData_URL,InstalledCheckDict["UserData"],"");            
+            DrawGBPack_DownloadButton("GB FSM",FSM_URL,InstalledCheckDict["FSM"],"");
+            DrawGBPack_DownloadButton("GB Memo",Memo_URL,InstalledCheckDict["Memo"],"");
             DrawGBPack_DownloadButton("GB Resources(Audio,Sprite,Prefab)",GBResources_URL,InstalledCheckDict["Resources"],"");
             DrawGBPack_DownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"UnityEngine.Purchasing");
             DrawGBPack_DownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"GoogleMobileAds");
