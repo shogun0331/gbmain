@@ -3,11 +3,12 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 using QuickEye.Utility;
+using System.Text.RegularExpressions;
+
 
 namespace GB
 {
@@ -117,6 +118,7 @@ namespace GB
             if (GB.EditorGUIUtil.DrawSyleButton("Load"))
             {
                 Load();
+                Repaint();
             }
             GB.EditorGUIUtil.BackgroundColor(Color.white);
             GUILayout.BeginVertical("box");
@@ -295,6 +297,158 @@ namespace GB
 
 
     }
+
+    
+
+[System.Serializable]
+public class GSheetDomain
+{
+    public string LocailUrl;
+    public List<string> SheetNameList = new List<string>();
+    public List<string> UrlList = new List<string>();
+
+    public int GetIndex(string sheetName)
+    {
+        for (int i = 0; i < SheetNameList.Count; ++i)
+        {
+            if (sheetName == SheetNameList[i])
+                return i;
+        }
+        return -1;
+    }
+
+    public void SetJson(string json)
+    {
+        var data = JsonConvert.DeserializeObject<GSheetDomain>(json);
+        UrlList = data.UrlList;
+        SheetNameList = data.SheetNameList;
+        LocailUrl = data.LocailUrl;
+    }
+
+    public void Add(string sheetName, string Url)
+    {
+        SheetNameList.Add(sheetName);
+        UrlList.Add(Url);
+
+    }
+
+    public void OpenURL(int index)
+    {
+        Application.OpenURL(UrlList[index]);
+
+    }
+
+    public void Remove(int index)
+    {
+        SheetNameList.RemoveAt(index);
+        UrlList.RemoveAt(index);
+
+        Save();
+    }
+
+    public string GetURL_TSV(string url)
+    {
+        if (string.IsNullOrEmpty(url))
+            return null;
+
+        try
+        {
+            var arr = url.Split("/");
+            var f = arr[6].Split("gid=");
+
+            string urlID = arr[5];
+            string gid = Regex.Replace(f[1], @"\D", "");
+
+            string URL_SHEET = $"https://docs.google.com/spreadsheets/d/$URL_ID$/export?format=tsv&gid=$GID$";
+            return URL_SHEET.Replace("$URL_ID$", urlID).Replace("$GID$", gid);
+        }
+        catch
+        {
+            Debug.LogError("URL Error : " + url);
+            return null;
+        }
+    }
+
+
+
+    public string GetURL(int index)
+    {
+        string url = UrlList[index];
+
+        if (string.IsNullOrEmpty(url))
+            return null;
+
+        try
+        {
+
+            var arr = url.Split("/");
+            var f = arr[6].Split("gid=");
+
+            string urlID = arr[5];
+            string gid = Regex.Replace(f[1], @"\D", "");
+
+            string URL_SHEET = $"https://docs.google.com/spreadsheets/d/$URL_ID$/export?format=csv&gid=$GID$";
+            return URL_SHEET.Replace("$URL_ID$", urlID).Replace("$GID$", gid);
+        }
+        catch
+        {
+            Debug.LogError("URL Error : " + url);
+
+            return null;
+        }
+
+    }
+
+    public string ToJson()
+    {
+        GSheetDomain gsheet = new GSheetDomain();
+        gsheet.LocailUrl = LocailUrl;
+        gsheet.UrlList = UrlList;
+        gsheet.SheetNameList = SheetNameList;
+        return JsonConvert.SerializeObject(gsheet);
+    }
+
+
+
+    public void Save()
+    {
+        string json = ToJson();
+
+        string gbPath = Application.dataPath + "/" + "Scripts/GameData";
+
+        DirectoryInfo info = new DirectoryInfo(gbPath);
+        if (info.Exists == false)
+            info.Create();
+
+        string value = Gzip.Compression(json);
+
+        System.IO.File.WriteAllText(gbPath + "/O.txt", value);
+        UnityEditor.AssetDatabase.Refresh();
+
+    }
+
+    public void Load()
+    {
+        string filePath = Application.dataPath + "/" + "Scripts/GameData/O.txt";
+        if (System.IO.File.Exists(filePath))
+        {
+            string data = System.IO.File.ReadAllText(filePath);
+            string json = Gzip.DeCompression(data);
+            SetJson(json);
+        }
+
+    }
+
+
+    public int Count
+    {
+        get
+        {
+            return UrlList.Count;
+        }
+    }
+
+}
 }
 
 #endif
