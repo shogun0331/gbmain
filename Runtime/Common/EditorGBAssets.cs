@@ -44,6 +44,7 @@ namespace GB
             InstalledCheckDict["Logs_Viewer"] = false;
             InstalledCheckDict["ProCamera2D"] = false;
             InstalledCheckDict["Resources"] = false;
+            InstalledCheckDict["UserData"] = false;
             
             
 
@@ -66,6 +67,8 @@ namespace GB
             InstalledCheckDict["Logs_Viewer"] =  Type.GetType("ReporterMessageReceiver, Assembly-CSharp") != null;
             InstalledCheckDict["ProCamera2D"] =  Type.GetType("Com.LuisPedroFonseca.ProCamera2D.KDTree, ProCamera2D.Runtime") != null;
             InstalledCheckDict["Resources"] = Type.GetType("GB.ResManager, Assembly-CSharp") != null;
+            InstalledCheckDict["UserData"] = Type.GetType("GB.UserDataManager, Assembly-CSharp") != null;
+
 
             // Debug.Log( typeof(Com.LuisPedroFonseca.ProCamera2D.KDTree).Assembly.GetName().Name);
         }
@@ -116,6 +119,7 @@ namespace GB
         const string ProCamera2D_DOC_URL = "https://assetstore.unity.com/packages/2d/pro-camera-2d-the-definitive-2d-2-5d-camera-plugin-for-unity-42095";
 
         const string GBResources_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Resources.unitypackage";
+        const string GBUserData_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/UserData.unitypackage";
 
         
 
@@ -240,6 +244,8 @@ namespace GB
             DrawDownloadButton("Logs_Viewer",Logs_Viewer_URL,InstalledCheckDict["Logs_Viewer"],Logs_Viewer_DOC_URL);
             DrawDownloadButton("ProCamera2D",ProCamera2D_URL,InstalledCheckDict["ProCamera2D"],ProCamera2D_DOC_URL);
 
+
+            DrawGBPack_DownloadButton("GB UserData",GBUserData_URL,InstalledCheckDict["UserData"],"");
             DrawGBPack_DownloadButton("GB Resources(Audio,Sprite,Prefab)",GBResources_URL,InstalledCheckDict["Resources"],"");
             DrawGBPack_DownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"UnityEngine.Purchasing");
             DrawGBPack_DownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"GoogleMobileAds");
