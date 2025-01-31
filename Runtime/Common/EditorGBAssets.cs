@@ -10,7 +10,7 @@ namespace GB
 {
     public class EditorGBAssets : EditorWindow
     {
-        [MenuItem("GB/Assets Downloader")]
+        [MenuItem("GB/Assets")]
         static void init()
         {
             EditorWindow.GetWindow(typeof(EditorGBAssets));
@@ -174,7 +174,7 @@ namespace GB
                
                 
                 GB.EditorGUIUtil.BackgroundColor(Color.green);
-                GB.EditorGUIUtil.DrawStyleLabel( installedDoc + " Expansion");
+                GB.EditorGUIUtil.DrawStyleLabel( installedDoc );
                 GB.EditorGUIUtil.BackgroundColor(Color.white);
 
                 GB.EditorGUIUtil.DrawStyleLabel("Installed", GUILayout.Width(150));
@@ -265,9 +265,9 @@ namespace GB
             DrawGBPack_DownloadButton("GB Resources(Audio,Sprite,Prefab)",GBResources_URL,InstalledCheckDict["Resources"],"");
             DrawGBPack_DownloadButton("GB SpriteAnimation",SpriteAnimation_URL,InstalledCheckDict["SpriteAnimation"],"");
 
-            DrawGBPack_DownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"UnityEngine.Purchasing");
-            DrawGBPack_DownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"GoogleMobileAds");
-            DrawGBPack_DownloadButton("GB PlayfabManager",GBPlayfab_URL,InstalledCheckDict["PlayfabManager"],"Playfab SDK");
+            DrawGBPack_DownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"UnityEngine.Purchasing Expansion");
+            DrawGBPack_DownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"GoogleMobileAds Expansion");
+            DrawGBPack_DownloadButton("GB PlayfabManager",GBPlayfab_URL,InstalledCheckDict["PlayfabManager"],"Playfab SDK Expansion");
             
             GB.EditorGUIUtil.End_ScrollView();
             GB.EditorGUIUtil.End_Vertical();
