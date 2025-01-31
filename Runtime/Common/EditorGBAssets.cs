@@ -48,6 +48,7 @@ namespace GB
             InstalledCheckDict["Memo"] = false;
             InstalledCheckDict["GSheet"] = false;
             InstalledCheckDict["FSM"] = false;
+            InstalledCheckDict["SpriteAnimation"] = false;
             
             
 
@@ -75,10 +76,10 @@ namespace GB
             InstalledCheckDict["Memo"] = Type.GetType("GB.Memo, Assembly-CSharp") != null;
             InstalledCheckDict["GSheet"] = Type.GetType("GameDataManager, Assembly-CSharp") != null;
             InstalledCheckDict["FSM"] = Type.GetType("GB.FSM, Assembly-CSharp") != null;
+            InstalledCheckDict["SpriteAnimation"] = Type.GetType("GB.SPRAnimation, Assembly-CSharp") != null;
             
 
-
-            // Debug.Log( typeof(GB.Editor_GSheet).Assembly.GetName().Name);
+            // Debug.Log( typeof(GB.SPRAnimation).Assembly.GetName().Name);
         }
 
         Dictionary<string, bool> InstalledCheckDict = new Dictionary<string, bool>();
@@ -132,6 +133,7 @@ namespace GB
         const string Memo_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Memo.unitypackage";
         const string GSheet_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/GSheet.unitypackage";
         const string FSM_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/FSM.unitypackage";
+        public string SpriteAnimation_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/SpriteAnimation.unitypackage";
 
         
 
@@ -261,6 +263,8 @@ namespace GB
             DrawGBPack_DownloadButton("GB FSM",FSM_URL,InstalledCheckDict["FSM"],"");
             DrawGBPack_DownloadButton("GB Memo",Memo_URL,InstalledCheckDict["Memo"],"");
             DrawGBPack_DownloadButton("GB Resources(Audio,Sprite,Prefab)",GBResources_URL,InstalledCheckDict["Resources"],"");
+            DrawGBPack_DownloadButton("GB SpriteAnimation",SpriteAnimation_URL,InstalledCheckDict["SpriteAnimation"],"");
+
             DrawGBPack_DownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"UnityEngine.Purchasing");
             DrawGBPack_DownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"GoogleMobileAds");
             DrawGBPack_DownloadButton("GB PlayfabManager",GBPlayfab_URL,InstalledCheckDict["PlayfabManager"],"Playfab SDK");
