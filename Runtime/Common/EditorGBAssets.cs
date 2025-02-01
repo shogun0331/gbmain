@@ -49,6 +49,9 @@ namespace GB
             InstalledCheckDict["GSheet"] = false;
             InstalledCheckDict["FSM"] = false;
             InstalledCheckDict["SpriteAnimation"] = false;
+            InstalledCheckDict["GBSpine"] = false;
+
+            
             
             
 
@@ -61,22 +64,24 @@ namespace GB
             InstalledCheckDict["UniRX"] = Type.GetType("UniRx.Observable, UniRx") != null;
             InstalledCheckDict["Playfab"] = Type.GetType("PlayFab.PfEditor.ProgressBar, PlayFabEditorExtensions") != null;
             
-            bool isUnityPurchasing = Type.GetType("UnityEngine.Purchasing.IStoreController, UnityEngine.Purchasing") != null;
-            InstalledCheckDict["InappManager"] = Type.GetType("GB.InappManager, Assembly-CSharp") != null && isUnityPurchasing;
-            InstalledCheckDict["AdmobManager"] = Type.GetType("GB.AdmobManager, Assembly-CSharp") != null;
-            InstalledCheckDict["PlayfabManager"] = Type.GetType("GB.PlayFabManager, Assembly-CSharp") != null;
             InstalledCheckDict["AnimationBakingStudio"] = Type.GetType("ABS.Frame, Assembly-CSharp") != null;
             InstalledCheckDict["MeshBaker"] = Type.GetType("DigitalOpus.MB.Core.MB_Utility, MeshBakerCore") != null;
             InstalledCheckDict["NotchSolution"] = Type.GetType("E7.NotchSolution.MockupCanvas, E7.NotchSolution") != null;
             InstalledCheckDict["Logs_Viewer"] =  Type.GetType("ReporterMessageReceiver, Assembly-CSharp") != null;
             InstalledCheckDict["ProCamera2D"] =  Type.GetType("Com.LuisPedroFonseca.ProCamera2D.KDTree, ProCamera2D.Runtime") != null;
+
             InstalledCheckDict["Resources"] = Type.GetType("GB.ResManager, Assembly-CSharp") != null;
             InstalledCheckDict["UserData"] = Type.GetType("GB.UserDataManager, Assembly-CSharp") != null;
-
             InstalledCheckDict["Memo"] = Type.GetType("GB.Memo, Assembly-CSharp") != null;
             InstalledCheckDict["GSheet"] = Type.GetType("GameDataManager, Assembly-CSharp") != null;
             InstalledCheckDict["FSM"] = Type.GetType("GB.FSM, Assembly-CSharp") != null;
-            InstalledCheckDict["SpriteAnimation"] = Type.GetType("GB.SPRAnimation, Assembly-CSharp") != null;
+            InstalledCheckDict["SpriteAnimation"] = Type.GetType("GB.SPRAnimation, Assembly-CSharp") != null;            
+            InstalledCheckDict["InappManager"] = Type.GetType("GB.InappManager, Assembly-CSharp") != null;
+            InstalledCheckDict["AdmobManager"] = Type.GetType("GB.AdmobManager, Assembly-CSharp") != null;            
+            InstalledCheckDict["PlayfabManager"] = Type.GetType("GB.PlayFabManager, Assembly-CSharp") != null;
+
+            InstalledCheckDict["GBSpine"] = Type.GetType("GB.SpineRemote, Assembly-CSharp") != null;
+          
             
 
             // Debug.Log( typeof(GB.SPRAnimation).Assembly.GetName().Name);
@@ -134,8 +139,7 @@ namespace GB
         const string GSheet_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/GSheet.unitypackage";
         const string FSM_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/FSM.unitypackage";
         public string SpriteAnimation_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/SpriteAnimation.unitypackage";
-
-        
+        public string GB_Spine_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/GBSpine.unitypackage";
 
 
         /// ====================================
@@ -162,7 +166,7 @@ namespace GB
             {
                 
                 GB.EditorGUIUtil.BackgroundColor(Color.green);
-                GB.EditorGUIUtil.DrawStyleLabel( installedDoc);
+                GB.EditorGUIUtil.DrawStyleLabel( installedDoc + " Expansion");
                 GB.EditorGUIUtil.BackgroundColor(Color.white);
 
                 GB.EditorGUIUtil.DrawStyleLabel("", GUILayout.Width(150));
@@ -264,7 +268,7 @@ namespace GB
             DrawGBPack_DownloadButton("GB Memo",Memo_URL,InstalledCheckDict["Memo"],"");
             DrawGBPack_DownloadButton("GB Resources(Audio,Sprite,Prefab)",GBResources_URL,InstalledCheckDict["Resources"],"");
             DrawGBPack_DownloadButton("GB SpriteAnimation",SpriteAnimation_URL,InstalledCheckDict["SpriteAnimation"],"");
-
+            DrawGBPack_DownloadButton("GB Spine",GB_Spine_URL,InstalledCheckDict["GBSpine"],"Spine Expansion");
             DrawGBPack_DownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"UnityEngine.Purchasing Expansion");
             DrawGBPack_DownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"GoogleMobileAds Expansion");
             DrawGBPack_DownloadButton("GB PlayfabManager",GBPlayfab_URL,InstalledCheckDict["PlayfabManager"],"Playfab SDK Expansion");
