@@ -1,6 +1,7 @@
 
 #if UNITY_EDITOR
 
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ namespace GB.Edit
         private double m_lastFrameEditorTime = 0;
         public float currentTime;
         public bool isPlaying { get; private set; }
+        public float speed = 1;
+        public Action func;
 
         public TimeControl()
         {
@@ -33,8 +36,8 @@ namespace GB.Edit
                 var timeSinceStartup = EditorApplication.timeSinceStartup;
                 var deltaTime = timeSinceStartup - m_lastFrameEditorTime;
                 m_lastFrameEditorTime = timeSinceStartup;
-
-                currentTime += (float)deltaTime;
+                currentTime += (float)deltaTime * speed * 2;
+                func?.Invoke();
             }
         }
     }
