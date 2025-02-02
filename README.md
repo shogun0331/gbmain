@@ -6,7 +6,7 @@ Experience a touching GB framework.
 
 ## Guide
 
-  [Guide](https://trello.com/b/5SNwyrZJ/gb-framework)
+  [Guide](https://gb-framework.gitbook.io/gb-framework-docs)
 
 ## Installation
 
