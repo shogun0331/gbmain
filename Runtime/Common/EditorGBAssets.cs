@@ -166,7 +166,7 @@ namespace GB
             {
                 
                 GB.EditorGUIUtil.BackgroundColor(Color.green);
-                GB.EditorGUIUtil.DrawStyleLabel( installedDoc + " Expansion");
+                GB.EditorGUIUtil.DrawStyleLabel( installedDoc );
                 GB.EditorGUIUtil.BackgroundColor(Color.white);
 
                 GB.EditorGUIUtil.DrawStyleLabel("", GUILayout.Width(150));
