@@ -45,29 +45,6 @@ namespace GB
             if (info.Exists == false)
                 info.Create();
 
-            info = new DirectoryInfo(Application.dataPath + "/Resources/Sounds/BG");
-            if (info.Exists == false)
-                info.Create();
-
-            info = new DirectoryInfo(Application.dataPath + "/Resources/Sounds/Effect");
-            if (info.Exists == false)
-                info.Create();
-
-            info = new DirectoryInfo(Application.dataPath + "/Resources/PoolingObjects");
-            if (info.Exists == false)
-                info.Create();
-
-            info = new DirectoryInfo(Application.dataPath + "/Animation/UI/Scene");
-            if (info.Exists == false)
-                info.Create();
-            
-            info = new DirectoryInfo(Application.dataPath + "/Animation/UI/Popup");
-            if (info.Exists == false)
-                info.Create();
-            
-            
-
-
         }
 
         [Button]
@@ -86,12 +63,8 @@ namespace GB
 
             WriteTxt(EDITOR_SAVECS_PATH.Replace("$PATH$", savePath).Replace("$FILENAME$", UIName + ".cs"), text);
 
-            
-
             AssetDatabase.Refresh();
-
             GB.Edit.EditorCoroutines.StartCoroutine(settingCorutine(), this);
-
 
         }
         IEnumerator settingCorutine()

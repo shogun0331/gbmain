@@ -166,7 +166,7 @@ namespace GB
             {
                 
                 GB.EditorGUIUtil.BackgroundColor(Color.green);
-                GB.EditorGUIUtil.DrawStyleLabel( installedDoc );
+                GB.EditorGUIUtil.DrawStyleLabel( installedDoc);
                 GB.EditorGUIUtil.BackgroundColor(Color.white);
 
                 GB.EditorGUIUtil.DrawStyleLabel("", GUILayout.Width(150));
@@ -267,7 +267,7 @@ namespace GB
             DrawGBPack_DownloadButton("GB FSM",FSM_URL,InstalledCheckDict["FSM"],"");
             DrawGBPack_DownloadButton("GB Memo",Memo_URL,InstalledCheckDict["Memo"],"");
             DrawGBPack_DownloadButton("GB Resources(Audio,Sprite,Prefab)",GBResources_URL,InstalledCheckDict["Resources"],"");
-            DrawGBPack_DownloadButton("GB SpriteAnimation",SpriteAnimation_URL,InstalledCheckDict["SpriteAnimation"],"");
+            DrawGBPack_DownloadButton("GB SPRAnimation",SpriteAnimation_URL,InstalledCheckDict["SpriteAnimation"],"");
             DrawGBPack_DownloadButton("GB Spine",GB_Spine_URL,InstalledCheckDict["GBSpine"],"Spine Expansion");
             DrawGBPack_DownloadButton("GB InappManager",GBInapp_URL,InstalledCheckDict["InappManager"],"UnityEngine.Purchasing Expansion");
             DrawGBPack_DownloadButton("GB AdmobManager",GBAdmob_URL,InstalledCheckDict["AdmobManager"],"GoogleMobileAds Expansion");
