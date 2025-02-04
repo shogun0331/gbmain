@@ -4,17 +4,19 @@ namespace GB
 {
     public class CameraSizeAdjuster : MonoBehaviour
     {
-        private Camera mainCamera;
+        Camera _camera;
+        Vector2Int _screenSz;
         void Start()
         {
-            mainCamera = GetComponent<Camera>();
+            _camera = GetComponent<Camera>();
             AdjustCameraSize();
+            
         }
 
         void Update()
         {
             // 해상도 또는 월드 크기가 변경되었는지 확인
-            if (Screen.width != mainCamera.pixelWidth || Screen.height != mainCamera.pixelHeight || worldSize != GetCurrentWorldSize())
+            if (Screen.width != _screenSz.x || Screen.height != _screenSz.y)
             {
                 AdjustCameraSize();
             }
@@ -22,6 +24,10 @@ namespace GB
 
         void AdjustCameraSize()
         {
+            if(_camera == null) return;
+
+            _screenSz = new Vector2Int(Screen.width,Screen.height);
+
             // 현재 해상도 비율 계산
             float aspectRatio = (float)Screen.width / Screen.height;
 
@@ -30,27 +36,27 @@ namespace GB
             float targetHeight = worldSize.y;
 
             // 현재 카메라가 보여주는 월드 영역 계산
-            float currentWidth = mainCamera.orthographicSize * 2 * aspectRatio;
-            float currentHeight = mainCamera.orthographicSize * 2;
+            float currentWidth = _camera.orthographicSize * 2 * aspectRatio;
+            float currentHeight = _camera.orthographicSize * 2;
 
             // Width 또는 Height 중 더 큰 비율에 맞춰 카메라 size 조절
             if (currentWidth / targetWidth > currentHeight / targetHeight)
             {
-                mainCamera.orthographicSize = targetHeight / 2;
+                _camera.orthographicSize = targetHeight / 2;
             }
             else
             {
-                mainCamera.orthographicSize = targetWidth / 2 / aspectRatio;
+                _camera.orthographicSize = targetWidth / 2 / aspectRatio;
             }
         }
 
         // 현재 카메라가 보여주는 월드 크기 반환
-        Vector2 GetCurrentWorldSize()
-        {
-            float currentWidth = mainCamera.orthographicSize * 2 * (float)Screen.width / Screen.height;
-            float currentHeight = mainCamera.orthographicSize * 2;
-            return new Vector2(currentWidth, currentHeight);
-        }
+        // Vector2 GetCurrentWorldSize()
+        // {
+        //     float currentWidth = _camera.orthographicSize * 2 * (float)Screen.width / Screen.height;
+        //     float currentHeight = _camera.orthographicSize * 2;
+        //     return new Vector2(currentWidth, currentHeight);
+        // }
 
         public Vector2 worldSize = new Vector2(7.07f, 12.49f); // 사각형 크기
 
