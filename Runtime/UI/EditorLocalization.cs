@@ -109,8 +109,8 @@ namespace GB
             {
                 if (GB.EditorGUIUtil.DrawSyleButton("Download"))
                 {
-                    if (domain.Count > 0)
-                        domain.Save();
+                    
+                    domain.Save();
 
                     string tsv = UrlDownload(domain.GetURL_TSV(domain.LocailUrl));
                     string json = PaserTsvToJson(tsv);
