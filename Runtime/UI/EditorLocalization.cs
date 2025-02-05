@@ -109,8 +109,8 @@ namespace GB
             {
                 if (GB.EditorGUIUtil.DrawSyleButton("Download"))
                 {
-                    
                     domain.Save();
+                        
 
                     string tsv = UrlDownload(domain.GetURL_TSV(domain.LocailUrl));
                     string json = PaserTsvToJson(tsv);
@@ -435,12 +435,11 @@ public class GSheetDomain
     }
 
 
-
-    public void Save()
+  public void Save()
     {
         string json = ToJson();
 
-        string gbPath = Application.dataPath + "/" + "Scripts/GameData";
+        string gbPath = Application.dataPath + "/" + "GB/GSheet/GameData";
 
         DirectoryInfo info = new DirectoryInfo(gbPath);
         if (info.Exists == false)
@@ -455,7 +454,7 @@ public class GSheetDomain
 
     public void Load()
     {
-        string filePath = Application.dataPath + "/" + "Scripts/GameData/O.txt";
+        string filePath = Application.dataPath + "/" + "GB/GSheet/GameData/O.txt";
         if (System.IO.File.Exists(filePath))
         {
             string data = System.IO.File.ReadAllText(filePath);
@@ -464,6 +463,8 @@ public class GSheetDomain
         }
 
     }
+
+
 
 
     public int Count
