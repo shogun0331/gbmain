@@ -33,6 +33,9 @@ public struct GBCoroutine
 
     public GBCoroutine Play()
     {
+        if(_mono == null) return this;
+        if(_coroutineList == null) return this;
+        
         _coroutine = _mono.StartCoroutine(RunCoroutines());
         return this;
     }
@@ -45,6 +48,14 @@ public struct GBCoroutine
         }
 
         _result?.Invoke();
+        Clear();
+    }
+
+    void Clear()
+    {
+        _mono = null;
+        _coroutine = null;
+        if(_coroutineList != null) _coroutineList.Clear();
     }
 
     public void Stop()
@@ -53,10 +64,10 @@ public struct GBCoroutine
         {
             _mono.StopCoroutine(_coroutine);
         }
-        
-        _mono = null;
-        _coroutine = null;
 
+        Clear();
+
+        
     }
 
 
