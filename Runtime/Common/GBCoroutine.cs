@@ -50,7 +50,13 @@ public struct GBCoroutine
     public void Stop()
     {
         if(_mono != null &&_coroutine != null)
-        _mono.StopCoroutine(_coroutine);
+        {
+            _mono.StopCoroutine(_coroutine);
+        }
+        
+        _mono = null;
+        _coroutine = null;
+
     }
 
 
