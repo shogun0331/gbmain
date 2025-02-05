@@ -6,5 +6,6 @@
   "keywords": [
     "service"
   ],
-  "description": "Garibong Core Package"
+  "description": "Garibong Core Package",
+  "documentationUrl": "https://gb-framework.gitbook.io/gb-framework-docs"
 }
