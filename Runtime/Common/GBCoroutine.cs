@@ -13,10 +13,14 @@ public struct GBCoroutine
 
     Action _result;
 
-    public GBCoroutine SetMonoBehaviour(MonoBehaviour monoBehaviour)
+    public static GBCoroutine Create(MonoBehaviour monoBehaviour)
     {
-        _mono = monoBehaviour;
-        return this;
+        var gBCoroutine = new GBCoroutine
+        {
+            _mono = monoBehaviour
+        };
+
+        return gBCoroutine;
     }
 
     public GBCoroutine AddIEnumerator(IEnumerator coroutine)
@@ -25,6 +29,7 @@ public struct GBCoroutine
         _coroutineList.Add(coroutine);
         return this;
     }
+
     public GBCoroutine OnComplete(Action result)
     {
         _result = result;
