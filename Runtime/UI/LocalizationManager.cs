@@ -8,40 +8,15 @@ using NaughtyAttributes;
 
 namespace GB
 {
-   
-
-    [Serializable]
-    public class LocalizationData
-    {
-        [JsonProperty] public readonly int TextID;
-        [JsonProperty] public readonly string Korean;
-        [JsonProperty] public readonly string English;
-        [JsonProperty] public readonly string Japanese;
-        [JsonProperty] public readonly string ChineseSimplified;
-        [JsonProperty] public readonly string ChineseTraditional;
-        [JsonProperty] public readonly string German;
-        [JsonProperty] public readonly string Spanish;
-        [JsonProperty] public readonly string French;
-        [JsonProperty] public readonly string Vietnamese;
-        [JsonProperty] public readonly string Thai;
-        [JsonProperty] public readonly string Russian;
-        [JsonProperty] public readonly string Italian;
-        [JsonProperty] public readonly string Portuguese;
-        [JsonProperty] public readonly string Turkish;
-        [JsonProperty] public readonly string Indonesian;
-        [JsonProperty] public readonly string Hindi;
-    }
-
 
     public class LocalizationManager : AutoSingleton<LocalizationManager>
     {
+        LocalizationData _DataAsset;
 
-        [SerializeField] TextAsset _textAsset;
 
-        [OnValueChanged("ChangeLanguage")] [SerializeField]  SystemLanguage _Language;
+        [OnValueChanged("ChangeLanguage")][SerializeField] SystemLanguage _Language;
         public SystemLanguage Language { get { return _Language; } }
 
-        [SerializeField]  UnityDictionary<string, UnityDictionary<SystemLanguage, string>> _Datas = new UnityDictionary<string, UnityDictionary<SystemLanguage, string>>();
         [SerializeField] UnityDictionary<SystemLanguage, Font> _fonts;
 
         [SerializeField] Font _defaultFont;
@@ -61,84 +36,44 @@ namespace GB
             }
 
             DontDestroyOnLoad(this.gameObject);
-            if(_Datas == null || _Datas.Count <= 0)
-            PaserData(true);
-            
+
+            Load();
+
             if (PlayerPrefs.GetInt("GB_IsFirst", 0) == 0) getSystemLanguage();
             else SetSystemLanguage(PlayerPrefs.GetString("Language", "English"));
 
-            
+
         }
 
-        [Button]
-        private void LoadButton()
+        void Load()
         {
-            PaserData(true);
+            if (_DataAsset == null) _DataAsset = Resources.Load<LocalizationData>("LocalizationData");
         }
 
-        public void PaserData(bool forece = false)
-        {
-            if (forece == false)
-            {
-                if (_Datas != null || _Datas.Count > 0) return;
-            }
-
-            if (_textAsset == null)
-               _textAsset  = Resources.Load<TextAsset>("Json/TextTable");
-
-            if (_textAsset == null) return;
-       ;
-            var d = JsonConvert.DeserializeObject<Dictionary<string, object>>(_textAsset.text);
-            var datas = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(d["Datas"].ToString());
-            _Datas = new UnityDictionary<string, UnityDictionary<SystemLanguage, string>>();
-
-            for (int i = 0; i < datas.Count; ++i)
-            {
-                int idx = 0;
-                string dataKey = string.Empty;
-
-                foreach (var v in datas[i])
-                {
-                    if (idx == 0)
-                    {
-                        _Datas[v.Value] = new UnityDictionary<SystemLanguage, string>();
-                        dataKey = v.Value;
-                    }
-                    else
-                    {
-                        SystemLanguage language = GetLanguage(v.Key);
-                        if (language != SystemLanguage.Unknown)
-                            _Datas[dataKey][language] = v.Value;
-                        else
-                            Debug.Log("None Language : " + v.Key);
-                    }
-
-                    ++idx;
-                }
-            }
-            
-        }
 
         public static string GetValue(string id)
         {
+            I.Load();
+            if (I._DataAsset == null) return string.Empty;
+
             if (string.IsNullOrEmpty(id))
                 return string.Empty;
 
             if (string.IsNullOrEmpty(id) == false)
                 id = id.Replace(" ", "").Replace("\r", "");
 
-            if (!I._Datas.ContainsKey(id))
+            if (!I._DataAsset.Datas.ContainsKey(id))
             {
                 return "<color=red>" + id + "</color>";
             }
 
-            if (!I._Datas[id].ContainsKey(I._Language))
+            if (!I._DataAsset.Datas[id].ContainsKey(I._Language))
                 I._Language = SystemLanguage.English;
-            
-            string str = I._Datas[id][I._Language];
+
+            string str = I._DataAsset.Datas[id][I._Language];
 
             return str;
-           
+
         }
 
         private void ChangeLanguage()
@@ -146,18 +81,44 @@ namespace GB
             ChangeLanguage(I.Language);
         }
 
+        bool CheckLanguage(SystemLanguage language)
+        {
+            if (I._DataAsset != null)
+            {
+                if (I._DataAsset.Datas.Count > 0)
+                {
+                    foreach (var v in I._DataAsset.Datas)
+                    {
+                        if (v.Value.ContainsKey(language))
+                            return true;
+                    }
+
+                }
+                else return false;
+            }
+
+            return false;
+
+        }
+
 
         public static void ChangeLanguage(SystemLanguage language)
         {
-            I._Language = language;
+            I.Load();
 
-            foreach (var v in I._Datas)
+            if(I.CheckLanguage(language))
+                 I._Language = language;
+            else
+                I._Language = SystemLanguage.English;
+                
+            if(I._DataAsset == null) return;
+
+            foreach (var v in I._DataAsset.Datas)
             {
                 Presenter.Send("Localization", v.Key);
             }
-            
-            PlayerPrefs.SetString("Language", I._Language.ToString());
 
+            PlayerPrefs.SetString("Language", I._Language.ToString());
         }
 
 
@@ -173,12 +134,12 @@ namespace GB
         public void SetSystemLanguage(string language)
         {
             _Language = GetLanguage(language);
-            if(_Language == SystemLanguage.Unknown)
-            _Language = SystemLanguage.English; 
-        
+            if (_Language == SystemLanguage.Unknown)
+                _Language = SystemLanguage.English;
+
             ChangeLanguage(_Language);
         }
-        
+
         SystemLanguage GetLanguage(string strLanguage)
         {
             int Length = (int)SystemLanguage.Unknown;
@@ -196,7 +157,7 @@ namespace GB
 
         private void getSystemLanguage()
         {
-            _Language= GetLanguage(Application.systemLanguage.ToString());
+            _Language = GetLanguage(Application.systemLanguage.ToString());
             PlayerPrefs.SetString("Language", _Language.ToString());
         }
 

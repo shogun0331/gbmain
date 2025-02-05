@@ -30,36 +30,10 @@ namespace GB
 
         void Load()
         {
-            textAsset = Resources.Load<TextAsset>("Json/TextTable");
-            if (textAsset == null) return;
-            var d = JsonConvert.DeserializeObject<Dictionary<string, object>>(textAsset.text);
-            var datas = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(d["Datas"].ToString());
-            localizeDict.Clear();
 
-            for (int i = 0; i < datas.Count; ++i)
-            {
-                int idx = 0;
-                string dataKey = string.Empty;
-
-                foreach (var v in datas[i])
-                {
-                    if (idx == 0)
-                    {
-                        localizeDict[v.Value] = new UnityDictionary<SystemLanguage, string>();
-                        dataKey = v.Value;
-                    }
-                    else
-                    {
-                        SystemLanguage language = GetLanguage(v.Key);
-                        if (language != SystemLanguage.Unknown)
-                            localizeDict[dataKey][language] = v.Value;
-                        else
-                            Debug.Log("None Language : " + v.Key);
-                    }
-
-                    ++idx;
-                }
-            }
+            var data = Resources.Load<LocalizationData>("LocalizationData");
+            if(data == null) return;
+             localizeDict = data.Datas;
 
             _serializedObject = new SerializedObject(this);
             _myUser = _serializedObject.FindProperty("localizeDict");
@@ -83,7 +57,6 @@ namespace GB
 
 
 
-        TextAsset textAsset;
 
         private Vector2 scrollPosition;
 
@@ -99,7 +72,7 @@ namespace GB
 
 
 
-            if (textAsset != null && _myUser != null)
+            if (localizeDict != null && _myUser != null)
             {
                 GB.EditorGUIUtil.Start_VerticalBox();
                 scrollPosition = GB.EditorGUIUtil.Start_ScrollView(scrollPosition);
@@ -134,15 +107,26 @@ namespace GB
             GB.EditorGUIUtil.End_Horizontal();
             if (!string.IsNullOrEmpty(domain.LocailUrl))
             {
-                if (GB.EditorGUIUtil.DrawSyleButton("Download JSON"))
+                if (GB.EditorGUIUtil.DrawSyleButton("Download"))
                 {
                     if (domain.Count > 0)
                         domain.Save();
 
                     string tsv = UrlDownload(domain.GetURL_TSV(domain.LocailUrl));
                     string json = PaserTsvToJson(tsv);
-                    string path = Application.dataPath + "/" + "Resources/Json";
-                    FileSave(path, "TextTable.json", json);
+                    var dict = PaserJsonToDict(json);
+
+                     var info = new DirectoryInfo(Application.dataPath + "/Resources");
+                    if (info.Exists == false) info.Create();
+
+                    LocalizationData data  = ScriptableObject.CreateInstance<LocalizationData>();
+                    data.Datas = dict;
+                    AssetDatabase.CreateAsset(data, "Assets/Resources/LocalizationData.asset"); // 파일 생성
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
+                    Repaint();
+                     Selection.activeObject = data;
+
 
                 }
             }
@@ -151,6 +135,48 @@ namespace GB
             GUILayout.EndVertical();
 
             GUILayout.EndArea();
+
+        }
+
+        UnityDictionary<string, UnityDictionary<SystemLanguage, string>> PaserJsonToDict(string json)
+        {
+
+            // Debug.Log(json);
+            UnityDictionary<string, UnityDictionary<SystemLanguage, string>> dict = new UnityDictionary<string, UnityDictionary<SystemLanguage, string>>();
+
+
+            var d = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+            var datas = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(d["Datas"].ToString());
+            Debug.Log("datas Len : " + datas.Count);
+
+              for (int i = 0; i < datas.Count; ++i)
+            {
+                int idx = 0;
+                string dataKey = string.Empty;
+
+                foreach (var v in datas[i])
+                {
+                    if (idx == 0)
+                    {
+                        dict[v.Value] = new UnityDictionary<SystemLanguage, string>();
+                        dataKey = v.Value;
+                    }
+                    else
+                    {
+                        SystemLanguage language = GetLanguage(v.Key);
+                        if (language != SystemLanguage.Unknown)
+                            dict[dataKey][language] = v.Value;
+                        else
+                            Debug.Log("None Language : " + v.Key);
+                    }
+
+                    ++idx;
+                }
+            }
+
+            return dict;
+
+
 
         }
 
