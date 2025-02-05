@@ -1,8 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
 using QuickEye.Utility;
-using Newtonsoft.Json;
-using System;
 using NaughtyAttributes;
 
 
