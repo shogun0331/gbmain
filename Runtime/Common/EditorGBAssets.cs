@@ -318,6 +318,12 @@ namespace GB
             DrawLinkButton("NHN Game Package Manager for Unity", NHNGamePackageManager_URL);
 
             GB.EditorGUIUtil.End_ScrollView();
+
+            if(GB.EditorGUIUtil.DrawSyleButton("Update GB Framework"))
+            {
+                DownloadPackage("https://github.com/shogun0331/gbmain.git");
+            }
+
             GB.EditorGUIUtil.End_Vertical();
 
             GUILayout.EndArea();
