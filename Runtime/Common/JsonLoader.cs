@@ -35,4 +35,23 @@ namespace Newtonsoft.Json
 
     }
 
+    public static class JsonWrapperUtility
+    {
+           //
+    // Summary:
+    //     If object is a StructWrapper, the value will be extracted. If not, the object
+    //     will be cast to T. Wrapper is will not be returned to its pool until it is Unwrapped,
+    //     or the pool is cleared.
+        public static string ToJson(this object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
+        public static T  FromJson<T>(this string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
+
+        }
+
+    }
+
 }
