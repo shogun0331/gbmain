@@ -20,6 +20,15 @@ namespace GB
             _value = value;
         }
     }
+    public static class ODataWrapperUtility
+    {
+        public static T OConvert<T>(this IOData data)
+        {
+            return ODataConverter.Convert<T>(data);
+        }
+    }
+
+
 
     public interface IOData {}
 
