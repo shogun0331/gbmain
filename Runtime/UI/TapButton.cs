@@ -1,5 +1,4 @@
 using System;
-using QuickEye.Utility;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
