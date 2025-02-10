@@ -21,7 +21,7 @@ namespace QuickEye.Utility.Editor.WindowTitle
 
         static TitleFormatter()
         {
-            //_Tags.Add(BranchKey, GetBranchName());
+            _Tags.Add(BranchKey, GetBranchName());
             _Tags.Add(ProjectNameKey, Application.productName);
             _Tags.Add(ProjectPathKey, ProjectPath);
             _Tags.Add(RepoPathKey, "RPath");
@@ -41,12 +41,12 @@ namespace QuickEye.Utility.Editor.WindowTitle
             return EditorUserBuildSettings.selectedBuildTargetGroup.ToString();
         }
 
-        //private static string GetBranchName()
-        //{
-        //    return GitUtility.TryGetBranchName(WindowTitleSettings.RepositoryPath, out var branchName)
-        //        ? branchName
-        //        : "Repository not found";
-        //}
+        private static string GetBranchName()
+        {
+           return GitUtility.TryGetBranchName(WindowTitleSettings.RepositoryPath, out var branchName)
+               ? branchName
+               : "Repository not found";
+        }
 
         private static string GetSceneName()
         {
@@ -56,24 +56,24 @@ namespace QuickEye.Utility.Editor.WindowTitle
             return n;
         }
 
-        //public static string Format(string text)
-        //{
-        //    var customRepoPath = WindowTitleSettings.RepositoryPath;
-        //    _Tags[BranchKey] = GetBranchName();
-        //    if (string.IsNullOrEmpty(customRepoPath))
-        //    {
-        //        GitUtility.TryFindRepositoryDirUpwards(ProjectPath, out customRepoPath);
-        //    }
+        public static string Format(string text)
+        {
+           var customRepoPath = WindowTitleSettings.RepositoryPath;
+           _Tags[BranchKey] = GetBranchName();
+           if (string.IsNullOrEmpty(customRepoPath))
+           {
+               GitUtility.TryFindRepositoryDirUpwards(ProjectPath, out customRepoPath);
+           }
 
-        //    if (!string.IsNullOrEmpty(customRepoPath))
-        //        _Tags[RepoPathKey] = Path.GetFullPath(customRepoPath).TrimEnd(Path.DirectorySeparatorChar);
-        //    _Tags[RepoDirNameKey] = GetRepoDirName();
-        //    foreach (var kvp in _Tags)
-        //    {
-        //        text = text.Replace(kvp.Key, kvp.Value);
-        //    }
+           if (!string.IsNullOrEmpty(customRepoPath))
+               _Tags[RepoPathKey] = Path.GetFullPath(customRepoPath).TrimEnd(Path.DirectorySeparatorChar);
+           _Tags[RepoDirNameKey] = GetRepoDirName();
+           foreach (var kvp in _Tags)
+           {
+               text = text.Replace(kvp.Key, kvp.Value);
+           }
 
-        //    return text;
-        //}
+           return text;
+        }
     }
 }
