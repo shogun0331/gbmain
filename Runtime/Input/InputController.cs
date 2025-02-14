@@ -30,12 +30,12 @@ namespace GB
 
                 if (EventSystem.current.currentSelectedGameObject != null)
                 {
-                    TouchWorldEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
+                    SetTouchWorldCanceled();
                     return;
                 }
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
-                    TouchWorldEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
+                    SetTouchWorldCanceled();
                     return;
                 }
             }
@@ -47,7 +47,7 @@ namespace GB
                 if (EventSystem.current.IsPointerOverGameObject() &&
             (Input.GetMouseButton(0)))
                 {
-                    TouchWorldEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
+                    SetTouchWorldCanceled();
                     return;
                 }
             }
@@ -98,6 +98,44 @@ namespace GB
             }
 
         }
+        private void SetTouchWorldCanceled()
+        {
+             int touchCount = Input.touchCount;
+
+            if (touchCount != 0)
+            {
+                for (int i = 0; i < touchCount; ++i)
+                {
+                    Touch touch = Input.GetTouch(i);
+                    var p = Camera.main.ScreenToWorldPoint(touch.position);
+                    TouchWorldEvent?.Invoke(TouchPhase.Canceled, i, p);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 2; ++i)
+                {
+                    if (Input.GetMouseButtonDown(i))
+                    {
+                        var p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        TouchWorldEvent?.Invoke(TouchPhase.Canceled, i, p);
+                    }
+                    else if (Input.GetMouseButton(i))
+                    {
+                        var p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        TouchWorldEvent?.Invoke(TouchPhase.Canceled, i, p);
+                    }
+                    else if (Input.GetMouseButtonUp(i))
+                    {
+                        var p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        TouchWorldEvent?.Invoke(TouchPhase.Canceled, i, p);
+                    }
+                }
+            }
+
+        }
+
+
 
         private void ProcessUI()
         {
@@ -108,14 +146,14 @@ namespace GB
 
                 if (EventSystem.current.currentSelectedGameObject != null)
                 {
-                    TouchUIEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
+                    SetTouchUICanceled();
                     return;
                 }
 
 
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
-                    TouchUIEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
+                    SetTouchUICanceled();
                     return;
                 }
             }
@@ -125,7 +163,7 @@ namespace GB
                 if (EventSystem.current.IsPointerOverGameObject() &&
             (Input.GetMouseButton(0)))
                 {
-                    TouchUIEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
+                    SetTouchUICanceled();
                     return;
                 }
             }
@@ -178,6 +216,44 @@ namespace GB
             }
 
 
+
+        }
+
+        private void SetTouchUICanceled()
+        {
+                   int touchCount = Input.touchCount;
+
+            if (touchCount != 0)
+            {
+                for (int i = 0; i < touchCount; ++i)
+                {
+                    Touch touch = Input.GetTouch(i);
+                    var p = touch.position;
+                    TouchUIEvent?.Invoke(TouchPhase.Canceled, i, p);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 2; ++i)
+                {
+                    if (Input.GetMouseButtonDown(i))
+                    {
+                        var p = Input.mousePosition;
+                        TouchUIEvent?.Invoke(TouchPhase.Canceled, i, p);
+                    }
+                    else if (Input.GetMouseButton(i))
+                    {
+                        var p = Input.mousePosition;
+                        TouchUIEvent?.Invoke(TouchPhase.Canceled, i, p);
+                    }
+                    else if (Input.GetMouseButtonUp(i))
+                    {
+                        var p = Input.mousePosition;
+                        TouchUIEvent?.Invoke(TouchPhase.Canceled, i, p);
+                    }
+                }
+
+            }
 
         }
 
