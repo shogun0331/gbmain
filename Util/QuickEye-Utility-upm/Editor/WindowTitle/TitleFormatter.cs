@@ -21,7 +21,9 @@ namespace QuickEye.Utility.Editor.WindowTitle
 
         static TitleFormatter()
         {
+            #if UNITY_SETTINGS_MANAGER
             _Tags.Add(BranchKey, GetBranchName());
+            #endif
             _Tags.Add(ProjectNameKey, Application.productName);
             _Tags.Add(ProjectPathKey, ProjectPath);
             _Tags.Add(RepoPathKey, "RPath");
@@ -40,14 +42,14 @@ namespace QuickEye.Utility.Editor.WindowTitle
         {
             return EditorUserBuildSettings.selectedBuildTargetGroup.ToString();
         }
-
+#if UNITY_SETTINGS_MANAGER
         private static string GetBranchName()
         {
            return GitUtility.TryGetBranchName(WindowTitleSettings.RepositoryPath, out var branchName)
                ? branchName
                : "Repository not found";
         }
-
+#endif
         private static string GetSceneName()
         {
             var n = SceneManager.GetActiveScene().name;
@@ -55,7 +57,7 @@ namespace QuickEye.Utility.Editor.WindowTitle
                 n = "Untitled";
             return n;
         }
-
+#if UNITY_SETTINGS_MANAGER
         public static string Format(string text)
         {
            var customRepoPath = WindowTitleSettings.RepositoryPath;
@@ -75,5 +77,6 @@ namespace QuickEye.Utility.Editor.WindowTitle
 
            return text;
         }
+#endif
     }
 }

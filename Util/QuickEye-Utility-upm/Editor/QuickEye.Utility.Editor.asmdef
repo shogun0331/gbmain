@@ -2,8 +2,7 @@
     "name": "QuickEye.Utility.Editor",
     "rootNamespace": "",
     "references": [
-        "QuickEye.Utility",
-        "Unity.Settings.Editor"
+        "QuickEye.Utility"
     ],
     "includePlatforms": [
         "Editor"
