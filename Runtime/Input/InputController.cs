@@ -30,10 +30,12 @@ namespace GB
 
                 if (EventSystem.current.currentSelectedGameObject != null)
                 {
+                    TouchWorldEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
                     return;
                 }
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
+                    TouchWorldEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
                     return;
                 }
             }
@@ -45,6 +47,7 @@ namespace GB
                 if (EventSystem.current.IsPointerOverGameObject() &&
             (Input.GetMouseButton(0)))
                 {
+                    TouchWorldEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
                     return;
                 }
             }
@@ -105,12 +108,14 @@ namespace GB
 
                 if (EventSystem.current.currentSelectedGameObject != null)
                 {
+                    TouchUIEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
                     return;
                 }
 
 
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
+                    TouchUIEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
                     return;
                 }
             }
@@ -120,6 +125,7 @@ namespace GB
                 if (EventSystem.current.IsPointerOverGameObject() &&
             (Input.GetMouseButton(0)))
                 {
+                    TouchUIEvent?.Invoke(TouchPhase.Canceled, 0, Vector2.zero);
                     return;
                 }
             }
