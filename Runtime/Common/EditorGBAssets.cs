@@ -18,14 +18,18 @@ namespace GB
             EditorWindow.GetWindow(typeof(EditorGBAssets));
         }
 
+        string GB_PACKAGE_Version;
+
         void OnEnable()
         {
             Load();
+            // GB_PACKAGE_Version = GetPackageVersion("com.gb.core");
         }
 
         void OnFocus()
         {
             Load();
+            // GB_PACKAGE_Version = GetPackageVersion("com.gb.core");
         }
 
         void Load()
@@ -42,7 +46,7 @@ namespace GB
             InstalledCheckDict["PlayfabManager"] = false;
             InstalledCheckDict["AnimationBakingStudio"] = false;
             InstalledCheckDict["MeshBaker"] = false;
-            InstalledCheckDict["NotchSolution"] = false;
+            // InstalledCheckDict["NotchSolution"] = false;
             InstalledCheckDict["Logs_Viewer"] = false;
             InstalledCheckDict["ProCamera2D"] = false;
             InstalledCheckDict["Resources"] = false;
@@ -68,7 +72,7 @@ namespace GB
 
             InstalledCheckDict["AnimationBakingStudio"] = Type.GetType("ABS.Frame, Assembly-CSharp") != null;
             InstalledCheckDict["MeshBaker"] = Type.GetType("DigitalOpus.MB.Core.MB_Utility, MeshBakerCore") != null;
-            InstalledCheckDict["NotchSolution"] = Type.GetType("E7.NotchSolution.MockupCanvas, E7.NotchSolution") != null;
+            // InstalledCheckDict["NotchSolution"] = Type.GetType("E7.NotchSolution.MockupCanvas, E7.NotchSolution") != null;
             InstalledCheckDict["Logs_Viewer"] = Type.GetType("ReporterMessageReceiver, Assembly-CSharp") != null;
             InstalledCheckDict["ProCamera2D"] = Type.GetType("Com.LuisPedroFonseca.ProCamera2D.KDTree, ProCamera2D.Runtime") != null;
 
@@ -125,8 +129,8 @@ namespace GB
         const string MeshBaker_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/MeshBaker.unitypackage";
         const string MeshBaker_DOC_URL = "https://assetstore.unity.com/packages/tools/modeling/mesh-baker-5017";
 
-        const string NotchSolution_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/NotchSolution.unitypackage";
-        const string NotchSolution_DOC_URL = "https://assetstore.unity.com/packages/tools/gui/notch-solution-157971";
+        // const string NotchSolution_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/NotchSolution.unitypackage";
+        // const string NotchSolution_DOC_URL = "https://assetstore.unity.com/packages/tools/gui/notch-solution-157971";
 
         const string Logs_Viewer_URL = "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Unity-Logs_Viewer.unitypackage";
         const string Logs_Viewer_DOC_URL = "https://assetstore.unity.com/packages/tools/integration/log-viewer-12047";
@@ -278,21 +282,22 @@ namespace GB
             DrawDownloadButton("Playfab", PlayFab_URL, InstalledCheckDict["Playfab"], PlayFab_DOC_URL);
             DrawDownloadButton("AnimationBakingStudio(2D to 3D)", AnimationBaking_URL, InstalledCheckDict["AnimationBakingStudio"], AnimationBaking_DOC_URL);
             DrawDownloadButton("MeshBaker", MeshBaker_URL, InstalledCheckDict["MeshBaker"], MeshBaker_DOC_URL);
-            DrawDownloadButton("NotchSolution", NotchSolution_URL, InstalledCheckDict["NotchSolution"], NotchSolution_DOC_URL);
+            // DrawDownloadButton("NotchSolution", NotchSolution_URL, InstalledCheckDict["NotchSolution"], NotchSolution_DOC_URL);
             DrawDownloadButton("Logs_Viewer", Logs_Viewer_URL, InstalledCheckDict["Logs_Viewer"], Logs_Viewer_DOC_URL);
             DrawDownloadButton("ProCamera2D", ProCamera2D_URL, InstalledCheckDict["ProCamera2D"], ProCamera2D_DOC_URL);
 
             DrawPackage_DownloadButton("UniRX", UniRX_URL, UniRX_DOC_URL);
             DrawPackage_DownloadButton("UniTask", UNITASK_URL, UNITASK_DOC_URL);
             DrawPackage_DownloadButton("SensorKit", PACKAGE_SensorKit, "https://github.com/3DI70R/Unity-SensorKit");
-            
+            DrawPackage_DownloadButton("ParrelSync", "https://github.com/VeriorPies/ParrelSync.git?path=/ParrelSync", "https://github.com/VeriorPies/ParrelSync/tree/master");
+
+            DrawGBPack_DownloadButton("GB FeedbackDiscord", "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/FeedbackDiscord.unitypackage", false, "");
             DrawGBPack_DownloadButton("GB Google Sheets", GSheet_URL, InstalledCheckDict["GSheet"], "");
             DrawGBPack_DownloadButton("GB UserData", GBUserData_URL, InstalledCheckDict["UserData"], "");
             DrawGBPack_DownloadButton("GB FSM", FSM_URL, InstalledCheckDict["FSM"], "");
             DrawGBPack_DownloadButton("GB Memo", Memo_URL, InstalledCheckDict["Memo"], "");
             DrawGBPack_DownloadButton("GB Resources(Audio,Sprite,Prefab)", GBResources_URL, InstalledCheckDict["Resources"], "");
             DrawGBPack_DownloadButton("GB SPRAnimation", SpriteAnimation_URL, InstalledCheckDict["SpriteAnimation"], "");
-            DrawGBPack_DownloadButton("GB FeedbackDiscord", "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/FeedbackDiscord.unitypackage", false, "");
             DrawGBPack_DownloadButton("GB Spine", GB_Spine_URL, InstalledCheckDict["GBSpine"], "Spine Expansion");
             DrawGBPack_DownloadButton("GB InappManager", GBInapp_URL, InstalledCheckDict["InappManager"], "UnityEngine.Purchasing Expansion");
             DrawGBPack_DownloadButton("GB AdmobManager", GBAdmob_URL, InstalledCheckDict["AdmobManager"], "GoogleMobileAds Expansion");
@@ -320,7 +325,7 @@ namespace GB
 
             GB.EditorGUIUtil.End_ScrollView();
 
-            if(GB.EditorGUIUtil.DrawSyleButton("Update GB Framework"))
+            if (GB.EditorGUIUtil.DrawSyleButton("Update GB Framework "))
             {
                 DownloadPackage("https://github.com/shogun0331/gbmain.git");
             }
@@ -330,6 +335,9 @@ namespace GB
             GUILayout.EndArea();
 
         }
+
+
+
 
         public static void AddOpenUPMPackage(string packageName, string scope)
         {
@@ -389,6 +397,41 @@ namespace GB
             AssetDatabase.Refresh();
 
             Debug.Log($"openUPM 패키지 추가 성공: {packageName} (Scope: {scope})");
+        }
+
+        public string GetPackageVersion(string packageName)
+        {
+            // 패키지 정보를 가져오는 요청
+            
+            SearchRequest request = Client.Search(packageName);
+
+            // 요청이 완료될 때까지 대기
+            while (!request.IsCompleted)
+            {
+                continue;
+            }
+
+            if(request.Status == StatusCode.Success)
+            {
+                var packageInfo = request.Result;
+                
+                for(int i = 0; i< packageInfo.Length; ++i)
+                {
+                    Debug.Log(packageInfo[i].name);
+                    if(string.Equals(packageInfo[i].name,packageName)) 
+                    {
+                        return packageInfo[i].version;
+                    }
+                }
+            }
+            else
+            {
+                 Debug.Log("None Package");
+                 return string.Empty;
+            }
+
+            return string.Empty;
+
         }
 
         private void DownloadPackage(string url)
