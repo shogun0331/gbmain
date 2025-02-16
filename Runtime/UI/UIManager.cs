@@ -85,10 +85,15 @@ namespace GB
             //UIScreen Regist
             UIScreen[] allChildren = GetComponentsInChildren<UIScreen>(true);
             int len = allChildren.Length;
-            for (int i = 0; i < len; ++i)
+            for (int i = 0; i < len; ++i) 
+            {
                 allChildren[i].Initialize();
+                if( allChildren[i].UIType == ScreenType.POPUP) allChildren[i].gameObject.SetActive(false);
+            }
+
 
         }
+
 
         /// <summary>
         /// �� �̵��� ��� ���� �ʱ�ȭ
