@@ -22,7 +22,7 @@ namespace GB
                 if (_screen.x != _canvasRect.sizeDelta.x || _screen.y != _canvasRect.sizeDelta.y)
                 {
                     _screen = _canvasRect.sizeDelta;
-                    Presenter.Send("ScreenResolution", "ScreenResolution");
+                    Presenter.Send("ScreenResolution", "ScreenResolution",_canvasRect);
 
                 }
             }
