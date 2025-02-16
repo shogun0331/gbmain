@@ -63,4 +63,11 @@ namespace GB
         }
    }
 
+
+    public static class GBLog
+    {
+        public static void Log(string log){log.GBLog();}
+        public static void Log(string title,string log){log.GBLog(title);}
+        public static void Log(string title,string log, Color color){log.GBLog(title,color);}
+    }
 }
