@@ -63,12 +63,4 @@ namespace GB
         }
    }
 
-
-    public struct Log
-    {
-        public string Title;
-        public string Info;
-        public string StrColor;
-
-    }
 }
