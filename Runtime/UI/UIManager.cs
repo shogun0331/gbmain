@@ -127,9 +127,6 @@ namespace GB
 
             if (UIScreen.UIType == ScreenType.SCENE)
                 _scene = UIScreen;
-            else
-                UIScreen.gameObject.SetActive(false);
-
         }
 
         /// <summary>
