@@ -231,7 +231,6 @@ namespace GB
             switch(key)
             {
                 case "ScreenResolution":
-                Debug.Log("Refresh");
                 Refresh();
                 break;
             }
