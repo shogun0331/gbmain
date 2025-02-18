@@ -25,7 +25,7 @@ namespace GB
             GetLoadList(t.gameObject);
         }
 
-   
+
 
         string _selectionMenu = "Buttons";
         private GameObject myFileObject;
@@ -41,7 +41,7 @@ namespace GB
         {
             _list.Clear();
             _listKeys.Clear();
-            
+
 
             switch (_selectionMenu)
             {
@@ -72,11 +72,11 @@ namespace GB
 
             }
 
-            for(int i = 0; i< _list.Count; ++i) _listKeys.Add(_list[i].Key);
+            for (int i = 0; i < _list.Count; ++i) _listKeys.Add(_list[i].Key);
 
         }
 
-      
+
 
 
 
@@ -189,52 +189,55 @@ namespace GB
             HashSet<string> hashKeys = new HashSet<string>();
             for (int i = 0; i < _list.Count; ++i)
             {
-                if(_list[i] == null) continue;
+                if (_list[i] == null) continue;
                 bool isDuplicate = false;
-               
-                if(!hashKeys.Contains(_list[i].Key) && !string.IsNullOrEmpty(_list[i].Key))hashKeys.Add(_list[i].Key);
+
+                if (!hashKeys.Contains(_list[i].Key) && !string.IsNullOrEmpty(_list[i].Key)) hashKeys.Add(_list[i].Key);
                 else
                 {
                     isDuplicate = true;
                     GB.EditorGUIUtil.BackgroundColor(Color.red);
-                } 
+                }
 
                 GB.EditorGUIUtil.Start_HorizontalBox();
-                
+
                 _listKeys[i] = GB.EditorGUIUtil.DrawTextField("", _listKeys[i], GUILayout.Width(150f));
                 _list[i].Key = _listKeys[i];
                 var oj = EditorGUILayout.ObjectField("", _list[i].gameObject, typeof(GameObject), false) as GameObject;
-                if(isDuplicate)
+                if (!Application.isPlaying)
                 {
-                    if(GB.EditorGUIUtil.DrawButton("REMOVE"))
+                    GB.EditorGUIUtil.BackgroundColor(Color.red);
+
+                    if (GB.EditorGUIUtil.DrawButton("REMOVE"))
                     {
-                        DestroyImmediate( _list[i]);
+                        DestroyImmediate(_list[i]);
                         GetLoadList(t.gameObject);
                         GB.EditorGUIUtil.End_Horizontal();
                         GB.EditorGUIUtil.BackgroundColor(Color.white);
                         break;
                     }
                 }
-           
+
                 GB.EditorGUIUtil.End_Horizontal();
                 GB.EditorGUIUtil.BackgroundColor(Color.white);
             }
 
 
             GB.EditorGUIUtil.End_ScrollView();
-
-
-
-
             GB.EditorGUIUtil.End_Vertical();
-            GB.EditorGUIUtil.BackgroundColor(Color.green);
-            if (GB.EditorGUIUtil.DrawSyleButton("Save"))
+
+            if (!Application.isPlaying)
             {
-                t.Bind();
-                t.Save();
-                t.Setting(true);
+
+                GB.EditorGUIUtil.BackgroundColor(Color.green);
+                if (GB.EditorGUIUtil.DrawSyleButton("Save"))
+                {
+                    t.Bind();
+                    t.Save();
+                    t.Setting(true);
+                }
+                GB.EditorGUIUtil.BackgroundColor(Color.white);
             }
-            GB.EditorGUIUtil.BackgroundColor(Color.white);
 
             GB.EditorGUIUtil.Start_Horizontal();
 
