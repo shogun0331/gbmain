@@ -114,6 +114,17 @@ namespace GB
         public void Regist()
         {
             UIManager.I.RegistUIScreen(this);
+            #if UNITY_EDITOR
+            CheckMissingObject();
+            #endif
+        }
+
+        public void CheckMissingObject()
+        {
+            foreach(var v in mImages) if(v.Value == null)GBLog.Log(gameObject.name,"mImages - " + v.Key + " is null",Color.red);
+            foreach(var v in mButtons) if(v.Value == null)GBLog.Log(gameObject.name,"mButtons - " + v.Key + " is null",Color.red);
+            foreach(var v in mGameObject) if(v.Value == null)GBLog.Log(gameObject.name,"mGameObject - " + v.Key + " is null",Color.red);
+            foreach(var v in mSkinner) if(v.Value == null)GBLog.Log(gameObject.name,"mSkinner - " + v.Key + " is null",Color.red);
         }
 
         public virtual void Initialize() { }
