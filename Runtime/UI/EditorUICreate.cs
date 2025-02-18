@@ -21,13 +21,12 @@ namespace GB
         void OnEnable()
         {
             var t = (UICreate)target;
-            _selectionMenu = "Buttons";
             GetLoadList(t.gameObject);
         }
 
 
 
-        string _selectionMenu = "Buttons";
+        static string _selectionMenu = "Buttons";
         private GameObject myFileObject;
 
         List<UIRegister> _list = new List<UIRegister>();
@@ -182,7 +181,7 @@ namespace GB
             GB.EditorGUIUtil.BackgroundColor(Color.gray);
             GB.EditorGUIUtil.Start_HorizontalBox();
             EditorGUILayout.LabelField("Key", GUILayout.Width(150f));
-            EditorGUILayout.LabelField("Object");
+            EditorGUILayout.LabelField(_selectionMenu);
             GB.EditorGUIUtil.End_Horizontal();
             GB.EditorGUIUtil.BackgroundColor(Color.white);
 
