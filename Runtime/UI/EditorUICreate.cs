@@ -26,170 +26,57 @@ namespace GB
         }
 
    
+
         string _selectionMenu = "Buttons";
         private GameObject myFileObject;
 
-        List<GameObject> _list = new List<GameObject>();
-
-        List<string> _listKey = new List<string>();
+        List<UIRegister> _list = new List<UIRegister>();
 
 
-        
-
-        void RegistComponenet(GameObject myTarget, string key)
-        {
-            switch (_selectionMenu)
-            {
-                case "Buttons":
-                    myTarget.AddComponent<RegistButton>().Key = key;
-                    break;
-
-                case "Images":
-                    myTarget.AddComponent<RegistImage>().Key = key;
-                    break;
-
-                case "Texts":
-                    myTarget.AddComponent<RegistText>().Key = key;
-                    break;
-
-                case "Skinners":
-                    myTarget.AddComponent<RegistSkinner>().Key = key;
-                    break;
-
-                case "GameObjects":
-                    myTarget.AddComponent<RegistGameObject>().Key = key;
-                    break;
-
-            }
-        }
+        List<string> _listKeys = new List<string>();
 
 
 
         void GetLoadList(GameObject myTarget)
         {
             _list.Clear();
-            _listKey.Clear();
+            _listKeys.Clear();
             
 
             switch (_selectionMenu)
             {
                 case "Buttons":
-                    var btns = myTarget.GetComponentsInChildren<Button>(true);
-                    for (int i = 0; i < btns.Length; ++i) _list.Add(btns[i].gameObject);
+                    var btns = myTarget.GetComponentsInChildren<RegistButton>(true);
+                    for (int i = 0; i < btns.Length; ++i) _list.Add(btns[i]);
                     break;
 
                 case "Images":
-                    var imgs = myTarget.GetComponentsInChildren<Image>(true);
-                    for (int i = 0; i < imgs.Length; ++i) _list.Add(imgs[i].gameObject);
+                    var imgs = myTarget.GetComponentsInChildren<RegistImage>(true);
+                    for (int i = 0; i < imgs.Length; ++i) _list.Add(imgs[i]);
                     break;
 
                 case "Texts":
-                    var texts = myTarget.GetComponentsInChildren<Text>(true);
-                    for (int i = 0; i < texts.Length; ++i) _list.Add(texts[i].gameObject);
+                    var texts = myTarget.GetComponentsInChildren<RegistText>(true);
+                    for (int i = 0; i < texts.Length; ++i) _list.Add(texts[i]);
                     break;
 
                 case "Skinners":
-                    var skinners = myTarget.GetComponentsInChildren<UISkinner>(true);
-                    for (int i = 0; i < skinners.Length; ++i) _list.Add(skinners[i].gameObject);
+                    var skinners = myTarget.GetComponentsInChildren<RegistSkinner>(true);
+                    for (int i = 0; i < skinners.Length; ++i) _list.Add(skinners[i]);
                     break;
 
                 case "GameObjects":
-                    var components = myTarget.GetComponentsInChildren<Component>(true);
-                    HashSet<GameObject> hashSet = new HashSet<GameObject>();
-
-                    for (int i = 0; i < components.Length; ++i) hashSet.Add(components[i].gameObject);
-                    _list = hashSet.ToList();
+                    var gameObjects = myTarget.GetComponentsInChildren<RegistGameObject>(true);
+                    for (int i = 0; i < gameObjects.Length; ++i) _list.Add(gameObjects[i]);
                     break;
 
             }
 
-            for (int i = 0; i < _list.Count; ++i)
-            {
-                if (CheckScript(_list[i])) _listKey.Add(GetKey(_list[i]));
-                else _listKey.Add("");
-            }
+            for(int i = 0; i< _list.Count; ++i) _listKeys.Add(_list[i].Key);
 
 
         }
 
-        bool CheckScript(GameObject myTarget)
-        {
-
-            switch (_selectionMenu)
-            {
-                case "Buttons":
-                    return myTarget.GetComponent<RegistButton>();
-
-                case "Images":
-                    return myTarget.GetComponent<RegistImage>();
-
-                case "Texts":
-                    return myTarget.GetComponent<RegistText>();
-
-                case "Skinners":
-                    return myTarget.GetComponent<RegistSkinner>();
-
-                case "GameObjects":
-                    return myTarget.GetComponent<RegistGameObject>();
-
-            }
-            return false;
-        }
-
-        string GetKey(GameObject myTarget)
-        {
-
-            switch (_selectionMenu)
-            {
-                case "Buttons":
-                    return myTarget.GetComponent<RegistButton>().Key;
-
-                case "Images":
-                    return myTarget.GetComponent<RegistImage>().Key;
-
-                case "Texts":
-                    return myTarget.GetComponent<RegistText>().Key;
-
-                case "Skinners":
-                    return myTarget.GetComponent<RegistSkinner>().Key;
-
-                case "GameObjects":
-                    return myTarget.GetComponent<RegistGameObject>().Key;
-
-            }
-
-            return "";
-        }
-
-        void ChangeKey(GameObject myTarget,string key)
-        {
-
-            switch (_selectionMenu)
-            {
-                case "Buttons":
-                    myTarget.GetComponent<RegistButton>().Key = key;
-                    break;
-                    
-
-                case "Images":
-                    myTarget.GetComponent<RegistImage>().Key = key;
-                    break;
-
-                case "Texts":
-                    myTarget.GetComponent<RegistText>().Key = key;
-                    break;
-
-                case "Skinners":
-                    myTarget.GetComponent<RegistSkinner>().Key= key;
-                    break;
-
-                case "GameObjects":
-                    myTarget.GetComponent<RegistGameObject>().Key = key;
-                    break;
-
-            }
-
-        }
 
 
         Vector2 _scrollPos;
@@ -288,11 +175,7 @@ namespace GB
 
 
 
-
-
-
             GB.EditorGUIUtil.End_Horizontal();
-
 
             _scrollPos = GB.EditorGUIUtil.Start_ScrollView(_scrollPos);
             GB.EditorGUIUtil.BackgroundColor(Color.gray);
@@ -305,45 +188,17 @@ namespace GB
             HashSet<string> hashKeys = new HashSet<string>();
             for (int i = 0; i < _list.Count; ++i)
             {
-                if(!CheckScript(_list[i])) continue;
-                bool isDuplicateKey = hashKeys.Contains(_listKey[i]);
-
-                if(!hashKeys.Contains(_listKey[i]) || string.IsNullOrEmpty(_listKey[i]))hashKeys.Add(_listKey[i]);
+                if(_list[i] == null) continue;
+               
+                if(!hashKeys.Contains(_list[i].Key) && !string.IsNullOrEmpty(_list[i].Key))hashKeys.Add(_list[i].Key);
                 else GB.EditorGUIUtil.BackgroundColor(Color.red);
 
                 GB.EditorGUIUtil.Start_HorizontalBox();
                 
-                _listKey[i] = GB.EditorGUIUtil.DrawTextField("", _listKey[i], GUILayout.Width(150f));
-                 ChangeKey(_list[i], _listKey[i]);
-                _list[i] = EditorGUILayout.ObjectField("", _list[i], typeof(GameObject), false) as GameObject;
-
-                // if (!CheckScript(_list[i]))
-                // {
-                //     if (GB.EditorGUIUtil.DrawButton("Regist"))
-                //     {
-                //         if (!string.IsNullOrEmpty(_listKey[i]))
-                //         {
-                //             RegistComponenet(_list[i], _listKey[i]);
-                //             GetLoadList(t.gameObject);
-                //         }
-                //     }
-                // }
-                // else
-                // {
-                //     if (GB.EditorGUIUtil.DrawButton("Change Key"))
-                //     {
-                //         if (!string.IsNullOrEmpty(_listKey[i]))
-                //         {
-                //             ChangeKey(_list[i],_listKey[i]);
-                //             GetLoadList(t.gameObject);
-                //         }
-                //     }
-
-                // }
-
-
-
-
+                _listKeys[i] = GB.EditorGUIUtil.DrawTextField("", _listKeys[i], GUILayout.Width(150f));
+                _list[i].Key = _listKeys[i];
+                var oj = EditorGUILayout.ObjectField("", _list[i].gameObject, typeof(GameObject), false) as GameObject;
+           
                 GB.EditorGUIUtil.End_Horizontal();
                 GB.EditorGUIUtil.BackgroundColor(Color.white);
             }

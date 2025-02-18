@@ -6,11 +6,7 @@ namespace GB
 
     public class RegistImage : UIRegister
     {
-        public string Key;
-
-        [TextArea] public string Infomation;
-
-
+        
         public override void SetBind()
         {
             

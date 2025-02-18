@@ -4,11 +4,9 @@ namespace GB
 {
     public class RegistSkinner : UIRegister
     {
-        public string Key;
 
         [SerializeField] UISkinner _skinner;
 
-        [TextArea] public string Infomation;
         public override void SetBind()
         {
             var screen = GetScreen();
