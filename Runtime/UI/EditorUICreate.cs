@@ -74,8 +74,9 @@ namespace GB
 
             for(int i = 0; i< _list.Count; ++i) _listKeys.Add(_list[i].Key);
 
-
         }
+
+      
 
 
 
@@ -189,15 +190,31 @@ namespace GB
             for (int i = 0; i < _list.Count; ++i)
             {
                 if(_list[i] == null) continue;
+                bool isDuplicate = false;
                
                 if(!hashKeys.Contains(_list[i].Key) && !string.IsNullOrEmpty(_list[i].Key))hashKeys.Add(_list[i].Key);
-                else GB.EditorGUIUtil.BackgroundColor(Color.red);
+                else
+                {
+                    isDuplicate = true;
+                    GB.EditorGUIUtil.BackgroundColor(Color.red);
+                } 
 
                 GB.EditorGUIUtil.Start_HorizontalBox();
                 
                 _listKeys[i] = GB.EditorGUIUtil.DrawTextField("", _listKeys[i], GUILayout.Width(150f));
                 _list[i].Key = _listKeys[i];
                 var oj = EditorGUILayout.ObjectField("", _list[i].gameObject, typeof(GameObject), false) as GameObject;
+                if(isDuplicate)
+                {
+                    if(GB.EditorGUIUtil.DrawButton("REMOVE"))
+                    {
+                        DestroyImmediate( _list[i]);
+                        GetLoadList(t.gameObject);
+                        GB.EditorGUIUtil.End_Horizontal();
+                        GB.EditorGUIUtil.BackgroundColor(Color.white);
+                        break;
+                    }
+                }
            
                 GB.EditorGUIUtil.End_Horizontal();
                 GB.EditorGUIUtil.BackgroundColor(Color.white);
