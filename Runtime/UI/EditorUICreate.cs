@@ -23,10 +23,19 @@ namespace GB
             var t = (UICreate)target;
             _selectionMenu = "Buttons";
             GetLoadList(t.gameObject);
-
         }
 
-
+        void OnDisable()
+        {
+            var t = (UICreate)target;
+            if (t.GetComponent<UIScreen>() != null)
+            {
+                t.Bind();
+                t.Save();
+                t.Setting(true);
+            }
+            
+        }
 
         string _selectionMenu = "Buttons";
         private GameObject myFileObject;

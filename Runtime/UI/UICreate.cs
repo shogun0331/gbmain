@@ -239,7 +239,6 @@ namespace GB
             bool isSuccess = false;
             UnityEditor.PrefabUtility.SaveAsPrefabAsset(gameObject, path, out isSuccess); //저장
             UnityEditor.AssetDatabase.Refresh();
-            Debug.Log(UIName +" Save : " + isSuccess);
         }
 
 
