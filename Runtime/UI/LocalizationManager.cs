@@ -42,7 +42,7 @@ namespace GB
 
         }
 
-        void Load()
+        public void Load()
         {
             if (_DataAsset == null) _DataAsset = Resources.Load<LocalizationData>("LocalizationData");
         }
