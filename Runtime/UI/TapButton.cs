@@ -34,12 +34,7 @@ namespace GB
 
 
         }
-        void Start()
-        {
-
-
-        }
-
+    
         public void AddClickListener(Action<GameObject> click)
         {
             _click = click;
