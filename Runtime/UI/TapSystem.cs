@@ -21,6 +21,8 @@ namespace GB
 
         public bool IsMove() { return _IsScaleMove; }
 
+        public bool isDefaultStart = true;
+
         void Awake()
         {
             if (_tapButtons != null)
@@ -32,18 +34,26 @@ namespace GB
                     _rectTransforms[i] = _tapButtons[i].GetComponent<RectTransform>();
                     _tapButtons[i].AddClickListener(OnClickCallback);
                 }
+            }
+        }
 
-                if (_tapButtons.Length > DefaultStartIndex)
+        void Start()
+        {
+            if (_tapButtons != null)
+            {
+                if(isDefaultStart)
                 {
-                    for (int i = 0; i < _tapButtons.Length; ++i)
+                    if (_tapButtons.Length > DefaultStartIndex)
                     {
-                        if (i == DefaultStartIndex) _tapButtons[i].OnTap();
-                        else _tapButtons[i].OffTap();
+                        for (int i = 0; i < _tapButtons.Length; ++i)
+                        {
+                            if (i == DefaultStartIndex) _tapButtons[i].OnTap();
+                            else _tapButtons[i].OffTap();
+                        }
                     }
                 }
-
-
             }
+
         }
 
         void OnClickCallback(GameObject obj)
