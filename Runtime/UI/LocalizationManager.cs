@@ -35,11 +35,9 @@ namespace GB
             DontDestroyOnLoad(this.gameObject);
 
             Load();
-
-            if (PlayerPrefs.GetInt("GB_IsFirst", 0) == 0) getSystemLanguage();
+            
+            if(string.IsNullOrEmpty( PlayerPrefs.GetString("Language", null))) getSystemLanguage();
             else SetSystemLanguage(PlayerPrefs.GetString("Language", "English"));
-
-
         }
 
         public void Load()
