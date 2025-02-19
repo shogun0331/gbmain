@@ -33,14 +33,6 @@ namespace GB
                     _tapButtons[i].AddClickListener(OnClickCallback);
                 }
 
-
-            }
-        }
-
-        void Start()
-        {
-            if (_tapButtons != null)
-            {
                 if (_tapButtons.Length > DefaultStartIndex)
                 {
                     for (int i = 0; i < _tapButtons.Length; ++i)
@@ -49,10 +41,10 @@ namespace GB
                         else _tapButtons[i].OffTap();
                     }
                 }
+
+
             }
         }
-
-     
 
         void OnClickCallback(GameObject obj)
         {
