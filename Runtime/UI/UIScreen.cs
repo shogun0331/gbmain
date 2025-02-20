@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using QuickEye.Utility;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace GB
 {
@@ -10,12 +11,15 @@ namespace GB
     {
         [SerializeField] ScreenType _UIType = ScreenType.POPUP;
         public ScreenType UIType { get => _UIType; }
+        
 
         [SerializeField] protected UnityDictionary<string, Image> mImages = new UnityDictionary<string, Image>();
         [SerializeField] protected UnityDictionary<string, Text> mTexts = new UnityDictionary<string, Text>();
         [SerializeField] protected UnityDictionary<string, Button> mButtons = new UnityDictionary<string, Button>();
         [SerializeField] protected UnityDictionary<string, GameObject> mGameObject = new UnityDictionary<string, GameObject>();
         [SerializeField] protected UnityDictionary<string, UISkinner> mSkinner = new UnityDictionary<string, UISkinner>();
+        [SerializeField] protected UnityDictionary<string, TMP_Text> mTMPText = new UnityDictionary<string, TMP_Text>();
+
 
 
         public void SetScreenType(ScreenType type)
@@ -34,7 +38,18 @@ namespace GB
                 allChildren[i].SetBind();
         }
 
-        public virtual void OnAnimationEvent(string value) { }
+        public void Add(string key, TMP_Text text)
+        {
+            if (mTMPText.ContainsKey(key))
+            {
+                Debug.LogError("SameKey : " + text.gameObject.name + "-" + mTexts[key].gameObject.name);
+                return;
+            }
+
+            mTMPText.Add(key, text);
+        }
+
+        
         public void Add(string key, Text text)
         {
             if (mTexts.ContainsKey(key))
@@ -95,6 +110,7 @@ namespace GB
             mImages.Clear();
             mTexts.Clear();
             mSkinner.Clear();
+            mTMPText.Clear();
         }
 
 
@@ -125,6 +141,7 @@ namespace GB
             foreach(var v in mButtons) if(v.Value == null)GBLog.Log(gameObject.name,"mButtons - " + v.Key + " is null",Color.red);
             foreach(var v in mGameObject) if(v.Value == null)GBLog.Log(gameObject.name,"mGameObject - " + v.Key + " is null",Color.red);
             foreach(var v in mSkinner) if(v.Value == null)GBLog.Log(gameObject.name,"mSkinner - " + v.Key + " is null",Color.red);
+            foreach(var v in mTMPText) if(v.Value == null)GBLog.Log(gameObject.name,"mTMP_Text - " + v.Key + " is null",Color.red);
         }
 
         public virtual void Initialize() { }

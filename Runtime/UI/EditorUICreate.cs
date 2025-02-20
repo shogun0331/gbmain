@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using System;
+using TMPro;
+
 
 
 
@@ -62,6 +64,11 @@ namespace GB
                 case "Skinners":
                     var skinners = myTarget.GetComponentsInChildren<RegistSkinner>(true);
                     for (int i = 0; i < skinners.Length; ++i) _list.Add(skinners[i]);
+                    break;
+                
+                case "TMP_Text":
+                    var tmpTexts = myTarget.GetComponentsInChildren<RegistTMPText>(true);
+                    for (int i = 0; i < tmpTexts.Length; ++i) _list.Add(tmpTexts[i]);
                     break;
 
                 case "GameObjects":
@@ -162,6 +169,7 @@ namespace GB
             }
             GB.EditorGUIUtil.BackgroundColor(Color.white);
 
+
             if (string.Equals(_selectionMenu, "GameObjects")) GB.EditorGUIUtil.BackgroundColor(Color.blue);
 
             if (GB.EditorGUIUtil.DrawSyleButton("GameObjects"))
@@ -171,6 +179,16 @@ namespace GB
 
             }
 
+            GB.EditorGUIUtil.BackgroundColor(Color.white);
+
+            
+            if (string.Equals(_selectionMenu, "TMP_Text")) GB.EditorGUIUtil.BackgroundColor(Color.blue);
+
+            if (GB.EditorGUIUtil.DrawSyleButton("TMP_Text"))
+            {
+                _selectionMenu = "TMP_Text";
+                GetLoadList(t.gameObject);
+            }
             GB.EditorGUIUtil.BackgroundColor(Color.white);
 
 
