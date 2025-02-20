@@ -33,7 +33,9 @@ namespace GB
 
             FileInfo info = new FileInfo(path);
             info.Delete();
-
+            
+            string pKey = "GBFILE_" + fileName;
+            PlayerPrefs.DeleteKey(pKey);
         }
 
 
