@@ -9,7 +9,7 @@ namespace GB
 
     public class UIManager : AutoSingleton<UIManager>
     {
-        
+
         RectTransform _Canvas;
         public RectTransform Canvas
         {
@@ -43,7 +43,7 @@ namespace GB
             {
                 if (_popupParent == null)
                 {
-                   
+
                     var g = GameObject.Find(_parentPopupName);
                     if (g != null) _popupParent = g.transform;
                 }
@@ -56,11 +56,11 @@ namespace GB
         public int PopupCount { get { return _popupList.Count; } }
 
         Dictionary<string, GameObject> _PopupPrefabs = new Dictionary<string, GameObject>();
-       
+
 
         private void Awake()
         {
-            
+
             if (I != null && I != this)
             {
                 Destroy(this.gameObject);
@@ -85,44 +85,36 @@ namespace GB
             //UIScreen Regist
             UIScreen[] allChildren = GetComponentsInChildren<UIScreen>(true);
             int len = allChildren.Length;
-            for (int i = 0; i < len; ++i) 
+            for (int i = 0; i < len; ++i)
             {
                 allChildren[i].Initialize();
-                if( allChildren[i].UIType == ScreenType.POPUP) allChildren[i].gameObject.SetActive(false);
+                if (allChildren[i].UIType == ScreenType.POPUP) allChildren[i].gameObject.SetActive(false);
             }
 
 
         }
 
 
-        /// <summary>
-        /// �� �̵��� ��� ���� �ʱ�ȭ
-        /// </summary>
+   
         public void Clear()
         {
             _UIScreenList.Clear();
             _scene = null;
             _popupList.Clear();
             TimerManager.I.Clear();
-            
+
         }
 
 
-        /// <summary>
-        /// ������
-        /// </summary>
-        /// <param name="sceneName">�� ����</param>
+     
         public static void ChangeScene(string sceneName)
         {
             I.Clear();
- 
+
             SceneManager.LoadScene(sceneName);
         }
 
-        /// <summary>
-        /// ��ũ�� ���
-        /// </summary>
-        /// <param name="UIScreen">��ũ��</param>
+      
         public void RegistUIScreen(UIScreen UIScreen)
         {
             if (_UIScreenList.ContainsKey(UIScreen.gameObject.name))
@@ -134,30 +126,25 @@ namespace GB
                 _scene = UIScreen;
         }
 
-        /// <summary>
-        /// ��������
-        /// </summary>
-        /// <param name="name">��ũ�� ����</param>
+     
         public static void Refresh(string name)
         {
             if (I._UIScreenList.ContainsKey(name))
             {
-                 I._UIScreenList[name].Refresh();
+                I._UIScreenList[name].Refresh();
             }
             else
             {
-                if(I._scene != null)
+                if (I._scene != null)
                 {
-                    if(string.Equals( I._scene.name, name))
+                    if (string.Equals(I._scene.name, name))
                         I._scene.Refresh();
                 }
             }
         }
 
 
-        /// <summary>
-        /// ��� ��ũ�� ��������
-        /// </summary>
+ 
         public static void RefreshAll()
         {
 
@@ -168,11 +155,7 @@ namespace GB
                 I._UIScreenList[v.Key].Refresh();
         }
 
-        /// <summary>
-        /// ��ũ�� ã��
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+   
         public static UIScreen FindUIScreen(string name)
         {
             if (I._UIScreenList.ContainsKey(name))
@@ -181,13 +164,7 @@ namespace GB
             return null;
         }
 
-
-        /// <summary>
-        /// �˾� �ѱ�
-        /// </summary>
-        /// <param name="name">�˾� �̸�</param>
-        /// <param name="extraValue"></param>
-        public static void ShowPopup(string name)
+        public static void ShowPopup(string name, bool priority = true)
         {
             I.SortingPopup();
 
@@ -197,7 +174,7 @@ namespace GB
                 if (I._popupList[0] == null)
                 {
                     I._popupList.RemoveAt(0);
-                    ShowPopup(name);
+                    ShowPopup(name, priority);
                     return;
                 }
             }
@@ -205,26 +182,30 @@ namespace GB
             if (I._UIScreenList.ContainsKey(name))
             {
                 I._UIScreenList[name].gameObject.SetActive(true);
-
-                if (!I._popupList.Contains(I._UIScreenList[name]))
-                    I._popupList.Add(I._UIScreenList[name]);
-
-                I._UIScreenList[name].GetComponent<RectTransform>().SetAsLastSibling();
-                I.SortingPopup();
+                if (!I._popupList.Contains(I._UIScreenList[name])) I._popupList.Add(I._UIScreenList[name]);
             }
             else
             {
                 I.LoadFromResources(name, true);
             }
+
+            if (priority)
+                I._UIScreenList[name].GetComponent<RectTransform>().SetAsLastSibling();
+            else
+                I._popupList[0].GetComponent<RectTransform>().SetAsLastSibling();
+
+            
+            I.SortingPopup();
+
         }
-        public static void SetData(string name,object data)
+        public static void SetData(string name, object data)
         {
             var screen = FindUIScreen(name);
-            if(screen != null) screen.SetData(data);
+            if (screen != null) screen.SetData(data);
         }
 
-        
-        public static void ShowPopup(string name,object data)
+
+        public static void ShowPopup(string name, object data)
         {
             I.SortingPopup();
 
@@ -284,7 +265,7 @@ namespace GB
             UIScreen = Instantiate(UIScreen);
             UIScreen.name = name;
             UIScreen.transform.SetParent(PopupParent);
-            
+
             // reset transform info
             UIScreen.GetComponent<RectTransform>().localScale = Vector3.one;
             UIScreen.GetComponent<RectTransform>().offsetMax = Vector2.zero;
@@ -295,8 +276,8 @@ namespace GB
             {
                 _popupList.Add(UIScreen.GetComponent<UIScreen>());
             }
- 
-            SortingPopup();
+
+            // SortingPopup();
             return UIScreen.GetComponent<UIScreen>();
         }
 
@@ -309,8 +290,8 @@ namespace GB
             }
             else
             {
-                if(_scene != null)
-                _scene.BackKey();
+                if (_scene != null)
+                    _scene.BackKey();
             }
         }
 
@@ -331,8 +312,8 @@ namespace GB
         public static void ClosePopup(string popupName)
         {
             var screen = FindUIScreen(popupName);
-            if(screen != null)
-            ClosePopup(screen);
+            if (screen != null)
+                ClosePopup(screen);
 
         }
         public static void ClosePopup(UIScreen UIScreen)
@@ -342,10 +323,11 @@ namespace GB
         }
 
 
+
+
         private void SortingPopup()
         {
-            _popupList.Sort((tx, ty) => tx.Weight.CompareTo(ty.Weight));
-            _popupList.Reverse();
+            _popupList.Sort((s1, s2) => s2.Weight.CompareTo(s1.Weight));
         }
 
         private void Update()
