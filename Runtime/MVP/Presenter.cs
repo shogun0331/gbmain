@@ -40,8 +40,8 @@ namespace GB
             DontDestroyOnLoad(this.gameObject);
         }
         
-        Dictionary<string, List<View>> _dicView = new Dictionary<string, List<View>>();
-        public IReadOnlyDictionary<string, List<View>> Views { get { return _dicView; } }
+        Dictionary<string, List<IView>> _dicView = new Dictionary<string, List<IView>>();
+        public IReadOnlyDictionary<string, List<IView>> Views { get { return _dicView; } }
      
         public static void Clear()
         {
@@ -54,7 +54,7 @@ namespace GB
         }
 
 
-        public static void Bind(string domain, View view)
+        public static void Bind(string domain, IView view)
         {
             if (I._dicView.ContainsKey(domain))
             {
@@ -64,7 +64,7 @@ namespace GB
                 }
                 else
                 {
-                    I._dicView[domain] = new List<View>
+                    I._dicView[domain] = new List<IView>
                     {
                         view
                     };
@@ -73,13 +73,13 @@ namespace GB
             else
             {
           
-                List<View> viewList = new List<View> { view };
+                List<IView> viewList = new List<IView> { view };
                 I._dicView.Add(domain, viewList);
             }
         }
 
 
-        public static void UnBind(string domain, View view)
+        public static void UnBind(string domain, IView view)
         {
             if (I._dicView.ContainsKey(domain) == false) return;
             I._dicView[domain].Remove(view);
@@ -99,7 +99,7 @@ namespace GB
                 return;
             }
 
-            List<View> viewList = I._dicView[domain];
+            List<IView> viewList = I._dicView[domain];
             for (int i = 0; i < viewList.Count; ++i)
             {
                 viewList[i].ViewQuick(key, null);
@@ -121,7 +121,7 @@ namespace GB
                 return;
             }
 
-            List<View> viewList = I._dicView[domain];
+            List<IView> viewList = I._dicView[domain];
             for (int i = 0; i < viewList.Count; ++i)
             {
                 viewList[i].ViewQuick(key, new OData<T>(data));
