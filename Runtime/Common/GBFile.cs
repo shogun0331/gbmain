@@ -27,15 +27,14 @@ namespace GB
         public static void DeleteFile(string fileName,bool editorFolder = false)
         {
             string path = string.Empty;
-            if (editorFolder) path = Path.Combine(Application.dataPath, "GBFile/" + fileName + ".data");
-            else path = Path.Combine(Application.persistentDataPath, "GBFile/" + fileName + ".data");
-            if (!File.Exists(path)) return;
-
+            if (editorFolder) path = Path.Combine(Application.dataPath,  fileName + ".data");
+            else path = Path.Combine(Application.persistentDataPath, fileName + ".data");
             FileInfo info = new FileInfo(path);
-            info.Delete();
-            
+            if(info.Exists) info.Delete();
             string pKey = "GBFILE_" + fileName;
             PlayerPrefs.DeleteKey(pKey);
+            
+        
         }
 
 
@@ -53,8 +52,8 @@ namespace GB
             if (string.IsNullOrEmpty(key)) return false;
 
             string path = string.Empty;
-            if (EditorFolder) path = Path.Combine(Application.dataPath, "GBFile/" + fileName + ".data");
-            else path = Path.Combine(Application.persistentDataPath, "GBFile/" + fileName + ".data");
+            if (EditorFolder) path = Path.Combine(Application.dataPath,  fileName + ".data");
+            else path = Path.Combine(Application.persistentDataPath,  fileName + ".data");
             if (!File.Exists(path)) return false;
 
             string data = File.ReadAllText(path);
