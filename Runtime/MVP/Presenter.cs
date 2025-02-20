@@ -32,17 +32,19 @@ namespace GB
     {
         void Awake()
         {
-            if(I != null && I != this)
+            if (I != null && I != this)
             {
                 Destroy(gameObject);
                 return;
             }
             DontDestroyOnLoad(this.gameObject);
         }
-        
+
         Dictionary<string, List<IView>> _dicView = new Dictionary<string, List<IView>>();
         public IReadOnlyDictionary<string, List<IView>> Views { get { return _dicView; } }
-     
+
+        public List<IView> _nullList = new List<IView>();
+
         public static void Clear()
         {
             I._dicView.Clear();
@@ -51,6 +53,11 @@ namespace GB
         public static bool ContainsView(string key)
         {
             return I._dicView.ContainsKey(key);
+        }
+
+        public static void Remove(string domain)
+        {
+            if (I._dicView.ContainsKey(domain)) I._dicView.Remove(domain);
         }
 
 
@@ -72,7 +79,7 @@ namespace GB
             }
             else
             {
-          
+
                 List<IView> viewList = new List<IView> { view };
                 I._dicView.Add(domain, viewList);
             }
@@ -90,7 +97,7 @@ namespace GB
             if (I._dicView.ContainsKey(domain) == false)
             {
                 Debug.LogWarning("Presenter - None Domain : " + domain);
-                 return;
+                return;
             }
 
             if (string.IsNullOrEmpty(key))
@@ -100,19 +107,33 @@ namespace GB
             }
 
             List<IView> viewList = I._dicView[domain];
+           
             for (int i = 0; i < viewList.Count; ++i)
             {
+                if (viewList[i] == null)
+                {
+                    I._nullList.Add(viewList[i]);
+                    continue;
+                }
+
                 viewList[i].ViewQuick(key, null);
             }
+
+            
+            if(I._nullList.Count > 0)
+            {
+                for (int i = 0; i < I._nullList.Count; ++i) viewList.Remove(I._nullList[i]);
+                I._nullList.Clear();
+            } 
         }
-        
+
 
         public static void Send<T>(string domain, string key, T data)
         {
             if (I._dicView.ContainsKey(domain) == false)
             {
                 Debug.LogWarning("Presenter - None Domain : " + domain);
-                 return;
+                return;
             }
 
             if (string.IsNullOrEmpty(key))
@@ -122,10 +143,24 @@ namespace GB
             }
 
             List<IView> viewList = I._dicView[domain];
+
             for (int i = 0; i < viewList.Count; ++i)
             {
+                if (viewList[i] == null)
+                {
+                    I._nullList.Add(viewList[i]);
+                    continue;
+                }
+
                 viewList[i].ViewQuick(key, new OData<T>(data));
             }
+
+             
+            if(I._nullList.Count > 0)
+            {
+                for (int i = 0; i < I._nullList.Count; ++i) viewList.Remove(I._nullList[i]);
+                I._nullList.Clear();
+            } 
         }
 
     }

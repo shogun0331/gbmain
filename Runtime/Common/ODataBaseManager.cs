@@ -18,32 +18,19 @@ namespace GB
         }
 
         Dictionary<string, IOData> _dictDatas = new Dictionary<string, IOData>();
-        Dictionary<string, List<IView>> _dicView = new Dictionary<string, List<IView>>();
-
+        
         #if UNITY_EDITOR
         public Dictionary<string,Type> DictDataType = new Dictionary<string, Type>();
         #endif
 
         public static void Bind(string key, IView view)
         {
-            if (I._dicView.ContainsKey(key))
-            {
-                if (I._dicView[key] != null)
-                    I._dicView[key].Add(view);
-                else
-                    I._dicView[key] = new List<IView> { view };
-            }
-            else
-            {
-                List<IView> viewList = new List<IView> { view };
-                I._dicView.Add(key, viewList);
-            }
+            Presenter.Bind(key,view);
         }
 
         public static void UnBind(string key, IView view)
         {
-            if (I._dicView.ContainsKey(key) == false) return;
-            I._dicView[key].Remove(view);
+            Presenter.UnBind(key,view);
         }
 
         public static T Get<T>(string key)
@@ -58,28 +45,10 @@ namespace GB
             #endif
 
             I._dictDatas[key] = new OData<T>(data);
-            I.OnCall(key);
+            Presenter.Send(key,key,data);
+            
         }
 
-        void OnCall(string key)
-        {
-            if (I._dicView.ContainsKey(key))
-            {
-                List<IView> viewList = I._dicView[key];
-                List<IView> nullViewList = new List<IView>();
-
-                for (int i = 0; i < viewList.Count; ++i)
-                {
-                    if (viewList[i] != null)
-                        viewList[i].ViewQuick(key, I._dictDatas[key]);
-                    else
-                        nullViewList.Add(viewList[i]);
-                }
-
-                for (int i = 0; i < nullViewList.Count; ++i)
-                    viewList.Remove(nullViewList[i]);
-            }
-        }
 
         public static void Remove(string key)
         {
@@ -88,7 +57,6 @@ namespace GB
             #if UNITY_EDITOR
             I.DictDataType.Remove(key);
             #endif
-
         }
 
         public static void Clear()
@@ -98,7 +66,6 @@ namespace GB
             #endif
 
             I._dictDatas.Clear();
-            I._dicView.Clear();
         }
 
         public static bool Contains(string key)
