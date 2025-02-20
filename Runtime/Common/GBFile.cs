@@ -24,6 +24,19 @@ namespace GB
             return file;
         }
 
+        public static void DeleteFile(string fileName,bool editorFolder = false)
+        {
+            string path = string.Empty;
+            if (editorFolder) path = Path.Combine(Application.dataPath, "GBFile/" + fileName + ".data");
+            else path = Path.Combine(Application.persistentDataPath, "GBFile/" + fileName + ".data");
+            if (!File.Exists(path)) return;
+
+            FileInfo info = new FileInfo(path);
+            info.Delete();
+
+        }
+
+
         public string json;
 
         public T From<T>()
@@ -69,9 +82,9 @@ namespace GB
             return true;
         }
 
+
         public void Save(string fileName, bool gzip = false, bool encrypt = false, bool EditorFolder = false)
         {
-
 
             string directoryPath = string.Empty;
             string data = json;
