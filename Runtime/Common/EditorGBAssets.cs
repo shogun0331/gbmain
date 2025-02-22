@@ -292,6 +292,7 @@ namespace GB
             DrawPackage_DownloadButton("ParrelSync", "https://github.com/VeriorPies/ParrelSync.git?path=/ParrelSync", "https://github.com/VeriorPies/ParrelSync/tree/master");
 
             DrawGBPack_DownloadButton("GB FeedbackDiscord", "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/FeedbackDiscord.unitypackage", false, "");
+            DrawGBPack_DownloadButton("GB UI Tween Expansion", "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/UI_Tween.unitypackage",false, "");
             DrawGBPack_DownloadButton("GB Google Sheets", GSheet_URL, InstalledCheckDict["GSheet"], "");
             DrawGBPack_DownloadButton("GB UserData", GBUserData_URL, InstalledCheckDict["UserData"], "");
             DrawGBPack_DownloadButton("GB FSM", FSM_URL, InstalledCheckDict["FSM"], "");
@@ -302,10 +303,12 @@ namespace GB
             DrawGBPack_DownloadButton("GB InappManager", GBInapp_URL, InstalledCheckDict["InappManager"], "UnityEngine.Purchasing Expansion");
             DrawGBPack_DownloadButton("GB AdmobManager", GBAdmob_URL, InstalledCheckDict["AdmobManager"], "GoogleMobileAds Expansion");
             DrawGBPack_DownloadButton("GB PlayfabManager", GBPlayfab_URL, InstalledCheckDict["PlayfabManager"], "Playfab SDK Expansion");
+            
+            
 
             GB.EditorGUIUtil.End_ScrollView();
             GB.EditorGUIUtil.End_Vertical();
-
+// 
 
             GB.EditorGUIUtil.BackgroundColor(Color.gray);
             GB.EditorGUIUtil.Start_VerticalBox();
