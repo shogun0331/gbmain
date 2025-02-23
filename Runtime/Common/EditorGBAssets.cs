@@ -180,6 +180,27 @@ namespace GB
             GB.EditorGUIUtil.End_Horizontal();
         }
 
+        void DrawFSM_DownloadButton()
+        {
+            GB.EditorGUIUtil.Start_Horizontal();
+            GB.EditorGUIUtil.DrawStyleLabel("GB FSM");
+
+            GB.EditorGUIUtil.BackgroundColor(Color.green);
+            GB.EditorGUIUtil.DrawStyleLabel("");
+            GB.EditorGUIUtil.BackgroundColor(Color.white);
+
+            GB.EditorGUIUtil.DrawStyleLabel("", GUILayout.Width(150));
+            
+
+            if (GB.EditorGUIUtil.DrawButton("Download", GUILayout.Width(150))) 
+            {
+                DownloadPackage("https://github.com/Thundernerd/Unity3D-SerializableInterface.git");
+                DownloadAssetData(FSM_URL, "GB FSM");
+            }
+            GB.EditorGUIUtil.End_Horizontal();
+
+        }
+
 
 
         void DrawGBPack_DownloadButton(string key, string url, bool installed, string installedDoc)
@@ -295,7 +316,8 @@ namespace GB
             DrawGBPack_DownloadButton("GB UI Tween Expansion", "https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/UI_Tween.unitypackage",false, "");
             DrawGBPack_DownloadButton("GB Google Sheets", GSheet_URL, InstalledCheckDict["GSheet"], "");
             DrawGBPack_DownloadButton("GB UserData", GBUserData_URL, InstalledCheckDict["UserData"], "");
-            DrawGBPack_DownloadButton("GB FSM", FSM_URL, InstalledCheckDict["FSM"], "");
+            // DrawGBPack_DownloadButton("GB FSM", FSM_URL, InstalledCheckDict["FSM"], "");
+            DrawFSM_DownloadButton();
             DrawGBPack_DownloadButton("GB Memo", Memo_URL, InstalledCheckDict["Memo"], "");
             DrawGBPack_DownloadButton("GB Resources(Audio,Sprite,Prefab)", GBResources_URL, InstalledCheckDict["Resources"], "");
             DrawGBPack_DownloadButton("GB SPRAnimation", SpriteAnimation_URL, InstalledCheckDict["SpriteAnimation"], "");
