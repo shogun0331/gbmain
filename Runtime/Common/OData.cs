@@ -22,6 +22,11 @@ namespace GB
     }
     public static class ODataWrapperUtility
     {
+        public static T Get<T>(this IOData data)
+        {
+            return ODataConverter.Convert<T>(data);
+        }
+
         public static T OConvert<T>(this IOData data)
         {
             return ODataConverter.Convert<T>(data);
