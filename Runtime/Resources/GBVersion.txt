@@ -1,0 +1,62 @@
+{
+    "Version":"1.0.8",
+    "UnityPackages":
+    {
+        "Tween":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Tween.unitypackage",
+        "AnimationSequencer":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/AnimationSequencer.unitypackage",
+        "LocalizedAppTitle":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/UnityMobileLocalizedAppTitle.unitypackage",
+        "AnimationBaking":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/AnimationBakingStudio.3Dto2D.unitypackage",
+        "MeshBaker":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/MeshBaker.unitypackage",
+        "Logs_Viewer":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Unity-Logs_Viewer.unitypackage",
+        "ProCamera2D":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/ProCamera2D.unitypackage",
+
+        "GB Resources":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Resources.unitypackage",
+        "GB GSheet":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/GSheet.unitypackage",
+        "GB UserData":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/UserData.unitypackage",
+        "GB FSM":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/FSM.unitypackage",
+        "GB SPRAnimation":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/SpriteAnimation.unitypackage",
+        "GB Memo":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Memo.unitypackage",
+        "GB Spine":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/GBSpine.unitypackage",
+        "GB TapSystem":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/TapSystem.unitypackage",
+        "GB UI Tween":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/UI_Tween.unitypackage",
+        "GB Inapp":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Inapp.unitypackage",
+        "GB Admob":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Admob.unitypackage",
+        "GB Playfab":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/PlayfabExpansion.unitypackage",
+    },
+
+    "UnityPackageDocs":
+    {
+        "Tween":"https://dotween.demigiant.com/",
+        "AnimationSequencer":"https://github.com/brunomikoski/Animation-Sequencer",
+        "LocalizedAppTitle":"https://github.com/yasirkula/UnityMobileLocalizedAppTitle",
+        "AnimationBaking":"https://assetstore.unity.com/packages/tools/sprite-management/animation-baking-studio-3d-to-2d-31247",
+        "MeshBaker":"https://assetstore.unity.com/packages/tools/modeling/mesh-baker-5017",
+        "Logs_Viewer":"https://assetstore.unity.com/packages/tools/integration/log-viewer-12047",
+        "ProCamera2D":"https://assetstore.unity.com/packages/2d/pro-camera-2d-the-definitive-2d-2-5d-camera-plugin-for-unity-42095",
+    },
+
+
+    "GithubPackages":
+    {
+        "UniTask":"https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+        "Vibration":"https://github.com/BenoitFreslon/Vibration.git",
+        "UniRX":"https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
+        "PlayFab":"https://aka.ms/PlayFabUnityEdEx",
+        "SensorKit":"https://github.com/3DI70R/Unity-SensorKit.git",
+        "ParrelSync":"https://github.com/VeriorPies/ParrelSync.git?path=/ParrelSync",
+
+
+
+    },
+    "GithubDocs":
+    {
+        "UniTask":"https://github.com/Cysharp/UniTask/tree/master",
+        "Vibration":"https://github.com/BenoitFreslon/Vibration",
+        "UniRX":"https://github.com/neuecc/UniRx",
+        "PlayFab":"https://learn.microsoft.com/en-us/gaming/playfab/what-is-playfab",
+        "SensorKit":"https://github.com/3DI70R/Unity-SensorKit",
+        "ParrelSync":"https://github.com/VeriorPies/ParrelSync/tree/master",
+
+    }}
+
+
