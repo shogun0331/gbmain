@@ -22,6 +22,7 @@
         "GB Inapp":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Inapp.unitypackage",
         "GB Admob":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Admob.unitypackage",
         "GB Playfab":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/PlayfabExpansion.unitypackage",
+        "GB FeedbackDiscord":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/FeedbackDiscord.unitypackage,
     },
 
     "UnityPackageDocs":
@@ -33,6 +34,13 @@
         "MeshBaker":"https://assetstore.unity.com/packages/tools/modeling/mesh-baker-5017",
         "Logs_Viewer":"https://assetstore.unity.com/packages/tools/integration/log-viewer-12047",
         "ProCamera2D":"https://assetstore.unity.com/packages/2d/pro-camera-2d-the-definitive-2d-2-5d-camera-plugin-for-unity-42095",
+	"GB Resources":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/resources",
+	"GB Memo":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/memo",
+	"GB UserData":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/userdata",
+	"GB SPRAnimation":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/spranimation",
+	"GB GSheet":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/gamedatatable",
+	"GB FeedbackDiscord":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/feedbackdiscord,
+
     },
 
 
@@ -44,9 +52,6 @@
         "PlayFab":"https://aka.ms/PlayFabUnityEdEx",
         "SensorKit":"https://github.com/3DI70R/Unity-SensorKit.git",
         "ParrelSync":"https://github.com/VeriorPies/ParrelSync.git?path=/ParrelSync",
-
-
-
     },
     "GithubDocs":
     {
