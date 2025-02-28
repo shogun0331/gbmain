@@ -22,7 +22,7 @@
         "GB Inapp":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Inapp.unitypackage",
         "GB Admob":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/Admob.unitypackage",
         "GB Playfab":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/PlayfabExpansion.unitypackage",
-        "GB FeedbackDiscord":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/FeedbackDiscord.unitypackage,
+        "GB FeedbackDiscord":"https://github.com/shogun0331/gbconnet/releases/download/V1.0.0/FeedbackDiscord.unitypackage",
     },
 
     "UnityPackageDocs":
@@ -39,7 +39,7 @@
 	"GB UserData":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/userdata",
 	"GB SPRAnimation":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/spranimation",
 	"GB GSheet":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/gamedatatable",
-	"GB FeedbackDiscord":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/feedbackdiscord,
+	"GB FeedbackDiscord":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/feedbackdiscord",
 
     },
 
