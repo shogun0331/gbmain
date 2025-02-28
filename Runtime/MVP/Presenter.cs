@@ -96,13 +96,11 @@ namespace GB
         {
             if (I._dicView.ContainsKey(domain) == false)
             {
-                Debug.LogWarning("Presenter - None Domain : " + domain);
                 return;
             }
 
             if (string.IsNullOrEmpty(key))
             {
-                Debug.LogWarning("Presenter - Key : null - " + domain);
                 return;
             }
 
