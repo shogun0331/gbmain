@@ -42,6 +42,10 @@
 	"GB SPRAnimation":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/spranimation",
 	"GB GSheet":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/gamedatatable",
 	"GB FeedbackDiscord":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/feedbackdiscord",
+	"GB Localization":"https://gb-framework.gitbook.io/gb-framework-docs/gb-assets/integrations",
+
+
+
 
     },
 
