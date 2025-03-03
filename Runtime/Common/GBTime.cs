@@ -22,7 +22,7 @@ public class GBTime : AutoSingleton<GBTime>
     public static float GetDeltaTime(string key)
     {
         
-        if(I._dictTimes.ContainsKey(key))
+        if(I._dictTimes.ContainsKey(key) && I._dictTimeScale.ContainsKey(key))
         {
             if(I._dictTimes[key]) return Time.deltaTime * I._dictTimeScale[key];
             else return 0;
