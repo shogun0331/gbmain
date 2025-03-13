@@ -155,6 +155,17 @@ namespace GB
                 I._UIScreenList[v.Key].Refresh();
         }
 
+        public static UIScreen Find(string name)
+        {
+            UIScreen screen = null;
+            if (I._UIScreenList.ContainsKey(name))
+                screen =  I._UIScreenList[name];
+
+            if(screen != null && !screen.gameObject.activeSelf) screen = null;
+
+            return screen;
+        }
+
    
         public static UIScreen FindUIScreen(string name)
         {
@@ -229,7 +240,6 @@ namespace GB
 
                 I._UIScreenList[name].GetComponent<RectTransform>().SetAsLastSibling();
                 I.SortingPopup();
-
                 I._UIScreenList[name].SetData(data);
             }
             else
