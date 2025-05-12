@@ -18,6 +18,23 @@ public class GBTime : AutoSingleton<GBTime>
         DontDestroyOnLoad(this);
 
     }
+    public static float GetTimeScale(string key)
+    {
+        if (!I._dictTimeScale.ContainsKey(key))
+        {
+            I._dictTimeScale[key] = 1;
+        }
+        if(!I._dictTimes.ContainsKey(key))
+        {
+            I._dictTimes[key] = true;
+        }
+        
+        if(!I._dictTimes[key]) return 0;
+        
+        
+        
+        return I._dictTimeScale[key];
+    }
 
     public static float GetDeltaTime(string key)
     {
