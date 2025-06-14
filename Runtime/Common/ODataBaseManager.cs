@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GB
 {
-    public  class ODataBaseManager : AutoSingleton<ODataBaseManager>
+    public class ODataBaseManager : AutoSingleton<ODataBaseManager>
     {
         private void Awake()
         {
@@ -19,34 +19,34 @@ namespace GB
 
         }
 
-        public static IReadOnlyDictionary<string, IOData> Data  { get{return I._dictDatas;}}
+        public static IReadOnlyDictionary<string, IOData> Data { get { return I._dictDatas; } }
 
         Dictionary<string, IOData> _dictDatas = new Dictionary<string, IOData>();
-        Dictionary<string,Dictionary<MonoBehaviour,Action<IOData>>> _dictBinds = new Dictionary<string, Dictionary<MonoBehaviour, Action<IOData>>>();
-        
-        #if UNITY_EDITOR
-        public Dictionary<string,Type> DictDataType = new Dictionary<string, Type>();
-        #endif
-      
+        Dictionary<string, Dictionary<MonoBehaviour, Action<IOData>>> _dictBinds = new Dictionary<string, Dictionary<MonoBehaviour, Action<IOData>>>();
 
-         public static void Bind(MonoBehaviour mono,string key, Action<IOData> action)
-         {
-            if(I._dictBinds.ContainsKey(key))
+#if UNITY_EDITOR
+        public Dictionary<string,Type> DictDataType = new Dictionary<string, Type>();
+#endif
+
+
+        public static void Bind(MonoBehaviour mono, string key, Action<IOData> action)
+        {
+            if (I._dictBinds.ContainsKey(key))
             {
-                I._dictBinds[key][mono] = action;                
+                I._dictBinds[key][mono] = action;
             }
             else
             {
                 I._dictBinds[key] = new Dictionary<MonoBehaviour, Action<IOData>>();
-                I._dictBinds[key][mono] = action;                
+                I._dictBinds[key][mono] = action;
             }
 
-         }
+        }
 
 
         public static void UnBind(MonoBehaviour mono, string key)
         {
-            
+
             if (I._dictBinds.ContainsKey(key) == false) return;
             if (I._dictBinds[key].ContainsKey(mono) == false) return;
             I._dictBinds[key].Remove(mono);
@@ -59,9 +59,9 @@ namespace GB
 
         public static void Set<T>(string key, T data)
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             I.DictDataType[key] = typeof(T);
-            #endif
+#endif
 
             I._dictDatas[key] = new OData<T>(data);
             I.OnCall(key);
@@ -69,23 +69,25 @@ namespace GB
 
         void OnCall(string key)
         {
-            if(I._dictBinds.ContainsKey(key))
+            if (I._dictBinds.ContainsKey(key))
             {
                 bool isNull = false;
-                foreach(var v in I._dictBinds[key])
+                var bindings = I._dictBinds[key].ToList();
+
+                foreach (var v in bindings)
                 {
-                    if(v.Key == null) 
+                    if (v.Key == null)
                     {
-                        isNull= true;
+                        isNull = true;
                         continue;
                     }
-                    if(v.Key.isActiveAndEnabled) v.Value?.Invoke(_dictDatas[key]);
+                    if (v.Key.isActiveAndEnabled) v.Value?.Invoke(_dictDatas[key]);
                 }
 
-                if(isNull)
+                if (isNull)
                 {
-                    var list = I._dictBinds[key].Where(v=> v.Key == null).Select(v=>v.Key).ToList();
-                    for(int i =0; i< list.Count;++i) I._dictBinds[key].Remove(list[i]);
+                    var list = I._dictBinds[key].Where(v => v.Key == null).Select(v => v.Key).ToList();
+                    for (int i = 0; i < list.Count; ++i) I._dictBinds[key].Remove(list[i]);
                 }
             }
         }
@@ -94,21 +96,21 @@ namespace GB
         {
             if (I._dictDatas.ContainsKey(key)) I._dictDatas.Remove(key);
 
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             I.DictDataType.Remove(key);
-            #endif
+#endif
 
         }
 
         public static void Clear()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             I.DictDataType.Clear();
-            #endif
+#endif
 
             I._dictDatas.Clear();
             I._dictBinds.Clear();
-            
+
         }
 
         public static bool Contains(string key)
