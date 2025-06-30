@@ -263,6 +263,12 @@ namespace GB
             ProcessWorld();
             ProcessUI();
         }
+
+        private void OnDestroy()
+        {
+            TouchWorldEvent = null;
+            TouchUIEvent = null;
+        }
     }
 
     [Serializable]
